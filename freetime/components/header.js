@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function Header() {
   return (
@@ -11,20 +11,18 @@ export default function Header() {
 
 const styles = StyleSheet.create({
   header: {
-    textAlign: "center",
-    marginLeft: "auto",
-    marginRight: "auto",
-    width: "100%",
-    height: 100,
+    height: 90,
     backgroundColor: "#00AAFF",
   },
 
   title: {
     color: "white",
+    textAlign: "center",
     textShadowColor: "black",
-    textShadowOffset: { width: -1.5, height: 1.5 },
-    textShadowRadius: 1,
-    paddingTop: 20,
+    textShadowOffset: { width: -2, height: 2 },
+    textShadowRadius: 3,
+    paddingTop: 15,
+    paddingLeft: 0,
     fontSize: 40,
     fontWeight: "bold",
   },
