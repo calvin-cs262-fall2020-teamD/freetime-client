@@ -11,19 +11,17 @@ export default function UserWeek() {
 
 const styles = StyleSheet.create({
   userWeek: {
-    flex: 1,
-    position: "absolute",
+    position: "relative",
     backgroundColor: "white",
     borderRadius: 5,
     margin: 10,
     padding: 10,
+    height: 100,
   },
 
   colums: {
+    flex: 1,
     color: "black",
     textAlign: "center",
-    position: "relative",
-    marginLeft: "auto",
-    marginRight: "auto",
   },
 });
