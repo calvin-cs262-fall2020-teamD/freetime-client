@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, Alert } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 
 export default function UserWeek() {
   return (
@@ -13,14 +13,16 @@ const styles = StyleSheet.create({
   userWeek: {
     position: "relative",
     backgroundColor: "white",
+    borderColor: "#00AAFF",
+    borderWidth: 1.5,
     borderRadius: 5,
     margin: 10,
     padding: 10,
-    height: 100,
+    width: "40%",
+    height: "77.5%",
   },
 
   colums: {
-    flex: 1,
     color: "black",
     textAlign: "center",
   },
