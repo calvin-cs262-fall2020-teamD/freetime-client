@@ -3,14 +3,14 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Header from "./components/header";
 import UserWeek from "./components/userWeek";
+import NavBar from "./components/navBar";
 
 export default function App() {
   return (
     <View style={styles.container}>
       <Header></Header>
-      <View>
-        <UserWeek></UserWeek>
-      </View>
+      <UserWeek></UserWeek>
+      <NavBar></NavBar>
       <StatusBar style="auto" />
     </View>
   );
