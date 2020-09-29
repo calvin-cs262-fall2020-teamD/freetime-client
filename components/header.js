@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { globalStyles } from "../styles/global";
 
 export default function Header() {
   return (
@@ -11,7 +12,7 @@ export default function Header() {
 
 const styles = StyleSheet.create({
   header: {
-    height: 90,
+    height: 78,
     backgroundColor: "#00AAFF",
   },
 
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 3,
     paddingTop: 15,
     paddingLeft: 0,
-    fontSize: 40,
+    fontSize: 35,
     fontWeight: "bold",
   },
 });
