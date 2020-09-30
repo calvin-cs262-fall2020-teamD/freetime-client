@@ -9,10 +9,7 @@ export default function UserStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: "#ddd",
-          height: 60,
-        },
+        headerStyle: {},
       }}
     >
       <Stack.Screen

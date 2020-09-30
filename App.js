@@ -24,10 +24,12 @@ export default function App() {
     return (
       <View style={globalStyles.container}>
         <Header></Header>
-        <NavigationContainer>
-          <Navigator></Navigator>
-          <NavBar></NavBar>
-        </NavigationContainer>
+        <View style={globalStyles.container}>
+          <NavigationContainer>
+            <Navigator></Navigator>
+          </NavigationContainer>
+        </View>
+        <NavBar></NavBar>
         <StatusBar style="auto" />
       </View>
     );
@@ -35,9 +37,3 @@ export default function App() {
     return setFontsLoaded(true);
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

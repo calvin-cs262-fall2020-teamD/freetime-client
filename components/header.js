@@ -4,14 +4,14 @@ import { globalStyles } from "../styles/global";
 
 export default function Header() {
   return (
-    <View style={styles.header}>
+    <View style={styles.headerContainer}>
       <Text style={styles.title}>FreeTime</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  header: {
+  headerContainer: {
     height: 78,
     backgroundColor: "#00AAFF",
   },
