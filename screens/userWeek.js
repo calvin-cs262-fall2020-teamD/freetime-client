@@ -20,20 +20,22 @@ export default function UserWeek({ navigation }) {
   ]);
 
   return (
-    <View style={styles.userWeekContainer}>
-      <View style={styles.flatListContainer}>
-        <FlatList
-          data={weekDays}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("UserTimes", item)}
-            >
-              <View style={styles.dayContainer}>
-                <Text style={styles.days}>{item.day}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
+    <View style={globalStyles.container}>
+      <View style={styles.userWeekContainer}>
+        <View style={styles.listContainer}>
+          <FlatList
+            data={weekDays}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => navigation.navigate("UserTimes", item)}
+              >
+                <View style={styles.dayContainer}>
+                  <Text style={styles.days}>{item.day}</Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
       </View>
     </View>
   );
@@ -41,8 +43,6 @@ export default function UserWeek({ navigation }) {
 
 const styles = StyleSheet.create({
   userWeekContainer: {
-    display: "flex",
-    position: "absolute",
     backgroundColor: "white",
     borderColor: "#00AAFF",
     borderWidth: 1.5,
@@ -53,20 +53,24 @@ const styles = StyleSheet.create({
     height: "89%",
   },
 
+  listContainer: {
+    flex: 1,
+  },
+
   dayContainer: {
-    position: "relative",
+    flex: 1,
+    justifyContent: "space-around",
     backgroundColor: "white",
     borderColor: "#00AAFF",
     borderWidth: 1.5,
     borderRadius: 5,
-    margin: 2,
-    padding: 15,
+    margin: 3,
+    paddingTop: 21,
+    paddingBottom: 21,
   },
 
   days: {
     color: "black",
     textAlign: "center",
   },
-
-  flatListContainer: {},
 });
