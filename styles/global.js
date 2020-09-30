@@ -8,7 +8,6 @@ export const globalStyles = StyleSheet.create({
   titleText: {
     textAlign: "center",
     fontSize: 18,
-    fontFamily: "Arial",
     color: "#333",
     padding: 5,
   },
