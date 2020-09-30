@@ -1,10 +1,17 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Button, TouchableOpacity } from "react-native";
 
 export default function NavBar() {
   return (
     <View style={styles.navBar}>
-      <Text style={styles.items}>This will be where the NavBar goes.</Text>
+      <TouchableOpacity style={styles.buttons}>
+        <View style={styles.buttonContainer}>
+          <Button title="UserWeek" color="#00AAFF"></Button>
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button title="Groups" color="#00AAFF"></Button>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -16,11 +23,18 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderColor: "#00AAFF",
     borderWidth: 1.5,
-    padding: 10,
     width: "100%",
   },
 
-  items: {
-    textAlign: "center",
+  buttonContainer: {
+    flex: 1,
+    borderColor: "#00AAFF",
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+  },
+
+  buttons: {
+    flex: 1,
+    flexDirection: "row",
   },
 });
