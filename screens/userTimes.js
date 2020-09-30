@@ -5,6 +5,7 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import { globalStyles } from "../styles/global";
 
@@ -36,11 +37,23 @@ export default function UserTimes({ route, navigation }) {
     { time: 23, key: "23" },
   ]);
 
+  const [freeTime, setFreeTime] = useState("");
+
+  const changeHandler = (time) => {
+    setFreeTime(time);
+  };
+
   return (
     <View style={globalStyles.container}>
       <Text style={globalStyles.titleText}>
         Please input {route.params.day} FreeTimes!
       </Text>
+      <TextInput
+        style={globalStyles.titleText}
+        placeholder="e.g. 9:00am-10:00"
+        onChangeText={changeHandler}
+        value={freeTime}
+      ></TextInput>
       <FlatList
         data={dayFreeTimes}
         renderItem={({ item }) => (

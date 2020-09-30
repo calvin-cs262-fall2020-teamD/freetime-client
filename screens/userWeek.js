@@ -21,18 +21,20 @@ export default function UserWeek({ navigation }) {
 
   return (
     <View style={styles.userWeekContainer}>
-      <FlatList
-        data={weekDays}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => navigation.navigate("UserTimes", item)}
-          >
-            <View style={styles.dayContainer}>
-              <Text style={styles.days}>{item.day}</Text>
-            </View>
-          </TouchableOpacity>
-        )}
-      />
+      <View style={styles.flatListContainer}>
+        <FlatList
+          data={weekDays}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("UserTimes", item)}
+            >
+              <View style={styles.dayContainer}>
+                <Text style={styles.days}>{item.day}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
     </View>
   );
 }
@@ -65,4 +67,6 @@ const styles = StyleSheet.create({
     color: "black",
     textAlign: "center",
   },
+
+  flatListContainer: {},
 });
