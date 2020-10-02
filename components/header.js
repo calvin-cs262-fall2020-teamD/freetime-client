@@ -12,7 +12,7 @@ export default function Header() {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    height: 78,
+    height: 70,
     backgroundColor: "#00AAFF",
   },
 
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 3,
     paddingTop: 15,
     paddingLeft: 0,
-    fontSize: 35,
+    fontSize: 30,
     fontWeight: "bold",
   },
 });

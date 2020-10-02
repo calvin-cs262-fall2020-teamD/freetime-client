@@ -9,7 +9,7 @@ import * as Font from "expo-font";
 import { globalStyles } from "./styles/global";
 
 import { NavigationContainer } from "@react-navigation/native";
-import Navigator from "./routes/userStack";
+import Navigator from "./routes/tabNavigator";
 
 const getFonts = () =>
   Font.loadAsync({
@@ -29,7 +29,6 @@ export default function App() {
             <Navigator></Navigator>
           </NavigationContainer>
         </View>
-        <NavBar></NavBar>
         <StatusBar style="auto" />
       </View>
     );
