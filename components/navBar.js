@@ -1,19 +1,8 @@
 import React from "react";
 import { View, StyleSheet, Text, Button, TouchableOpacity } from "react-native";
 
-export default function NavBar() {
-  return (
-    <View style={styles.navBar}>
-      <TouchableOpacity style={styles.buttons}>
-        <View style={styles.buttonContainer}>
-          <Button title="UserWeek" color="#00AAFF"></Button>
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button title="Groups" color="#00AAFF"></Button>
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
+export default function NavBar({ navigation }) {
+  return <View style={styles.navBar}></View>;
 }
 
 const styles = StyleSheet.create({

@@ -47,10 +47,10 @@ const styles = StyleSheet.create({
     borderColor: "#00AAFF",
     borderWidth: 1.5,
     borderRadius: 5,
-    margin: 10,
+    margin: 0,
     padding: 10,
     width: "43%",
-    height: "89%",
+    height: "100%",
   },
 
   listContainer: {
@@ -65,8 +65,8 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderRadius: 5,
     margin: 3,
-    paddingTop: 21,
-    paddingBottom: 21,
+    paddingTop: 19,
+    paddingBottom: 19,
   },
 
   days: {

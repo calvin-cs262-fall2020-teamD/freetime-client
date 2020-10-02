@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   },
 
   listContainer: {
-    flex: 0.9,
+    flex: 1,
   },
 
   timeContainer: {
