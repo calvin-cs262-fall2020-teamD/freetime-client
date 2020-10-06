@@ -4,7 +4,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import userStack from "../routes/userStack";
 import groupStack from "../routes/groupStack";
-import navBar from "../components/navBar";
 
 const Tab = createBottomTabNavigator();
 
