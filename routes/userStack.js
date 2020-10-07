@@ -20,6 +20,7 @@ export default function UserStack() {
         component={UserWeek}
         options={{ title: "User Week" }}
       />
+
       <Stack.Screen
         name="UserTimes"
         component={UserTimes}

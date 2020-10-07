@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { AppLoading } from "expo";
 import Header from "./components/header";
-import NavBar from "./components/navBar";
 import * as Font from "expo-font";
 import { globalStyles } from "./styles/global";
 
