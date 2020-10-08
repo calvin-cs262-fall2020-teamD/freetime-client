@@ -23,11 +23,9 @@ export default function App() {
     return (
       <View style={globalStyles.container}>
         <Header></Header>
-        <View style={globalStyles.container}>
-          <NavigationContainer>
-            <Navigator></Navigator>
-          </NavigationContainer>
-        </View>
+        <NavigationContainer>
+          <Navigator></Navigator>
+        </NavigationContainer>
         <StatusBar style="auto" />
       </View>
     );
