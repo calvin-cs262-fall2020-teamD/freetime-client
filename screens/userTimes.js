@@ -24,9 +24,16 @@ export default function UserTimes({ route }) {
         ? (dayFreeTimes[key].color = "#00E600")
         : (dayFreeTimes[key].color = "white");
 
-      return dayFreeTimes.map((item) => (selectedDayFreeTimes[key] = item));
+      return dayFreeTimes.map((item) => (selectedDayFreeTimes[item.key] = item));
     });
   };
+
+  const resetFreeTimes = () => {
+    setDayFreeTimes(() => {
+      dayFreeTimes.forEach((item) => item.color = "white");
+      return dayFreeTimes.map((item) => (selectedDayFreeTimes[item.key] = item))
+    })
+  }
 
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
@@ -72,9 +79,9 @@ export default function UserTimes({ route }) {
             )}
           />
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={resetFreeTimes}>
           <View style={styles.submitContainer}>
-            <Text style={styles.submitText}>Submit free time!</Text>
+            <Text style={styles.submitText}>!!!Reset FreeTimes!!!</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -112,7 +119,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     fontWeight: "bold",
-    color: "white",
+    color: "red",
     padding: 5,
   },
 
