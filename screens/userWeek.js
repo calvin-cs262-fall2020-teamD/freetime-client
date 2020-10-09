@@ -229,15 +229,12 @@ export default function UserWeek({ navigation }) {
     },
   ]);
 
-  const newWeekDays = [];
-
   return (
     <View style={globalStyles.container}>
       <View style={styles.userWeekContainer}>
         <View style={styles.listContainer}>
           <FlatList
             data={weekDays}
-            extraData={newWeekDays}
             renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => navigation.navigate("UserTimes", item)}
