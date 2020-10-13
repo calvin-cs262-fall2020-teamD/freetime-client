@@ -5,106 +5,136 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  TextInput,
-  TouchableWithoutFeedback,
-  Keyboard,
+  Alert,
 } from "react-native";
 import { globalStyles } from "../styles/global";
 
 import TimeBox from "../components/timeBox";
 
 export default function UserTimes({ route }) {
+  const freeTimeIncrements = [
+    {increment: "0  ", key: "0"},
+    {increment: "10", key: "1"},
+    {increment: "20", key: "2"},
+    {increment: "30", key: "3"},
+    {increment: "40", key: "4"},
+    {increment: "50", key: "5"},
+  ];
+
   const [dayFreeTimes, setDayFreeTimes] = useState(route.params.freeTimes);
 
   const selectedDayFreeTimes = [];
 
-  const inputTime = (key) => {
+  const inputTime = (item) => {
     setDayFreeTimes(() => {
-      dayFreeTimes[key].color === "white"
-        ? (dayFreeTimes[key].color = "#00E600")
-        : (dayFreeTimes[key].color = "white");
+      item.color === "white"
+        ? (item.color = "#00E600")
+        : (item.color = "white");
 
-      return dayFreeTimes.map((item) => (selectedDayFreeTimes[item.key] = item));
+      return dayFreeTimes.map((item) => (selectedDayFreeTimes[item] = item));
     });
   };
 
   const resetFreeTimes = () => {
-    setDayFreeTimes(() => {
-      dayFreeTimes.forEach((item) => item.color = "white");
-      return dayFreeTimes.map((item) => (selectedDayFreeTimes[item.key] = item))
-    })
+    Alert.alert('Resetting FreeTimes!', 'Are you sure you want to reset your freetimes?', [{text: 'Yes', onPress: () => {
+      setDayFreeTimes(() => {
+        dayFreeTimes.forEach((item) => {
+          item.increments.forEach((item) => item.color = 'white')
+        });
+        return dayFreeTimes.map((item) => (selectedDayFreeTimes[item] = item))
+      })
+    }}, {text: 'No'}])
   }
 
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-
-  const changeStartTimeHandler = (time) => {
-    setStartTime(time);
-  };
-
-  const changeEndTimeHandler = (time) => {
-    setEndTime(time);
-  };
-
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={globalStyles.container}>
         <Text style={globalStyles.titleText}>
           Please input {route.params.day} FreeTimes!
         </Text>
-        <View style={styles.timeInputContainer}>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Start: 9:00"
-            onChangeText={changeStartTimeHandler}
-            value={startTime}
-            keyboardType={"number-pad"}
-          ></TextInput>
-          <TextInput
-            style={styles.textInput}
-            placeholder="End: 10:00"
-            onChangeText={changeEndTimeHandler}
-            value={endTime}
-            keyboardType={"number-pad"}
-          ></TextInput>
-        </View>
-        <View style={styles.listContainer}>
+
+        <View style={styles.incrementContainer}>
           <FlatList
-            data={dayFreeTimes}
-            extraData={selectedDayFreeTimes}
+            data={freeTimeIncrements}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => inputTime(item.key)}>
-                <TimeBox item={item} color={item.color}></TimeBox>
-              </TouchableOpacity>
+              <View style={styles.incrementBox}>
+                <Text>{item.increment}</Text>
+              </View>
             )}
-          />
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            scrollEnabled={false}
+            />
         </View>
+
+        <FlatList
+          data={dayFreeTimes}
+          extraData={selectedDayFreeTimes}
+          renderItem={({ item }) => (
+            <View style={styles.listContainer}>
+              <View style={styles.timeContainer}>
+                <Text>{item.time}</Text>
+              </View>
+              <View style={styles.timeBox}>
+              <FlatList
+                data={item.increments}
+                extraData={selectedDayFreeTimes}
+                renderItem={({item}) => (
+                  <TouchableOpacity onPress={() => inputTime(item)}>
+                    <TimeBox item={item}></TimeBox>
+                  </TouchableOpacity>
+                )}
+                horizontal={true}
+                scrollEnabled={false}
+              />
+              </View>
+            </View>
+          )}
+          getItemLayout={(data, index) => (
+            {length: 42, offset: 42 * index, index}
+          )}
+          initialScrollIndex={8}
+          showsVerticalScrollIndicator={false}
+          decelerationRate={.993}
+          snapToInterval={42}
+          directionalLockEnabled={true}
+        />
+
         <TouchableOpacity onPress={resetFreeTimes}>
           <View style={styles.submitContainer}>
             <Text style={styles.submitText}>!!!Reset FreeTimes!!!</Text>
           </View>
         </TouchableOpacity>
       </View>
-    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
-  timeInputContainer: {
-    flexDirection: "row",
-    marginLeft: 5,
+  incrementContainer: {
+    alignItems: 'flex-end',
     marginRight: 5,
   },
 
-  textInput: {
+  incrementBox: {
+    padding: 2,
+    paddingRight: 30,
+  },
+
+  listContainer: {
     flex: 1,
-    textAlign: "center",
-    fontSize: 18,
-    color: "#333",
-    padding: 3,
-    borderColor: "black",
-    borderWidth: 1,
-    borderRadius: 5,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
+
+  timeContainer: {
+    flex: .14,
+    marginLeft: 5,
+    marginBottom: 20,
+  },
+
+  timeBox: {
+    flex: .86,
+    alignItems: 'flex-end',
+    marginRight: 5,
   },
 
   submitContainer: {
@@ -121,9 +151,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "red",
     padding: 5,
-  },
-
-  listContainer: {
-    flex: 1,
   },
 });

@@ -10,8 +10,8 @@ import { globalStyles } from "../styles/global";
 
 export default function Groups({ navigation }) {
   const [groups, setGroups] = useState([
-    { name: "example 1", key: "1" },
-    { name: "example 2", key: "2" },
+    { name: "Group 1", key: "1" },
+    { name: "Group 2", key: "2" },
   ]);
 
   return (
