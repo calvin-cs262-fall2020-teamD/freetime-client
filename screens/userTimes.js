@@ -83,6 +83,7 @@ export default function UserTimes({ route }) {
                     <TimeBox item={item}></TimeBox>
                   </TouchableOpacity>
                 )}
+                showsHorizontalScrollIndicator={false}
                 horizontal={true}
                 scrollEnabled={false}
               />
@@ -101,7 +102,7 @@ export default function UserTimes({ route }) {
 
         <TouchableOpacity onPress={resetFreeTimes}>
           <View style={styles.submitContainer}>
-            <Text style={styles.submitText}>!!!Reset FreeTimes!!!</Text>
+            <Text style={styles.submitText}>Reset FreeTimes</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -111,12 +112,15 @@ export default function UserTimes({ route }) {
 const styles = StyleSheet.create({
   incrementContainer: {
     alignItems: 'flex-end',
-    marginRight: 5,
+    marginRight: '5%',
   },
 
   incrementBox: {
-    padding: 2,
-    paddingRight: 30,
+    flex: 1,
+    padding: 16,
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingRight: '30%',
   },
 
   listContainer: {
@@ -149,7 +153,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     fontWeight: "bold",
-    color: "red",
+    color: "white",
     padding: 5,
   },
 });

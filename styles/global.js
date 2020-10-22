@@ -8,6 +8,7 @@ export const globalStyles = StyleSheet.create({
   titleText: {
     textAlign: "center",
     fontSize: 18,
+    fontWeight: 'bold',
     color: "#333",
     padding: 5,
     textDecorationLine: 'underline',

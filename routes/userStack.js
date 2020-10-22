@@ -29,7 +29,7 @@ export default function UserStack({ navigation }) {
       <Stack.Screen
         name="UserWeek"
         component={UserWeek}
-        options={{ title: "User Week", headerRight: () =>
+        options={{ title: "User Week", headerTitleAlign: 'center', headerRight: () =>
           <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
             <View style={globalStyles.iconContainer}>
               <MaterialIcons name='settings' size={30} color="black" />
@@ -46,7 +46,7 @@ export default function UserStack({ navigation }) {
       <Stack.Screen
         name="UserTimes"
         component={UserTimes}
-        options={{ title: "User Times", gestureEnabled: false, headerRight: () =>
+        options={{ title: "User Times", headerTitleAlign: 'center', gestureEnabled: false, headerRight: () =>
           <TouchableOpacity>
             <View style={globalStyles.iconContainer}>
               <MaterialIcons name='delete' size={30} color="black"/>
