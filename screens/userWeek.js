@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { globalStyles } from "../styles/global";
+import Card from "../components/card";
 
 export default function UserWeek({ navigation }) {
   const [weekDays, setWeekDays] = useState([
@@ -239,9 +240,7 @@ export default function UserWeek({ navigation }) {
               <TouchableOpacity
                 onPress={() => navigation.navigate("UserTimes", item)}
               >
-                <View style={styles.dayContainer}>
-                  <Text style={styles.days}>{item.day}</Text>
-                </View>
+                <Card text={item.day}></Card>
               </TouchableOpacity>
             )}
             scrollEnabled={false}
@@ -258,35 +257,13 @@ const styles = StyleSheet.create({
     borderColor: "#00AAFF",
     borderWidth: 1.5,
     borderRadius: 5,
-    margin: 0,
-    padding: 10,
+    marginBottom: 5,
+    padding: '3%',
     width: "43%",
-    height: "100%",
+    height: "99%",
   },
 
   listContainer: {
     flex: 1,
-  },
-
-  dayContainer: {
-    flex: 1,
-    justifyContent: "space-around",
-    backgroundColor: "white",
-    borderColor: "#00AAFF",
-    borderWidth: 1.5,
-    borderRadius: 5,
-    elevation: 3,
-    shadowOffset: { width: 1, height: 1 },
-    shadowColor: "#333",
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    margin: 3,
-    paddingTop: 19,
-    paddingBottom: 19,
-  },
-
-  days: {
-    color: "black",
-    textAlign: "center",
   },
 });

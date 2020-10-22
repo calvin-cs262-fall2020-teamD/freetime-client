@@ -7,11 +7,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { globalStyles } from "../styles/global";
+import Card from "../components/card";
 
 export default function Groups({ navigation }) {
   const [groups, setGroups] = useState([
     { name: "Group 1", key: "1" },
-    { name: "Group 2", key: "2" },
+    //{ name: "Group 2", key: "2" },
   ]);
 
   return (
@@ -22,9 +23,7 @@ export default function Groups({ navigation }) {
             data={groups}
             renderItem={({ item }) => (
               <TouchableOpacity>
-                <View style={styles.groupContainer}>
-                  <Text style={styles.groupNames}>{item.name}</Text>
-                </View>
+                <Card text={item.name}></Card>
               </TouchableOpacity>
             )}
           />
@@ -43,32 +42,10 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 10,
     width: "43%",
-    height: "100%",
+    height: "99%",
   },
 
   listContainer: {
     flex: 1,
-  },
-
-  groupContainer: {
-    flex: 1,
-    justifyContent: "space-around",
-    backgroundColor: "white",
-    borderColor: "#00AAFF",
-    borderWidth: 1.5,
-    borderRadius: 5,
-    elevation: 3,
-    shadowOffset: { width: 1, height: 1 },
-    shadowColor: "#333",
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    margin: 3,
-    paddingTop: 19,
-    paddingBottom: 19,
-  },
-
-  groupNames: {
-    color: "black",
-    textAlign: "center",
   },
 });
