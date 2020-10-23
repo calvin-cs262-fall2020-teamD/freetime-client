@@ -66,6 +66,12 @@ export default function UserStack({ navigation }) {
         component={Settings}
         options={{ title: "User Week Settings"}}
       />
+
+      <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{ title: "Profile"}}
+      />
     </Stack.Navigator>
   );
 }

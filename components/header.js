@@ -1,6 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { globalStyles } from "../styles/global";
+import { MaterialIcons } from '@expo/vector-icons';
+
+export default function Header({ navigation }) {
+
+   const openMenu = () => {
+       navigation.openDrawer();
+   }
 
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -8,6 +15,7 @@ export default function Header() {
 
    const openMenu = () => {
    }
+
 
   return (
     <View style={styles.headerContainer}>
