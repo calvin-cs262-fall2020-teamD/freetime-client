@@ -16,22 +16,28 @@ import Button from "../components/button";
 export default function Groups({ navigation }) {
   const [groups, setGroups] = useState([]);
   const [named, setNamed] = useState(true);
-  const [text, setText] = useState("");
+  const [text1, setText1] = useState("");
+  const [text2, setText2] = useState("");
 
-  const changeHandler = (val) => {
-    setText(val);
+  const changeHandler1 = (val) => {
+    setText1(val);
   };
+
+  const changeHandler2 = (val) => {
+    setText2(val);
+  }
 
   const addGroup = () => {
     Alert.alert('Adding a Group', 'Would you like to add a Group?', [{text: 'Yes', onPress: () => {
-      setText("");
+      setText1("");
+      setText2("");
       setNamed(false);
     }}, {text: 'No'}])
   }
 
   const confirmGroup = () => {
     setGroups((prevGroups) => {
-        return [{ name: text, key: Math.random().toString() }, ...prevGroups];
+        return [{ name: text1, adminUser: text2, key: Math.random().toString() }, ...prevGroups];
       });
     setNamed(true);
   }
@@ -60,8 +66,14 @@ export default function Groups({ navigation }) {
         <TextInput
           style={styles.textInput}
           placeholder="Group Name"
-          onChangeText={changeHandler}
-          value={text}
+          onChangeText={changeHandler1}
+          value={text1}
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Admin Username"
+          onChangeText={changeHandler2}
+          value={text2}
         />
         <Button text={"Confirm Group"} onPress={confirmGroup}></Button>
       </View>
