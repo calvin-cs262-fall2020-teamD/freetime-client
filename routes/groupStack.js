@@ -26,7 +26,7 @@ export default function GroupStack() {
       <Stack.Screen
         name="Groups"
         component={groups}
-        options={{ title: "Groups", headerTitleAlign: 'center', headerRight: () =>
+        options={{ title: "Groups", headerRight: () =>
           <TouchableOpacity>
             <View style={globalStyles.iconContainer}>
               <MaterialIcons name='group-add' size={30} color="black" />
@@ -40,6 +40,7 @@ export default function GroupStack() {
         component={group}
         options={{ title: 'Group', headerTitleAlign: 'center'}}
       />
+
     </Stack.Navigator>
   );
 }

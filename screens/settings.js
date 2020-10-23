@@ -11,7 +11,6 @@ import { globalStyles } from "../styles/global";
 export default function Settings() {
   return (
     <View style={globalStyles.container}>
-      <Text>This is where settings will go.</Text>
     </View>
   );
 }
