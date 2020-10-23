@@ -11,7 +11,7 @@ const Drawer = createDrawerNavigator();
 export default function DrawerNavigator() {
     return (
 
-        <Drawer.Navigator initialRouteName="User Week">
+        <Drawer.Navigator>
 
         </Drawer.Navigator>
     );

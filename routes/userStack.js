@@ -46,13 +46,7 @@ export default function UserStack({ navigation }) {
       <Stack.Screen
         name="UserTimes"
         component={UserTimes}
-        options={{ title: "User Times", headerTitleAlign: 'center', gestureEnabled: false, headerRight: () =>
-          <TouchableOpacity>
-            <View style={globalStyles.iconContainer}>
-              <MaterialIcons name='delete' size={30} color="black"/>
-            </View>
-          </TouchableOpacity>
-        }}
+        options={{ title: "User Times", headerTitleAlign: 'center', gestureEnabled: false }}
       />
 
       <Stack.Screen

@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 export default function Header({ navigation }) {
 
    const openMenu = () => {
-       navigation.openDrawer();
+      //navigation.openDrawer();
    }
 
 

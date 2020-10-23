@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -10,8 +10,17 @@ import {
 import { globalStyles } from "../styles/global";
 
 import TimeBox from "../components/timeBox";
+import { MaterialIcons } from "@expo/vector-icons";
 
-export default function UserTimes({ route }) {
+export default function UserTimes({ route, navigation }) {
+
+  useEffect(() => navigation.setOptions({headerRight: () =>
+    <TouchableOpacity onPress={resetFreeTimes}>
+      <View style={globalStyles.iconContainer}>
+        <MaterialIcons name='delete' size={30} color="black" />
+      </View>
+    </TouchableOpacity>}), []);
+
   const freeTimeIncrements = [
     {increment: "0  ", key: "0"},
     {increment: "10", key: "1"},
@@ -99,12 +108,6 @@ export default function UserTimes({ route }) {
           snapToInterval={42}
           directionalLockEnabled={true}
         />
-
-        <TouchableOpacity onPress={resetFreeTimes}>
-          <View style={styles.submitContainer}>
-            <Text style={styles.submitText}>Reset FreeTimes</Text>
-          </View>
-        </TouchableOpacity>
       </View>
   );
 }
