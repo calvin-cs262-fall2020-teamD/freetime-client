@@ -3,15 +3,16 @@ import { Button, View } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 
-import userStack from "../routes/userStack";
-import groupStack from "../routes/groupStack";
+import Profile from "../routes/userStack";
+import Settings from "../routes/userStack";
 
 const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator() {
     return (
-        <Drawer.Navigator initialRouteName="User Week">
-
+        <Drawer.Navigator>
+            {/* <Drawer.Screen name="Profile" component={Profile} />
+            <Drawer.Screen name="Settings" component={Settings} /> */}
         </Drawer.Navigator>
     );
 };

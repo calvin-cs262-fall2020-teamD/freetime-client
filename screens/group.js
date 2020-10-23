@@ -1,20 +1,19 @@
 import React, { useState } from "react";
 import {
-  View,
   StyleSheet,
+  View,
   Text,
   FlatList,
   TouchableOpacity,
+  Alert,
+  TextInput,
 } from "react-native";
 import { globalStyles } from "../styles/global";
 
-export default function Settings() {
+export default function Group({ route }) {
   return (
     <View style={globalStyles.container}>
-      <Text>This is where settings will go.</Text>
+      <Text style={globalStyles.titleText}>{route.params.name}</Text>
     </View>
-  );
+  )
 }
-
-const styles = StyleSheet.create({
-});

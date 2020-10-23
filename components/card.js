@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { globalStyles } from "../styles/global";
 
-export default function UserTimes({ text }) {
+export default function Card({ text }) {
   return (
     <View style={styles.cardContainer}>
       <Text style={styles.cards}>{text}</Text>
