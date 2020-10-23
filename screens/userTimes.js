@@ -10,7 +10,6 @@ import {
 import { globalStyles } from "../styles/global";
 
 import TimeBox from "../components/timeBox";
-import Button from "../components/button";
 
 export default function UserTimes({ route }) {
   const freeTimeIncrements = [
@@ -101,7 +100,11 @@ export default function UserTimes({ route }) {
           directionalLockEnabled={true}
         />
 
-        <Button text={"Reset FreeTimes"} onPress={resetFreeTimes}></Button>
+        <TouchableOpacity onPress={resetFreeTimes}>
+          <View style={styles.submitContainer}>
+            <Text style={styles.submitText}>Reset FreeTimes</Text>
+          </View>
+        </TouchableOpacity>
       </View>
   );
 }
