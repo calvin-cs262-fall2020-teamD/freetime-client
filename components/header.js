@@ -9,6 +9,7 @@ export default function Header({ navigation }) {
        navigation.openDrawer();
    }
 
+
   return (
     <View style={styles.headerContainer}>
       <Text style={styles.title}>FreeTime</Text>
