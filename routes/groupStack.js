@@ -26,13 +26,7 @@ export default function GroupStack() {
       <Stack.Screen
         name="Groups"
         component={groups}
-        options={{ title: "Groups", headerRight: () =>
-          <TouchableOpacity>
-            <View style={globalStyles.iconContainer}>
-              <MaterialIcons name='group-add' size={30} color="black" />
-            </View>
-          </TouchableOpacity>
-        }}
+        options={{ title: "Groups", headerTitleAlign: 'center' }}
       />
 
       <Stack.Screen

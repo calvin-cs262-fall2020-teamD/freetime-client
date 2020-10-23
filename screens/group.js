@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -10,10 +10,19 @@ import {
 } from "react-native";
 import { globalStyles } from "../styles/global";
 
-export default function Group({ route }) {
+import { MaterialIcons } from "@expo/vector-icons";
+
+export default function Group({ route, navigation }) {
+
+  useEffect(() => navigation.setOptions({title: route.params.name, headerRight: () =>
+    <TouchableOpacity>
+      <View style={globalStyles.iconContainer}>
+        <MaterialIcons name='delete' size={30} color="black" />
+      </View>
+    </TouchableOpacity>}), []);
+
   return (
     <View style={globalStyles.container}>
-      <Text style={globalStyles.titleText}>{route.params.name}</Text>
       <Text>Admin Username: {route.params.adminUser}</Text>
     </View>
   )
