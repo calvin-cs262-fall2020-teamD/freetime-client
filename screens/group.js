@@ -14,8 +14,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 export default function Group({ route, navigation }) {
 
-  useEffect(() => navigation.setOptions({title: route.params.name, headerRight: () =>
-    <TouchableOpacity>
+  useEffect(() => navigation.setOptions({title: route.params.item.name, headerRight: () =>
+    <TouchableOpacity onPress={route.params.deleteGroup}>
       <View style={globalStyles.iconContainer}>
         <MaterialIcons name='delete' size={30} color="black" />
       </View>
