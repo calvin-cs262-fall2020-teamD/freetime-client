@@ -32,14 +32,18 @@ export default function Groups({ navigation }) {
   }
 
   const addGroup = () => {
-    // Alert.alert('Adding a Group', 'Would you like to add a Group?', [{text: 'Yes', onPress: () => {
-    //   setText1("");
-    //   setText2("");
-    //   setNamed(false);
-    // }}, {text: 'No'}])
     setText1("");
     setText2("");
     setNamed(false);
+  }
+
+  const deleteGroup = (key) => {
+    Alert.alert('Deleting this Group!', 'Are you sure you want to delete this Group?', [{text: 'Yes', onPress: () => {
+      setGroups((prevGroups) => {
+        return prevGroups.filter((group) => group.key != key);
+      })
+      navigation.goBack();
+    }}, {text: 'No'}])
   }
 
   const confirmGroup = () => {
@@ -68,7 +72,7 @@ export default function Groups({ navigation }) {
             <FlatList
               data={groups}
               renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => navigation.navigate("Group", item)}>
+                <TouchableOpacity onPress={() => navigation.navigate("Group", {item: item, deleteGroup: () => deleteGroup(item.key)})}>
                   <Card text={item.name}></Card>
                 </TouchableOpacity>
               )}
