@@ -22,10 +22,13 @@ export default function TabNavigator() {
     >
       <Tab.Screen name="User Week" component={userStack} options={{tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="person" color={'black'} size={30} />
-          )}}></Tab.Screen>
+          )}}>
+      </Tab.Screen>
+
       <Tab.Screen name="Groups" component={groupStack} options={{tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="group" color={'black'} size={30} />
-          )}}></Tab.Screen>
+          )}}>
+      </Tab.Screen>
     </Tab.Navigator>
   );
 }

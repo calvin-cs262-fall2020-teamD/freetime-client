@@ -9,17 +9,20 @@ import {
   TextInput,
 } from "react-native";
 import { globalStyles } from "../styles/global";
+import { useGroupsContext } from "../context/groupsContext";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
 export default function Group({ route, navigation }) {
+  const context = useGroupsContext();
 
-  useEffect(() => navigation.setOptions({title: route.params.item.name, headerRight: () =>
-    <TouchableOpacity onPress={route.params.deleteGroup}>
-      <View style={globalStyles.iconContainer}>
-        <MaterialIcons name='delete' size={30} color="black" />
-      </View>
-    </TouchableOpacity>}), []);
+  useEffect(() => navigation.setOptions({title: route.params.name, headerRight: () =>
+      <TouchableOpacity onPress={() => context.deleteGroup(route.params.key, navigation)}>
+        <View style={globalStyles.iconContainer}>
+          <MaterialIcons name='delete' size={30} color="black" />
+        </View>
+      </TouchableOpacity>
+    }));
 
   return (
     <View style={globalStyles.container}>
