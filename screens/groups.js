@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -11,51 +11,70 @@ import {
   Keyboard,
 } from "react-native";
 import { globalStyles } from "../styles/global";
+import { useGroupsContext } from "../context/groupsContext";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
 import Card from "../components/card";
 import Button from "../components/button";
 
-export default function Groups({ navigation }) {
-  const [groups, setGroups] = useState([]);
-  const [named, setNamed] = useState(true);
-  const [text1, setText1] = useState("");
-  const [text2, setText2] = useState("");
+// const GroupsContext = createContext({});
 
-  const changeHandler1 = (val) => {
-    setText1(val);
-  };
+//   export function GroupsContextProvider(props) {
+//     const [groups, setGroups] = useState([]);
+//     const [named, setNamed] = useState(true);
+//     const [text1, setText1] = useState("");
+//     const [text2, setText2] = useState("");
 
-  const changeHandler2 = (val) => {
-    setText2(val);
-  }
+//     const changeHandler1 = (val) => {
+//       setText1(val);
+//     };
 
-  const addGroup = () => {
-    // Alert.alert('Adding a Group', 'Would you like to add a Group?', [{text: 'Yes', onPress: () => {
-    //   setText1("");
-    //   setText2("");
-    //   setNamed(false);
-    // }}, {text: 'No'}])
-    setText1("");
-    setText2("");
-    setNamed(false);
-  }
+//     const changeHandler2 = (val) => {
+//       setText2(val);
+//     }
 
-  const confirmGroup = () => {
-    setGroups((prevGroups) => {
-        return [{ name: text1, adminUser: text2, key: Math.random().toString() }, ...prevGroups];
-      });
-    setNamed(true);
-  }
+//     const addGroup = () => {
+//       setText1("");
+//       setText2("");
+//       setNamed(false);
+//     }
 
-  const cancelGroup = () => {
-    setNamed(true);
-  }
+//     const deleteGroup = (key, navigation) => {
+//       Alert.alert('Deleting this Group!', 'Are you sure you want to delete this Group?', [{text: 'Yes', onPress: () => {
+//         setGroups((prevGroups) => {
+//           return prevGroups.filter((group) => group.key != key);
+//         })
+//         navigation.goBack();
+//       }}, {text: 'No'}])
+//     }
 
-  if (named) {
-    useEffect(() => navigation.setOptions({title: "Groups", headerRight: () =>
-      <TouchableOpacity onPress={addGroup}>
+//     const confirmGroup = () => {
+//       setGroups((prevGroups) => {
+//           return [{ name: text1, adminUser: text2, key: Math.random().toString() }, ...prevGroups];
+//         });
+//       setNamed(true);
+//     }
+
+//     const cancelGroup = () => {
+//       setNamed(true);
+//     }
+
+//   return (
+//     <GroupsContext.Provider value={{ groups: groups, setGroups: setGroups, named: named, setNamed: setNamed, text1: text1, setText1: setText1, text2: text2, setText2: setText2, changeHandler1: changeHandler1, changeHandler2: changeHandler2, addGroup: addGroup, deleteGroup: deleteGroup, confirmGroup: confirmGroup, cancelGroup: cancelGroup}}>
+//       {props.children}
+//     </GroupsContext.Provider>
+//   )
+// }
+
+// export const useGroupsContext = () => useContext(GroupsContext);
+
+export default function Groups(props) {
+  const context = useGroupsContext();
+
+  if (context.named) {
+    useEffect(() => props.navigation.setOptions({title: "Groups", headerRight: () =>
+      <TouchableOpacity onPress={context.addGroup}>
         <View style={globalStyles.iconContainer}>
           <MaterialIcons name='group-add' size={30} color="black" />
         </View>
@@ -66,9 +85,9 @@ export default function Groups({ navigation }) {
         <View style={styles.groupsContainer}>
           <View style={styles.listContainer}>
             <FlatList
-              data={groups}
+              data={context.groups}
               renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => navigation.navigate("Group", item)}>
+                <TouchableOpacity onPress={() => props.navigation.navigate("Group", item)}>
                   <Card text={item.name}></Card>
                 </TouchableOpacity>
               )}
@@ -78,31 +97,36 @@ export default function Groups({ navigation }) {
       </View>
     );
   } else {
-    useEffect(() => navigation.setOptions({ title: 'Add Group', headerRight: () => {}}));
+    useEffect(() => props.navigation.setOptions({ title: 'Add Group', headerRight: () => {}}));
+
     return (
       <TouchableWithoutFeedback onPress={() => {
         Keyboard.dismiss();
       }}>
         <View style={globalStyles.container}>
+          <Text style={globalStyles.titleText}>
+            Please input your Group Name and Admin Username
+          </Text>
           <TextInput
             style={styles.textInput}
             placeholder="Group Name"
-            onChangeText={changeHandler1}
-            value={text1}
+            onChangeText={context.changeHandler1}
+            value={context.text1}
           />
           <TextInput
             style={styles.textInput}
             placeholder="Admin Username"
-            onChangeText={changeHandler2}
-            value={text2}
+            onChangeText={context.changeHandler2}
+            value={context.text2}
           />
-          <Button text={"Confirm Group"} onPress={confirmGroup}></Button>
-          <Button text={"Cancel"} onPress={cancelGroup}></Button>
+          <Button text={"Confirm Group"} textColor={'white'} backgroundColor={'#00AAFF'} onPress={context.confirmGroup}></Button>
+          <View style={styles.cancelButtonContainer}>
+            <Button text={"Cancel"} textColor={'white'} backgroundColor={'red'} onPress={context.cancelGroup}></Button>
+          </View>
         </View>
       </TouchableWithoutFeedback>
     )
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -127,5 +151,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: 'black',
     borderWidth: 2,
+  },
+
+  cancelButtonContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
   }
 });
