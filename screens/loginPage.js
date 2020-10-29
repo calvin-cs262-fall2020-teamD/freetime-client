@@ -4,9 +4,27 @@ import { globalStyles } from "../styles/global";
 import { LinearGradient } from 'expo-linear-gradient';
 import { TextInput } from "react-native-gesture-handler";
 import bgImg from '../assets/calvinWalkway2.jpg'
+import { useScreens } from "react-native-screens";
 
-const authenticate = (username, password) => {
-    //Check database for valid info
+const authenticate = (name, userPassword) => {
+  let valid = false;
+  //Fetch data
+
+  //This would probably be the DB query we use later
+  // SELECT password
+  // FROM User
+  // WHERE name = username
+  // AND userPassword = usrPassword
+  // //Then set some variable to true
+
+  //TEMP -- REMOVE LATER
+  valid = true;
+
+  if(valid) {
+    //Navigate into the app
+  } else {
+    //Send message INVALID username or password
+  }
 };
 
 const forgotPassword = () => {
