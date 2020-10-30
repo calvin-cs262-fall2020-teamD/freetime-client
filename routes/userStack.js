@@ -9,6 +9,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import Header from "../components/header";
 
+import Login from "../screens/loginPage";
 import UserWeek from "../screens/userWeek";
 import UserTimes from "../screens/userTimes";
 import Settings from "../screens/settings";
@@ -19,13 +20,22 @@ const Stack = createStackNavigator();
 
 export default function UserStack({ navigation }) {
   return (
-    <Stack.Navigator
+    <Stack.Navigator initialRouteName={"Login"}
       screenOptions={{
         headerStyle: {
           backgroundColor: "#ddd",
         },
       }}
     >
+
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          headerShown: false
+        }}
+      />
+
       <Stack.Screen
         name="UserWeek"
         component={UserWeek}
@@ -34,12 +44,14 @@ export default function UserStack({ navigation }) {
             <View style={globalStyles.iconContainer}>
               <MaterialIcons name='settings' size={30} color="black" />
             </View>
-          </TouchableOpacity>, headerLeft: () =>
-                <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-                    <View style={globalStyles.iconContainer}>
-                        <MaterialIcons name='person' size={30} color="black" />
-                    </View>
-                </TouchableOpacity>
+          </TouchableOpacity>,
+          headerLeft: () =>
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+              <View style={globalStyles.iconContainer}>
+                <MaterialIcons name='person' size={30} color="black" />
+              </View>
+            </TouchableOpacity>,
+          gestureEnabled: false
         }}
       />
 

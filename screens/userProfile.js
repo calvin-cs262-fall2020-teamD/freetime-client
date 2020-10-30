@@ -96,25 +96,28 @@
 
 const styles = StyleSheet.create({
     userInitialsCircle: {
-        width: 125,
-        height: 125,
-        borderRadius: 125/2,
+        width: 100,
+        height: 100,
+        borderRadius: 100/2,
         justifyContent: 'center',
         alignSelf: 'center',
         backgroundColor: 'lightgray',
         top: 20,
     },
+
     initials: {
         padding: 20,
-        fontSize: 60,
+        fontSize: 40,
         alignSelf: 'center'
     },
+
     nameTitle: {
         padding: 15,
         top: 12,
         alignSelf: 'center',
         fontSize: 30
     },
+
     interestCard: {
         alignSelf: 'center',
         width: '99%',
@@ -126,6 +129,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         backgroundColor: 'springgreen'
     },
+
     interestContainer: {
         width: '50%',
     }
