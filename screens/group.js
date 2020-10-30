@@ -9,12 +9,12 @@ import {
   TextInput,
 } from "react-native";
 import { globalStyles } from "../styles/global";
-import { useGroupsContext } from "../context/groupsContext";
+import { useGroupContext } from "../context/groupContext";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
 export default function Group({ route, navigation }) {
-  const context = useGroupsContext();
+  const context = useGroupContext();
 
   useEffect(() => navigation.setOptions({title: route.params.name, headerRight: () =>
       <TouchableOpacity onPress={() => context.deleteGroup(route.params.key, navigation)}>

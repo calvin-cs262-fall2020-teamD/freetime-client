@@ -24,10 +24,10 @@ export default function App() {
     return (
       <View style={globalStyles.container}>
         <Header></Header>
-        {/* <NavigationContainer>
+        <NavigationContainer>
           <Navigator></Navigator>
-        </NavigationContainer> */}
-        <Login></Login>
+        </NavigationContainer>
+        {/* <Login></Login> */}
         <StatusBar style="auto" />
       </View>
     );

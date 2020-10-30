@@ -11,7 +11,7 @@ import {
   Keyboard,
 } from "react-native";
 import { globalStyles } from "../styles/global";
-import { useGroupsContext } from "../context/groupsContext";
+import { useGroupContext } from "../context/groupContext";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -70,7 +70,7 @@ import Button from "../components/button";
 // export const useGroupsContext = () => useContext(GroupsContext);
 
 export default function Groups(props) {
-  const context = useGroupsContext();
+  const context = useGroupContext();
 
   if (context.named) {
     useEffect(() => props.navigation.setOptions({title: "Groups", headerRight: () =>
