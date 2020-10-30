@@ -74,7 +74,7 @@
                      numColumns={2}
                      scrollEnabled={true}
                      renderItem={({ item }) => (
-                         <TouchableOpacity onPress={() => pressHandlerRemove(item.key, item.title)}>
+                         <TouchableOpacity style={styles.interestContainer} onPress={() => pressHandlerRemove(item.key, item.title)}>
                              <Text style={styles.interestCard}>{ item.title }</Text>
                          </TouchableOpacity>
                      )}/>
@@ -86,7 +86,7 @@
                  numColumns={2}
                  scrollEnabled={true}
                  renderItem={({ item }) => (
-                     <TouchableOpacity onPress={() => pressHandlerAdd(item.key, item.title)}>
+                     <TouchableOpacity style={styles.interestContainer} onPress={() => pressHandlerAdd(item.key, item.title)}>
                          <Text style={styles.interestCard}>{ item.title }</Text>
                      </TouchableOpacity>
                  )}/>
@@ -102,11 +102,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'center',
         backgroundColor: 'lightgray',
-        top: 20
+        top: 20,
     },
     initials: {
         padding: 20,
-        fontSize: 65,
+        fontSize: 60,
         alignSelf: 'center'
     },
     nameTitle: {
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     },
     interestCard: {
         alignSelf: 'center',
-        width: '100%',
+        width: '99%',
         borderWidth: 2,
         borderRadius: 5,
         padding: 10,
@@ -125,6 +125,9 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
         textAlign: 'center',
         backgroundColor: 'springgreen'
+    },
+    interestContainer: {
+        width: '50%',
     }
 });
 
