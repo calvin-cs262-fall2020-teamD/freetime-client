@@ -59,7 +59,7 @@ export default function UserTimes({ route, navigation }) {
         {/* This is the FlatList that displays the hours */}
         <FlatList
           data={context.dayFreeTimes}
-          // extraData={context.setSelectedDayFreeTimes}
+          extraData={context.setSelectedDayFreeTimes}
           renderItem={({ item }) => (
             <View style={styles.listContainer}>
               <View style={styles.timeContainer}>
@@ -69,7 +69,7 @@ export default function UserTimes({ route, navigation }) {
               {/* This is the FlatList that displays the timeBox's */}
               <FlatList
                 data={item.increments}
-                // extraData={context.setSelectedDayFreeTimes}
+                extraData={context.setSelectedDayFreeTimes}
                 renderItem={({item}) => (
                   <TouchableOpacity onPress={() => context.inputTime(item)}>
                     <TimeBox item={item}></TimeBox>

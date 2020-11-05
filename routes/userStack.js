@@ -31,13 +31,13 @@ export default function UserStack({ navigation }) {
         }}
       >
 
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Login"
           component={Login}
           options={{
             headerShown: false
           }}
-        />
+        /> */}
 
         <Stack.Screen
           name="UserWeek"
