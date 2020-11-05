@@ -6,7 +6,10 @@ import { TextInput } from "react-native-gesture-handler";
 import bgImg from '../assets/calvinWalkway2.jpg'
 import { useScreens } from "react-native-screens";
 
-const authenticate = (name, userPassword) => {
+const authenticate = (navigation, name, userPassword) => {
+  // Temporary authenticate code
+  navigation.navigate("UserWeek");
+
   let valid = false;
   //Fetch data
 
@@ -28,7 +31,7 @@ const authenticate = (name, userPassword) => {
 };
 
 const forgotPassword = () => {
-  //Move to password re-do screen 
+  //Move to password re-do screen
   //This'll be a future thing
 };
 
@@ -36,7 +39,7 @@ const signUp = () => {
   //move to signup screen?
 }
 
-export default function Login() {
+export default function Login({ navigation }) {
   const [usernameValue, onChangeUsernameText] = React.useState('');
   const [passwordValue, onChangePasswordText] = React.useState('');
   return (
@@ -48,10 +51,10 @@ export default function Login() {
             <Text style={styles.title}>Login</Text>
             <TextInput style={styles.inputBox} value={usernameValue} placeholder={"Enter username"} onChangeText={text => onChangeUsernameText(text)}/>
             <TextInput style={styles.inputBox} value={passwordValue} placeholder={"Enter password"} onChangeText={text => onChangePasswordText(text)}/>
-            <TouchableOpacity style={styles.technicallyNotAButton} onClick={authenticate(usernameValue, passwordValue)}>
+            <TouchableOpacity style={styles.technicallyNotAButton} onPress={() => /*navigation.navigate("UserWeek")*/ authenticate(navigation, usernameValue, passwordValue)}>
               <Text>Submit</Text>
             </TouchableOpacity>
-            
+
             <Text style={styles.options}> Forgot Password... </Text>
             {/* <Text style={styles.options}> Sign up </Text> */}
           </View>

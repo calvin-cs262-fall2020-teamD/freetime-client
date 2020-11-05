@@ -74,7 +74,7 @@
                      numColumns={2}
                      scrollEnabled={true}
                      renderItem={({ item }) => (
-                         <TouchableOpacity onPress={() => pressHandlerRemove(item.key, item.title)}>
+                         <TouchableOpacity style={styles.interestContainer} onPress={() => pressHandlerRemove(item.key, item.title)}>
                              <Text style={styles.interestCard}>{ item.title }</Text>
                          </TouchableOpacity>
                      )}/>
@@ -86,7 +86,7 @@
                  numColumns={2}
                  scrollEnabled={true}
                  renderItem={({ item }) => (
-                     <TouchableOpacity onPress={() => pressHandlerAdd(item.key, item.title)}>
+                     <TouchableOpacity style={styles.interestContainer} onPress={() => pressHandlerAdd(item.key, item.title)}>
                          <Text style={styles.interestCard}>{ item.title }</Text>
                      </TouchableOpacity>
                  )}/>
@@ -96,28 +96,31 @@
 
 const styles = StyleSheet.create({
     userInitialsCircle: {
-        width: 125,
-        height: 125,
-        borderRadius: 125/2,
+        width: 100,
+        height: 100,
+        borderRadius: 100/2,
         justifyContent: 'center',
         alignSelf: 'center',
         backgroundColor: 'lightgray',
-        top: 20
+        top: 20,
     },
+
     initials: {
         padding: 20,
-        fontSize: 65,
+        fontSize: 40,
         alignSelf: 'center'
     },
+
     nameTitle: {
         padding: 15,
         top: 12,
         alignSelf: 'center',
         fontSize: 30
     },
+
     interestCard: {
         alignSelf: 'center',
-        width: '100%',
+        width: '99%',
         borderWidth: 2,
         borderRadius: 5,
         padding: 10,
@@ -125,6 +128,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
         textAlign: 'center',
         backgroundColor: 'springgreen'
+    },
+
+    interestContainer: {
+        width: '50%',
     }
 });
 

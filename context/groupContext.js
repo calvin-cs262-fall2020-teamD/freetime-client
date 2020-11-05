@@ -1,9 +1,9 @@
 import React, {createContext, useContext, useState } from "react";
 import { Alert } from "react-native";
 
-const GroupsContext = createContext({});
+const GroupContext = createContext({});
 
-  export function GroupsContextProvider(props) {
+  export function GroupContextProvider(props) {
     const [groups, setGroups] = useState([]);
     const [named, setNamed] = useState(true);
     const [text1, setText1] = useState("");
@@ -44,10 +44,10 @@ const GroupsContext = createContext({});
     }
 
   return (
-    <GroupsContext.Provider value={{ groups: groups, setGroups: setGroups, named: named, setNamed: setNamed, text1: text1, setText1: setText1, text2: text2, setText2: setText2, changeHandler1: changeHandler1, changeHandler2: changeHandler2, addGroup: addGroup, deleteGroup: deleteGroup, confirmGroup: confirmGroup, cancelGroup: cancelGroup}}>
+    <GroupContext.Provider value={{ groups: groups, setGroups: setGroups, named: named, setNamed: setNamed, text1: text1, setText1: setText1, text2: text2, setText2: setText2, changeHandler1: changeHandler1, changeHandler2: changeHandler2, addGroup: addGroup, deleteGroup: deleteGroup, confirmGroup: confirmGroup, cancelGroup: cancelGroup}}>
       {props.children}
-    </GroupsContext.Provider>
+    </GroupContext.Provider>
   )
 }
 
-export const useGroupsContext = () => useContext(GroupsContext);
+export const useGroupContext = () => useContext(GroupContext);
