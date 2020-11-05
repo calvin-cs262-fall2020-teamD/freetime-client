@@ -9,6 +9,8 @@ import { globalStyles } from "./styles/global";
 
 import { NavigationContainer } from "@react-navigation/native";
 import Navigator from "./routes/tabNavigator";
+import LoginNavigation from "./LoginNavigation";
+import AppNavigation from "./AppNavigation";
 import Login from "./screens/loginPage";
 
 const getFonts = () =>
@@ -18,20 +20,25 @@ const getFonts = () =>
   });
 
 export default function App() {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  if (fontsLoaded) {
+  if (!loggedIn) {
     return (
       <View style={globalStyles.container}>
         <Header></Header>
-        <NavigationContainer>
+        <AppNavigation></AppNavigation>
+        {/* <NavigationContainer>
           <Navigator></Navigator>
-        </NavigationContainer>
-        {/* <Login></Login> */}
+        </NavigationContainer> */}
         <StatusBar style="auto" />
       </View>
     );
   } else {
-    return setFontsLoaded(true);
+    return (
+      <View style={globalStyles.container}>
+        <Header></Header>
+
+      </View>
+    );
   }
 }

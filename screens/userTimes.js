@@ -12,14 +12,10 @@ import { globalStyles } from "../styles/global";
 import TimeBox from "../components/timeBox";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export default function UserTimes({ route, navigation }) {
+import { useUserContext } from "../context/userContext";
 
-  useEffect(() => navigation.setOptions({headerRight: () =>
-    <TouchableOpacity onPress={resetFreeTimes}>
-      <View style={globalStyles.iconContainer}>
-        <MaterialIcons name='delete' size={30} color="black" />
-      </View>
-    </TouchableOpacity>}), []);
+export default function UserTimes({ route, navigation }) {
+  const context = useUserContext();
 
   const freeTimeIncrements = [
     {increment: "0  ", key: "0"},
@@ -30,30 +26,14 @@ export default function UserTimes({ route, navigation }) {
     {increment: "50", key: "5"},
   ];
 
-  const [dayFreeTimes, setDayFreeTimes] = useState(route.params.freeTimes);
+  context.setDayFreeTimes(route.params.freeTimes);
 
-  const selectedDayFreeTimes = [];
-
-  const inputTime = (item) => {
-    setDayFreeTimes(() => {
-      item.color === "white"
-        ? (item.color = "#00E600")
-        : (item.color = "white");
-
-      return dayFreeTimes.map((item) => (selectedDayFreeTimes[item] = item));
-    });
-  };
-
-  const resetFreeTimes = () => {
-    Alert.alert('Resetting FreeTimes!', 'Are you sure you want to reset your freetimes?', [{text: 'Yes', onPress: () => {
-      setDayFreeTimes(() => {
-        dayFreeTimes.forEach((item) => {
-          item.increments.forEach((item) => item.color = 'white')
-        });
-        return dayFreeTimes.map((item) => (selectedDayFreeTimes[item] = item))
-      })
-    }}, {text: 'No'}])
-  }
+  useEffect(() => navigation.setOptions({headerRight: () =>
+    <TouchableOpacity onPress={() => context.resetFreeTimes(route.params.freeTimes)}>
+      <View style={globalStyles.iconContainer}>
+        <MaterialIcons name='delete' size={30} color="black" />
+      </View>
+    </TouchableOpacity>}), []);
 
   return (
       <View style={globalStyles.container}>
@@ -61,6 +41,7 @@ export default function UserTimes({ route, navigation }) {
           Please input {route.params.day} FreeTimes!
         </Text>
 
+        {/* This is the FlatList that shows the increment markers */}
         <View style={styles.incrementContainer}>
           <FlatList
             data={freeTimeIncrements}
@@ -75,20 +56,22 @@ export default function UserTimes({ route, navigation }) {
             />
         </View>
 
+        {/* This is the FlatList that displays the hours */}
         <FlatList
-          data={dayFreeTimes}
-          extraData={selectedDayFreeTimes}
+          data={context.dayFreeTimes}
+          // extraData={context.setSelectedDayFreeTimes}
           renderItem={({ item }) => (
             <View style={styles.listContainer}>
               <View style={styles.timeContainer}>
                 <Text>{item.time}</Text>
               </View>
               <View style={styles.timeBox}>
+              {/* This is the FlatList that displays the timeBox's */}
               <FlatList
                 data={item.increments}
-                extraData={selectedDayFreeTimes}
+                // extraData={context.setSelectedDayFreeTimes}
                 renderItem={({item}) => (
-                  <TouchableOpacity onPress={() => inputTime(item)}>
+                  <TouchableOpacity onPress={() => context.inputTime(item)}>
                     <TimeBox item={item}></TimeBox>
                   </TouchableOpacity>
                 )}
