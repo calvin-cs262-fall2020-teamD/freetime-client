@@ -5,10 +5,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { TextInput } from "react-native-gesture-handler";
 import bgImg from '../assets/calvinWalkway2.jpg'
 import { useScreens } from "react-native-screens";
+import { NavigationActions } from "react-navigation";
 
 const authenticate = (navigation, name, userPassword) => {
   // Temporary authenticate code
-  navigation.navigate("UserWeek");
+  navigation.navigate("TabNavigator", {}, NavigationActions.navigate({routeName: "UserWeek"}));
 
   let valid = false;
   //Fetch data

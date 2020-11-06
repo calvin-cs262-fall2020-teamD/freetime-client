@@ -1,37 +1,30 @@
 import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import { StyleSheet, Text, View, LinearGradient } from "react-native";
-import { AppLoading } from "expo";
+import React from "react";
+import { View } from "react-native";
 import Header from "./components/header";
-import * as Font from "expo-font";
 import { globalStyles } from "./styles/global";
 
+import { createStackNavigator } from "@react-navigation/stack";
+import LoginStack from "./routes/loginStack";
+import TabNavigator from "./routes/tabNavigator";
 import { NavigationContainer } from "@react-navigation/native";
-import Navigator from "./routes/tabNavigator";
-import Login from "./screens/loginPage";
 
-const getFonts = () =>
-  Font.loadAsync({
-    "nunito-regular": require("./assets/fonts/Nunito-Regular.ttf"),
-    "nunito-bold": require("./assets/fonts/Nunito-Bold.ttf"),
-  });
+const Stack = createStackNavigator();
 
 export default function App() {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-
-  if (fontsLoaded) {
-    return (
-      <View style={globalStyles.container}>
-        <Header></Header>
-        <NavigationContainer>
-          <Navigator></Navigator>
-        </NavigationContainer>
-        {/* <Login></Login> */}
-        <StatusBar style="auto" />
-      </View>
-    );
-  } else {
-    return setFontsLoaded(true);
-  }
+  return (
+    <View style={globalStyles.container}>
+      <Header></Header>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{headerShown: false, gestureEnabled: false}}
+        >
+          <Stack.Screen name="LoginStack" component={LoginStack}></Stack.Screen>
+          <Stack.Screen name="TabNavigator" component={TabNavigator}></Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+      <StatusBar style="auto" />
+    </View>
+  );
 }
