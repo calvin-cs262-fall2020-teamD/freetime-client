@@ -46,7 +46,7 @@ export default function Login({ navigation }) {
   return (
     <ImageBackground style={styles.container} imageStyle={styles.backgroundImg} source={bgImg}>
       <LinearGradient
-          colors={['rgba(0,170,255,1)', 'rgba(119,255,250,.7)' ]}
+          colors={['rgba(112,206,250,1)', 'rgba(119,255,250,.55)' ]}
           style={styles.linearGradient}>
           <View style={styles.loginBox}>
             <Text style={styles.title}>Login</Text>
@@ -102,18 +102,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 5,
     marginLeft: 0,
+    marginBottom: 5,
     paddingLeft: 4,
   },
   technicallyNotAButton: {
     backgroundColor: 'rgba(255,255,255,.8)',
     color: 'black',
     alignItems: 'center',
-    width: '50%',
-    padding: 3,
-    borderRadius: 15,
+    width: '45%',
+    padding: 5,
+    borderRadius: 10,
     // borderColor: 'gray',
     // borderWidth: 1,
-    margin: 'auto',
+    margin: 3,
+    marginBottom: 5
   },
   options: {
     //Make side-by-side

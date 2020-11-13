@@ -54,7 +54,7 @@ export default function Groups(props) {
       }}>
         <View style={globalStyles.container}>
           <Text style={globalStyles.titleText}>
-            Please input your Group Name and Admin Username
+            Input your Group Name and Admin Username
           </Text>
           <TextInput
             style={styles.textInput}
@@ -68,7 +68,7 @@ export default function Groups(props) {
             onChangeText={context.changeHandler2}
             value={context.text2}
           />
-          <Button text={"Confirm Group"} textColor={'white'} backgroundColor={'#00AAFF'} onPress={context.confirmGroup}></Button>
+          <Button text={"Confirm Group"} textColor={'white'} backgroundColor={'#70cefa'} onPress={context.confirmGroup}></Button>
           <View style={styles.cancelButtonContainer}>
             <Button text={"Cancel"} textColor={'white'} backgroundColor={'red'} onPress={context.cancelGroup}></Button>
           </View>
@@ -81,7 +81,7 @@ export default function Groups(props) {
 const styles = StyleSheet.create({
   groupsContainer: {
     backgroundColor: "white",
-    borderColor: "#00AAFF",
+    borderColor: "#70cefa",
     borderWidth: 1.5,
     borderRadius: 5,
     margin: 0,

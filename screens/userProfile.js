@@ -4,11 +4,9 @@
  Last updated: 10/29/2020
 
  Current Issues:
- - Touchable Opacity messes up formatting
  - Name, username, initials are placeholders
- - If top list is too full, bottom list is pushed down
+ - If top list is too full, bottom list is pushed down (smaller screen issues)
  - General UI polishing needed
- - Interests reset when you leave the page
   */
 
 import React, { useState } from "react";

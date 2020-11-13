@@ -20,16 +20,16 @@ export default function Header({ navigation }) {
 const styles = StyleSheet.create({
   headerContainer: {
     height: 70,
-    backgroundColor: "#00AAFF",
+    backgroundColor: "#70cefa",
   },
 
   title: {
     color: "white",
     textAlign: "center",
     textShadowColor: "black",
-    textShadowOffset: { width: -2, height: 2 },
+    textShadowOffset: { width: -.5, height: .5 }, // was (-2, 2), changed to make title more readable
     textShadowRadius: 3,
-    paddingTop: 15,
+    paddingTop: 30,    // started as 15, changed to fit top of iPhone 12 screen
     paddingLeft: 0,
     fontSize: 30,
     fontWeight: "bold",

@@ -14,19 +14,18 @@ export default function TabNavigator() {
       initialRouteName="UserWeek"
       tabBarOptions={{
         tabStyle: styles.tabStyle,
-        //labelStyle: styles.labelStyle,
         activeTintColor: 'black',
         labelPosition: 'beside-icon',
-        activeBackgroundColor: '#33BBFF',
+        activeBackgroundColor: '#70cefa'
       }}
     >
       <Tab.Screen name="User Week" component={userStack} options={{tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="person" color={'black'} size={30} />
+            <MaterialIcons name="person" color={'black'} size={26} />
           )}}>
       </Tab.Screen>
 
       <Tab.Screen name="Groups" component={groupStack} options={{tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="group" color={'black'} size={30} />
+            <MaterialIcons name="group" color={'black'} size={26} />  // changed from 30 because right side was getting cut off
           )}}>
       </Tab.Screen>
     </Tab.Navigator>
