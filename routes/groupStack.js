@@ -28,7 +28,7 @@ export default function GroupStack() {
         <Stack.Screen
           name="Groups"
           component={groups}
-          options={{ title: "Groups", headerTitleAlign: 'center' }}
+          options={{ title: "Groups", headerTitleAlign: 'center', headerLeft: () => {} }}
         />
 
         <Stack.Screen
