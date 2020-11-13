@@ -19,19 +19,20 @@ export default function Button({ text, backgroundColor, textColor, onPress }) {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    //backgroundColor: {backgroundColor},
     borderColor: "black",
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderRadius: 5,
     margin: 5,
   },
 
   buttonText: {
-    //color: {textColor},
     textAlign: "center",
     fontSize: 18,
     fontWeight: "bold",
     color: "white",
+    textShadowColor: "black",
+    textShadowOffset: { width: -2, height: 2 },
+    textShadowRadius: 3,
     padding: 5,
   },
 });

@@ -3,13 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { globalStyles } from "../styles/global";
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function Header({ navigation }) {
-
-   const openMenu = () => {
-      //navigation.openDrawer();
-   }
-
-
+export default function Header() {
   return (
     <View style={styles.headerContainer}>
       <Text style={styles.title}>FreeTime</Text>

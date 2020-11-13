@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Button, ImageBackground } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Button, ImageBackground, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { globalStyles } from "../styles/global";
 import { LinearGradient } from 'expo-linear-gradient';
 import { TextInput } from "react-native-gesture-handler";
@@ -45,7 +45,10 @@ export default function Login({ navigation }) {
   const [passwordValue, onChangePasswordText] = React.useState('');
   return (
     <ImageBackground style={styles.container} imageStyle={styles.backgroundImg} source={bgImg}>
-      <LinearGradient
+      <TouchableWithoutFeedback onPress={() => {
+        Keyboard.dismiss();
+      }}>
+        <LinearGradient
           colors={['rgba(0,170,255,1)', 'rgba(119,255,250,.7)' ]}
           style={styles.linearGradient}>
           <View style={styles.loginBox}>
@@ -59,7 +62,8 @@ export default function Login({ navigation }) {
             <Text style={styles.options}> Forgot Password... </Text>
             {/* <Text style={styles.options}> Sign up </Text> */}
           </View>
-      </LinearGradient>
+        </LinearGradient>
+      </TouchableWithoutFeedback>
     </ImageBackground>
   );
 }

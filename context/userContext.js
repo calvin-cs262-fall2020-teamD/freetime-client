@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useState } from "react";
-import { Alert } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 
 const UserContext = createContext({});
 
@@ -218,6 +218,21 @@ const UserContext = createContext({});
       },
     ]);
 
+    const resetWeekDays = (navigation) => {
+      Alert.alert('Resetting all of the UserWeek FreeTimes!', 'Are you sure you want to reset your freetimes?', [{text: 'Yes', onPress: () => {
+        setWeekDays(() => {
+          weekDays.forEach((item) => {
+            item.freeTimes.forEach((item) => {
+              item.increments.forEach((item) => item.color = "white")
+            })
+          });
+          navigation.navigate("UserWeek");
+          return weekDays;
+        });
+        Alert.alert("Your UserWeek FreeTimes have been reset!");
+      }}, {text: 'No'}]);
+    }
+
     // userTimes.js
     const [dayFreeTimes, setDayFreeTimes] = useState([]);
 
@@ -233,7 +248,7 @@ const UserContext = createContext({});
       });
     };
 
-    const resetFreeTimes = (freeTimes) => {
+    const resetDayFreeTimes = (freeTimes) => {
       Alert.alert('Resetting FreeTimes!', 'Are you sure you want to reset your freetimes?', [{text: 'Yes', onPress: () => {
         setDayFreeTimes(() => {
           freeTimes.forEach((item) => {
@@ -284,8 +299,8 @@ const UserContext = createContext({});
 
   return (
     <UserContext.Provider value={{
-      weekDays: weekDays, setWeekDays: setWeekDays,
-      dayFreeTimes: dayFreeTimes, setDayFreeTimes: setDayFreeTimes, selectedDayFreeTimes: selectedDayFreeTimes, setSelectedDayFreeTimes: setSelectedDayFreeTimes, inputTime: inputTime, resetFreeTimes: resetFreeTimes,
+      weekDays: weekDays, setWeekDays: setWeekDays, resetWeekDays: resetWeekDays,
+      dayFreeTimes: dayFreeTimes, setDayFreeTimes: setDayFreeTimes, selectedDayFreeTimes: selectedDayFreeTimes, setSelectedDayFreeTimes: setSelectedDayFreeTimes, inputTime: inputTime, resetDayFreeTimes: resetDayFreeTimes,
       name: name, userName: userName, userInitials: userInitials, userSelectedInterests: userSelectedInterests, interests: interests, setInterests: setInterests, pressHandlerAdd: pressHandlerAdd, pressHandlerRemove: pressHandlerRemove
     }}>
       {props.children}
@@ -294,3 +309,9 @@ const UserContext = createContext({});
 }
 
 export const useUserContext = () => useContext(UserContext);
+
+const styles = StyleSheet.create({
+  cancel: {
+    color: "red",
+  },
+});
