@@ -1,7 +1,7 @@
 /*
  This file includes the implementation for the user's profile, which displays their name,
  username, and allows them to select interests
- Last updated: 10/29/2020
+ Last updated: 11/13/2020
 
  Current Issues:
  - Name, username, initials are placeholders
@@ -9,7 +9,6 @@
  - General UI polishing needed
   */
 
-import React, { useState } from "react";
 import {
     FlatList,
     StyleSheet,
@@ -17,52 +16,51 @@ import {
     Text,
     View,
 } from "react-native";
-import { globalStyles } from "../styles/global";
-import Card from "../components/card";
+import {globalStyles} from "../styles/global";
 
-import { useUserContext } from "../context/userContext";
+import {useUserContext} from "../context/userContext";
 
 export default function Profile() {
     const context = useUserContext();
 
     return (
         <View style={globalStyles.container}>
-        <View style={styles.userInitialsCircle}>
-            <Text style={styles.initials}>{context.userInitials}</Text>
-        </View>
-        <Text style={styles.nameTitle}>{context.name}</Text>
-        <Text style={globalStyles.titleText}>My Interests:</Text>
-        <View>
+            <View style={styles.userInitialsCircle}>
+                <Text style={styles.initials}>{context.userInitials}</Text>
+            </View>
+            <Text style={styles.nameTitle}>{context.name}</Text>
+            <Text style={globalStyles.titleText}>My Interests:</Text>
+            <View>
+                <FlatList
+                    key={"_"} // essential for multiple columns in a FlatList, not sure why
+                    data={context.userSelectedInterests}
+                    numColumns={2}
+                    scrollEnabled={true}
+                    renderItem={({item}) => (
+                        <TouchableOpacity
+                            style={styles.interestContainer}
+                            onPress={() => context.pressHandlerRemove(item.key, item.title)}
+                        >
+                            <Text style={styles.interestCard}>{item.title}</Text>
+                        </TouchableOpacity>
+                    )}
+                />
+            </View>
+            <Text style={globalStyles.titleText}>Choose Interests:</Text>
             <FlatList
-            key={"_"} // essential for multiple columns in a FlatList, not sure why
-            data={context.userSelectedInterests}
-            numColumns={2}
-            scrollEnabled={true}
-            renderItem={({ item }) => (
-                <TouchableOpacity
-                style={styles.interestContainer}
-                onPress={() => context.pressHandlerRemove(item.key, item.title)}
-                >
-                <Text style={styles.interestCard}>{item.title}</Text>
-                </TouchableOpacity>
-            )}
+                key={"__"}
+                data={context.interests}
+                numColumns={2}
+                scrollEnabled={true}
+                renderItem={({item}) => (
+                    <TouchableOpacity
+                        style={styles.interestContainer}
+                        onPress={() => context.pressHandlerAdd(item.key, item.title)}
+                    >
+                        <Text style={styles.interestCard}>{item.title}</Text>
+                    </TouchableOpacity>
+                )}
             />
-        </View>
-        <Text style={globalStyles.titleText}>Choose Interests:</Text>
-        <FlatList
-            key={"__"}
-            data={context.interests}
-            numColumns={2}
-            scrollEnabled={true}
-            renderItem={({ item }) => (
-            <TouchableOpacity
-                style={styles.interestContainer}
-                onPress={() => context.pressHandlerAdd(item.key, item.title)}
-            >
-                <Text style={styles.interestCard}>{item.title}</Text>
-            </TouchableOpacity>
-            )}
-        />
         </View>
     );
 }

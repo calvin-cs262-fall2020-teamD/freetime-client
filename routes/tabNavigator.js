@@ -1,7 +1,7 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialIcons } from "@expo/vector-icons";
+import {StyleSheet} from "react-native";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {MaterialIcons} from "@expo/vector-icons";
 
 import userStack from "../routes/userStack";
 import groupStack from "../routes/groupStack";
@@ -30,20 +30,17 @@ export default function TabNavigator() {
       </Tab.Screen>
     </Tab.Navigator>
   );
+
 }
 
 const styles = StyleSheet.create({
-  tabStyle: {
-    //backgroundColor: "white",
-    //borderColor: "#00AAFF",
-    borderWidth: .75,
-  },
+    tabStyle: {
+        borderWidth: .75,
+    },
 
-  labelStyle: {
-    //flex: 1,
-    //justifyContent: "center",
-    textAlign: "center",
-    fontSize: 15,
-    marginTop: 12,
-  },
+    labelStyle: {
+        textAlign: "center",
+        fontSize: 15,
+        marginTop: 12,
+    },
 });
