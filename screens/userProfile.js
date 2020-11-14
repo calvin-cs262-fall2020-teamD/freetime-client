@@ -5,7 +5,7 @@
 
  Current Issues:
  - Name, username, initials are placeholders
- - If top list is too full, bottom list is pushed down
+ - If top list is too full, bottom list is pushed down (smaller screen issues)
  - General UI polishing needed
   */
 

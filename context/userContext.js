@@ -234,7 +234,7 @@ const UserContext = createContext({});
     };
 
     const resetFreeTimes = (freeTimes) => {
-      Alert.alert('Resetting FreeTimes!', 'Are you sure you want to reset your freetimes?', [{text: 'Yes', onPress: () => {
+      Alert.alert('Resetting', {dayFreeTimes}, 'FreeTimes!', 'Are you sure you want to reset your freetimes?', [{text: 'Yes', onPress: () => {
         setDayFreeTimes(() => {
           freeTimes.forEach((item) => {
             item.increments.forEach((item) => item.color = 'white')

@@ -27,7 +27,7 @@ export default function UserWeek({ navigation }) {
                 <Card text={item.day}></Card>
               </TouchableOpacity>
             )}
-            scrollEnabled={false}
+            scrollEnabled={true}
           />
         </View>
       </View>
@@ -38,7 +38,7 @@ export default function UserWeek({ navigation }) {
 const styles = StyleSheet.create({
   userWeekContainer: {
     backgroundColor: "white",
-    borderColor: "#00AAFF",
+    borderColor: "#70cefa",
     borderWidth: 1.5,
     borderRadius: 5,
     marginBottom: 5,
