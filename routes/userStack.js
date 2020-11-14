@@ -51,7 +51,7 @@ export default function UserStack({ navigation }) {
             headerLeft: () =>
               <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
                 <View style={globalStyles.iconContainer}>
-                  <MaterialIcons name='person' size={30} color="black" />
+                  <MaterialIcons name='account-circle' size={33} color="black" />
                 </View>
               </TouchableOpacity>,
             gestureEnabled: false

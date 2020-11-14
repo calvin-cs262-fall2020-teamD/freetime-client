@@ -11,7 +11,7 @@ export const globalStyles = StyleSheet.create({
     fontWeight: 'bold',
     color: "#333",
     padding: 5,
-    textDecorationLine: 'underline',
+    //textDecorationLine: 'underline',
   },
 
   iconContainer: {
