@@ -68,9 +68,9 @@ export default function Groups(props) {
             onChangeText={context.changeHandler2}
             value={context.text2}
           />
-          <Button text={"Confirm Group"} textColor={'white'} backgroundColor={'#70cefa'} onPress={context.confirmGroup}></Button>
+          <Button text={"Confirm Group"} textColor={'black'} backgroundColor={'#00E600'} onPress={context.confirmGroup}></Button>
           <View style={styles.cancelButtonContainer}>
-            <Button text={"Cancel"} textColor={'white'} backgroundColor={'red'} onPress={context.cancelGroup}></Button>
+            <Button text={"Cancel"} textColor={'black'} backgroundColor={'red'} onPress={context.cancelGroup}></Button>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -100,6 +100,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: 'black',
     borderWidth: 2,
+    borderRadius: 5,
+    backgroundColor: 'white',
   },
 
   cancelButtonContainer: {

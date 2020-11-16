@@ -11,11 +11,11 @@ import Header from "../components/header";
 
 import { UserContextProvider } from "../context/userContext";
 
-import Login from "../screens/loginPage";
 import UserWeek from "../screens/userWeek";
 import UserTimes from "../screens/userTimes";
 import Settings from "../screens/settings";
 import Profile from "../screens/userProfile";
+import About from "../screens/about";
 import { globalStyles } from "../styles/global";
 
 const Stack = createStackNavigator();
@@ -23,22 +23,13 @@ const Stack = createStackNavigator();
 export default function UserStack({ navigation }) {
   return (
     <UserContextProvider>
-      <Stack.Navigator initialRouteName={"Login"}
+      <Stack.Navigator initialRouteName={"UserWeek"}
         screenOptions={{
           headerStyle: {
             backgroundColor: "#ddd",
           },
         }}
       >
-
-        {/* <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{
-            headerShown: false
-          }}
-        /> */}
-
         <Stack.Screen
           name="UserWeek"
           component={UserWeek}
@@ -67,14 +58,21 @@ export default function UserStack({ navigation }) {
         <Stack.Screen
           name="Settings"
           component={Settings}
-          options={{ title: "User Week Settings"}}
+          options={{ title: "Settings" }}
         />
 
         <Stack.Screen
-            name="Profile"
-            component={Profile}
-            options={{ title: "Profile"}}
+          name="Profile"
+          component={Profile}
+          options={{ title: "Profile" }}
         />
+
+        <Stack.Screen
+          name="About"
+          component={About}
+          options={{ title: "About" }}
+        />
+
       </Stack.Navigator>
     </UserContextProvider>
   );
