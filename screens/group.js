@@ -17,9 +17,10 @@ export default function Group({ route, navigation }) {
   const context = useGroupContext();
 
   useEffect(() => navigation.setOptions({title: route.params.name, headerRight: () =>
-      <TouchableOpacity onPress={() => context.deleteGroup(route.params.key, navigation)}>
+      <TouchableOpacity onPress={() => navigation.navigate("GroupSettings", {name: route.params.name, key: route.params.key})}>
+      {/* context.deleteGroup(route.params.key, navigation) */}
         <View style={globalStyles.iconContainer}>
-          <MaterialIcons name='delete' size={30} color="black" />
+          <MaterialIcons name='settings' size={30} color="black" />
         </View>
       </TouchableOpacity>
     }));
