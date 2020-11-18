@@ -68,7 +68,7 @@ export default function Groups(props) {
             onChangeText={context.changeHandler2}
             value={context.text2}
           />
-          <Button text={"Confirm Group"} textColor={'black'} backgroundColor={'#00E600'} onPress={context.confirmGroup}></Button>
+          <Button text={"Confirm Group"} textColor={'black'} backgroundColor={'#00AAFF'} onPress={context.confirmGroup}></Button>
           <View style={styles.cancelButtonContainer}>
             <Button text={"Cancel"} textColor={'black'} backgroundColor={'red'} onPress={context.cancelGroup}></Button>
           </View>

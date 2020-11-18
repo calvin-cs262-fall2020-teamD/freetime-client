@@ -23,13 +23,14 @@ const GroupContext = createContext({});
       setNamed(false);
     }
 
-    const deleteGroup = (key, navigation) => {
+    const deleteGroup = (name, key, navigation) => {
       Alert.alert('Deleting this Group!', 'Are you sure you want to delete this Group?', [{text: 'Yes', onPress: () => {
         setGroups((prevGroups) => {
           return prevGroups.filter((group) => group.key != key);
         })
-        navigation.goBack();
-      }}, {text: 'No'}])
+        navigation.navigate("Groups");
+        Alert.alert(`Your Group "${name}" has been deleted!`);
+      }}, {text: 'No'}]);
     }
 
     const confirmGroup = () => {
