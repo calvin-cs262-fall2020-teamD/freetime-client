@@ -17,7 +17,7 @@ export default function Settings({ navigation }) {
 
   return (
     <View style={globalStyles.container}>
-      <Button text={"About"} backgroundColor={"#00AAFF"} textColor={"green"} onPress={() => navigation.navigate("About")}></Button>
+      <Button text={"About FreeTime"} backgroundColor={"#00AAFF"} textColor={"green"} onPress={() => navigation.navigate("About")}></Button>
       <Button text={"Reset Week Times"} backgroundColor={"#00AAFF"} textColor={"white"} onPress={() => context.resetWeekDays(navigation)}></Button>
     </View>
   );
