@@ -30,7 +30,7 @@ export default function TimeBox({ item }) {
 const styles = StyleSheet.create({
   timeBox: {
     flex: 1,
-    width: RFPercentage(10),
+    width: RFPercentage(11),
     flexDirection: "row",
     borderColor: "black",
     borderWidth: 1,
@@ -41,6 +41,6 @@ const styles = StyleSheet.create({
   timeText: {
     color: "gray",
     marginTop: 4,
-    fontSize: RFPercentage(1.3),
+    fontSize: RFPercentage(1.4),
   }
 });
