@@ -35,7 +35,7 @@ export default function UserTimes({ route, navigation }) {
   return (
       <View style={globalStyles.container}>
         <Text style={globalStyles.titleText}>
-          Please input {route.params.day} FreeTimes!
+          Tap slots to input {route.params.day} FreeTimes!
         </Text>
 
         {/* This is the FlatList that shows the increment markers */}
