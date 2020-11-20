@@ -9,27 +9,31 @@ import groupStack from "../routes/groupStack";
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
-  return (
-    <Tab.Navigator
-      initialRouteName="UserWeek"
-      tabBarOptions={{
-        tabStyle: styles.tabStyle,
-        activeTintColor: 'black',
-        labelPosition: 'beside-icon',
-        activeBackgroundColor: '#70cefa'
-      }}
-    >
-      <Tab.Screen name="User Week" component={userStack} options={{tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="person" color={'black'} size={26} />
-          )}}>
-      </Tab.Screen>
+    return (
+        <Tab.Navigator
+            initialRouteName="UserWeek"
+            tabBarOptions={{
+                tabStyle: styles.tabStyle,
+                activeTintColor: 'black',
+                labelPosition: 'beside-icon',
+                activeBackgroundColor: '#70cefa'
+            }}
+        >
+            <Tab.Screen name="User Week" component={userStack} options={{
+                tabBarIcon: ({color, size}) => (
+                    <MaterialIcons name="person" color={'black'} size={26}/>
+                )
+            }}>
+            </Tab.Screen>
 
-      <Tab.Screen name="Groups" component={groupStack} options={{tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="group" color={'black'} size={26} />  // changed from 30 because right side was getting cut off
-          )}}>
-      </Tab.Screen>
-    </Tab.Navigator>
-  );
+            <Tab.Screen name="Groups" component={groupStack} options={{
+                tabBarIcon: ({color, size}) => (
+                    <MaterialIcons name="group" color={'black'} size={26}/>  // changed from 30 because right side was getting cut off
+                )
+            }}>
+            </Tab.Screen>
+        </Tab.Navigator>
+    );
 
 }
 
