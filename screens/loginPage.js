@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Button, ImageBackground, TouchableWithoutFeedback, Keyboard } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Text, TouchableOpacity, Alert, ImageBackground, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { globalStyles } from "../styles/global";
 import { LinearGradient } from 'expo-linear-gradient';
 import { TextInput } from "react-native-gesture-handler";
@@ -7,27 +7,34 @@ import bgImg from '../assets/calvinWalkway2.jpg'
 import { useScreens } from "react-native-screens";
 import { NavigationActions } from "react-navigation";
 
-const authenticate = (navigation, name, userPassword) => {
-  // Temporary authenticate code
-  navigation.navigate("TabNavigator", {}, NavigationActions.navigate({routeName: "UserWeek"}));
+async function authenticate(navigation, name, userPassword) {
+  let data = [];
+  let id = 0;
+  //Fetch list of all users (not including passwords)
+  await fetch("https://freetime-service.herokuapp.com/Users")
+    .then((response) => response.json())
+    .then((json) => data = json)
+    .catch((error) => console.error(error))
+  
+  //Get the ID of the correct user
+  for(let i = 0; i < data.length; i++) {
+    if(data[i].username == name) {
+      id = data[i].id;
+      break;
+    }
+  }
 
-  let valid = false;
-  //Fetch data
-
-  //This would probably be the DB query we use later
-  // SELECT password
-  // FROM User
-  // WHERE name = username
-  // AND userPassword = usrPassword
-  // //Then set some variable to true
-
-  //TEMP -- REMOVE LATER
-  valid = true;
-
-  if(valid) {
-    //Navigate into the app
+  //Get the password of that user
+  await fetch(`https://freetime-service.herokuapp.com/Pass/${id}`)
+    .then((response) => response.json())
+    .then((json) => data = json)
+    .catch((error) => "")
+  
+  //Check if inputted password matches
+  if(userPassword == data.userpassword) {
+    navigation.navigate("TabNavigator", {}, NavigationActions.navigate({routeName: "UserWeek"}));
   } else {
-    //Send message INVALID username or password
+    Alert.alert("Invalid username or password");
   }
 };
 
@@ -55,12 +62,12 @@ export default function Login({ navigation }) {
             <Text style={styles.title}>Login</Text>
             <TextInput style={styles.inputBox} value={usernameValue} placeholder={"Enter username"} onChangeText={text => onChangeUsernameText(text)}/>
             <TextInput style={styles.inputBox} value={passwordValue} placeholder={"Enter password"} onChangeText={text => onChangePasswordText(text)}/>
-            <TouchableOpacity style={styles.technicallyNotAButton} onPress={() => /*navigation.navigate("UserWeek")*/ authenticate(navigation, usernameValue, passwordValue)}>
+            <TouchableOpacity style={styles.technicallyNotAButton} onPress={() => authenticate(navigation, usernameValue, passwordValue)}>
               <Text>Submit</Text>
             </TouchableOpacity>
 
-            <Text style={styles.options}> Forgot Password... </Text>
-            {/* <Text style={styles.options}> Sign up </Text> */}
+            <Text style={styles.options} onPress={forgotPassword}> Forgot Password... </Text>
+            <Text style={styles.options} onPress={signUp}> Sign Up </Text>
           </View>
         </LinearGradient>
       </TouchableWithoutFeedback>
@@ -114,7 +121,7 @@ const styles = StyleSheet.create({
     color: 'black',
     alignItems: 'center',
     width: '45%',
-    padding: 5,
+    padding: 3,
     borderRadius: 10,
     // borderColor: 'gray',
     // borderWidth: 1,
@@ -122,6 +129,7 @@ const styles = StyleSheet.create({
     marginBottom: 5
   },
   options: {
+    fontSize: 11,
     //Make side-by-side
   },
 })
