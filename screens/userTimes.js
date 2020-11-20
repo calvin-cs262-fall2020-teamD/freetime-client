@@ -5,7 +5,6 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 import { globalStyles } from "../styles/global";
 
@@ -18,12 +17,10 @@ export default function UserTimes({ route, navigation }) {
   const context = useUserContext();
 
   const freeTimeIncrements = [
-    {increment: "0  ", key: "0"},
-    {increment: "10", key: "1"},
-    {increment: "20", key: "2"},
-    {increment: "30", key: "3"},
-    {increment: "40", key: "4"},
-    {increment: "50", key: "5"},
+    {increment: "   00   ", key: "0"},
+    {increment: "   15   ", key: "1"},
+    {increment: "   30   ", key: "2"},
+    {increment: "   45   ", key: "3"},
   ];
 
   context.setDayFreeTimes(route.params.freeTimes);
@@ -38,12 +35,13 @@ export default function UserTimes({ route, navigation }) {
   return (
       <View style={globalStyles.container}>
         <Text style={globalStyles.titleText}>
-          Please input {route.params.day} FreeTimes!
+          Tap slots to input {route.params.day} FreeTimes!
         </Text>
 
         {/* This is the FlatList that shows the increment markers */}
-        <View style={styles.incrementContainer}>
+        {/* <View style={styles.incrementContainer}>
           <FlatList
+            style={styles.incrementList}
             data={freeTimeIncrements}
             renderItem={({ item }) => (
               <View style={styles.incrementBox}>
@@ -54,10 +52,11 @@ export default function UserTimes({ route, navigation }) {
             showsHorizontalScrollIndicator={false}
             scrollEnabled={false}
             />
-        </View>
+        </View> */}
 
         {/* This is the FlatList that displays the hours */}
         <FlatList
+          style={styles.outerContainer}
           data={context.dayFreeTimes}
           extraData={context.setSelectedDayFreeTimes}
           renderItem={({ item }) => (
@@ -65,20 +64,21 @@ export default function UserTimes({ route, navigation }) {
               <View style={styles.timeContainer}>
                 <Text>{item.time}</Text>
               </View>
-              <View style={styles.timeBox}>
-              {/* This is the FlatList that displays the timeBox's */}
-              <FlatList
-                data={item.increments}
-                extraData={context.setSelectedDayFreeTimes}
-                renderItem={({item}) => (
-                  <TouchableOpacity onPress={() => context.inputTime(item)}>
-                    <TimeBox item={item}></TimeBox>
-                  </TouchableOpacity>
-                )}
-                showsHorizontalScrollIndicator={false}
-                horizontal={true}
-                scrollEnabled={false}
-              />
+              <View style={styles.timeBoxListContainer}>
+                {/* This is the FlatList that displays the timeBox's */}
+                <FlatList
+                  style={styles.boxList}
+                  data={item.increments}
+                  extraData={context.setSelectedDayFreeTimes}
+                  renderItem={({item}) => (
+                    <TouchableOpacity onPress={() => context.inputTime(item)}>
+                      <TimeBox item={item}></TimeBox>
+                    </TouchableOpacity>
+                  )}
+                  showsHorizontalScrollIndicator={false}
+                  horizontal={true}
+                  scrollEnabled={false}
+                />
               </View>
             </View>
           )}
@@ -96,37 +96,34 @@ export default function UserTimes({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  incrementContainer: {
-    alignItems: 'flex-end',
-    marginRight: '5%',
-  },
-
-  incrementBox: {
-    flex: 1,
-    padding: 16,
-    paddingTop: 0,
-    paddingBottom: 0,
-    paddingRight: '30%',
-  },
+  // incrementContainer: {
+  //   paddingLeft: "15%",
+  // },
+  // incrementList: {
+  //   backgroundColor: "red",
+  // },
+  // incrementBox: {
+  //   backgroundColor: "pink",
+  //   borderColor: "black",
+  //   borderWidth: 1,
+  //   paddingLeft: 16,
+  //   paddingRight: 16,
+  //   // marginLeft: "25%",
+  // },
 
   listContainer: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'flex-end',
   },
-
   timeContainer: {
     flex: .14,
     marginLeft: 5,
     marginBottom: 20,
   },
-
-  timeBox: {
+  timeBoxListContainer: {
     flex: .86,
-    alignItems: 'flex-end',
     marginRight: 5,
   },
-
   submitContainer: {
     backgroundColor: "#00AAFF",
     borderColor: "black",
@@ -134,7 +131,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 5,
   },
-
   submitText: {
     textAlign: "center",
     fontSize: 18,
