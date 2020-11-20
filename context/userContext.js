@@ -224,12 +224,40 @@ const UserContext = createContext({});
 
   const [selectedDayFreeTimes, setSelectedDayFreeTimes] = useState([]);
 
+    /**
+     * @param  {} navigation
+     */
+    const resetWeekDays = (navigation) => {
+      Alert.alert(
+          "Resetting all of the UserWeek FreeTimes!",
+          "Are you sure you want to reset your freetimes?",
+          [
+            {
+              text: "Yes",
+              onPress: () => {
+                setWeekDays(() => {
+                  weekDays.forEach((item) => {
+                    item.freeTimes.forEach((item) => {
+                      item.increments.forEach((item) => (item.color = "white"));
+                    });
+                  });
+                  navigation.navigate("UserWeek");
+                  return weekDays;
+                });
+                Alert.alert("Your UserWeek FreeTimes have been reset!");
+              },
+            },
+            { text: "No" },
+          ]
+      );
+    };
+
   const inputTime = (item) => {
     setDayFreeTimes(() => {
       if(item.hour % 2 == 0) {
         item.color === "white"
           ? (item.color = "#00E600")
-          : (item.color = "white"); 
+          : (item.color = "white");
       } else {
         item.color === "#ededed"
           ? (item.color = "#00E600")
@@ -303,12 +331,13 @@ const UserContext = createContext({});
   return (
     <UserContext.Provider
       value={{
-        weekDays: weekDays, 
+        weekDays: weekDays,
         setWeekDays: setWeekDays,
         dayFreeTimes: dayFreeTimes,
         setDayFreeTimes: setDayFreeTimes,
         selectedDayFreeTimes: selectedDayFreeTimes,
         setSelectedDayFreeTimes: setSelectedDayFreeTimes,
+        resetWeekDays: resetWeekDays,
         inputTime: inputTime,
         resetFreeTimes: resetFreeTimes,
         name: name,
