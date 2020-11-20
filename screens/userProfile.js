@@ -8,7 +8,7 @@
  - If top list is too full, bottom list is pushed down (smaller screen issues)
  - General UI polishing needed
   */
-
+import React from "react";
 import {
     FlatList,
     StyleSheet,

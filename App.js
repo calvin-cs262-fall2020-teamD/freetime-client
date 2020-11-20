@@ -24,7 +24,7 @@ export default function App() {
     <View style={globalStyles.container}>
       <Header></Header>
       <NavigationContainer>
-		  {/* // Handles login screen appearance and features */}
+		{/* // Handles login screen appearance and features */}
         <Stack.Navigator screenOptions={{headerShown: false, gestureEnabled: false}}>
           <Stack.Screen name="LoginStack" component={LoginStack}></Stack.Screen>
           <Stack.Screen name="TabNavigator" component={TabNavigator}></Stack.Screen>

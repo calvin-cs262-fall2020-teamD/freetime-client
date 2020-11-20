@@ -1,20 +1,46 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
-
+import { StyleSheet, Text, View } from "react-native";
+import { RFPercentage } from "react-native-responsive-fontsize"
 export default function TimeBox({ item }) {
-  return (
-    <View style={styles.timeBox} backgroundColor={item.color}></View>
-  );
+  let timeString = "";
+  let stringOffset = "";
+  let twelveHrTime;
+  if(item.hour > 12) {twelveHrTime = +item.hour-12}
+  else if (item.hour == 0)  {twelveHrTime = 12}
+  else twelveHrTime = item.hour;
+  if(item.key == 0){
+    timeString = `${stringOffset}${twelveHrTime}:00 - ${twelveHrTime}:15`;
+  } else if (item.key == 3) {
+    if(twelveHrTime == 12) { 
+      timeString = `${stringOffset}${twelveHrTime}:${item.key*15} - 1:00` 
+    } else {
+      timeString = `${stringOffset}${twelveHrTime}:${item.key*15} - ${+twelveHrTime+1}:00`
+    }
+  } else {
+    timeString = `${stringOffset}${twelveHrTime}:${item.key*15} - ${twelveHrTime}:${(+item.key+1)*15}`
+  }
+  return(
+    <View style={styles.timeBox} backgroundColor={item.color}>
+      <Text style={styles.timeText}>{timeString}</Text>
+    </View>
+  )
+  
 }
 
 const styles = StyleSheet.create({
   timeBox: {
     flex: 1,
-    backgroundColor: "white",
+    width: RFPercentage(11),
+    flexDirection: "row",
     borderColor: "black",
     borderWidth: 1,
-    marginRight: 0,
-    padding: 20,
-    paddingRight: 30,
+    paddingTop: 7,
+    paddingLeft: 5,
+    paddingRight: 5,
   },
+  timeText: {
+    color: "gray",
+    marginTop: 4,
+    fontSize: RFPercentage(1.4),
+  }
 });
