@@ -23,7 +23,7 @@ export const globalStyles = StyleSheet.create({
   // groups.js and groupsSettings.js
   textInput: {
     justifyContent: 'center',
-    margin: 10,
+    margin: 5,
     padding: 10,
     borderColor: 'black',
     borderWidth: 2,

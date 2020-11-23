@@ -58,7 +58,7 @@ export default function Groups(props) {
       }}>
         <View style={globalStyles.container}>
           <Text style={globalStyles.titleText}>
-            Input your Group Name and Admin Username
+            Input your Group Name
           </Text>
           <TextInput
             style={globalStyles.textInput}

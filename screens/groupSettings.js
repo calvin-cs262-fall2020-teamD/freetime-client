@@ -24,8 +24,8 @@ export default function GroupSettings({ route, navigation }) {
 
     return (
       <View style={globalStyles.container}>
-        <Button text={"Rename Group"} backgroundColor={"#00AAFF"} textColor={"green"} onPress={() => context.renameGroup(route.params.name)}></Button>
-        <Button text={"Delete Group"} backgroundColor={"#00AAFF"} textColor={"white"} onPress={() => context.deleteGroup(route.params.name, route.params.key, navigation)}></Button>
+        <Button text={"Rename Group"} backgroundColor={"#70cefa"} textColor={"green"} onPress={() => context.renameGroup(route.params.name)}></Button>
+        <Button text={"Delete Group"} backgroundColor={"#70cefa"} textColor={"white"} onPress={() => context.deleteGroup(route.params.name, route.params.key, navigation)}></Button>
       </View>
     )
   } else {
@@ -45,9 +45,9 @@ export default function GroupSettings({ route, navigation }) {
             onChangeText={context.changeHandler3}
             value={context.text3}
           />
-          <Button text={"Rename Group"} textColor={'black'} backgroundColor={'#00AAFF'} onPress={() => context.renamedGroup(route.params.name, navigation)}></Button>
+          <Button text={"Rename Group"} textColor={'black'} backgroundColor={'#70cefa'} onPress={() => context.renamedGroup(route.params.name, navigation)}></Button>
           <View style={globalStyles.cancelButtonContainer}>
-            <Button text={"Cancel"} textColor={'black'} backgroundColor={'red'} onPress={() => context.cancelRename(navigation)}></Button>
+            <Button text={"Cancel"} textColor={'black'} backgroundColor={'#ff5f5f'} onPress={() => context.cancelRename(navigation)}></Button>
           </View>
         </View>
       </TouchableWithoutFeedback>
