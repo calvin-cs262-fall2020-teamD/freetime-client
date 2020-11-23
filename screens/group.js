@@ -27,7 +27,7 @@ export default function Group({ route, navigation }) {
 
   return (
     <View style={globalStyles.container}>
-      <Text style={globalStyles.titleText}>Admin Username: {route.params.adminUser}</Text>
+      <Text style={globalStyles.titleText}>Group Creator: {route.params.adminUser}</Text>
     </View>
   )
 }
