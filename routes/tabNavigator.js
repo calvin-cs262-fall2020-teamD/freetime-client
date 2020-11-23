@@ -5,15 +5,15 @@ import {MaterialIcons} from "@expo/vector-icons";
 
 import userStack from "../routes/userStack";
 import groupStack from "../routes/groupStack";
-import { UserContextProvider } from "../context/userContext";
-import { GroupContextProvider } from "../context/groupContext";
+// import { UserContextProvider } from "../context/userContext";
+// import { GroupContextProvider } from "../context/groupContext";
 
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
   return (
-    <UserContextProvider>
-      <GroupContextProvider>
+    // <UserContextProvider>
+    //   <GroupContextProvider>
         <Tab.Navigator
           initialRouteName="UserWeek"
           tabBarOptions={{
@@ -21,7 +21,7 @@ export default function TabNavigator() {
             //labelStyle: styles.labelStyle,
             activeTintColor: 'black',
             labelPosition: 'beside-icon',
-            activeBackgroundColor: '#33BBFF',
+            activeBackgroundColor: '#70cefa',
           }}
         >
           <Tab.Screen name="User Week" component={userStack} options={{tabBarIcon: ({ color, size }) => (
@@ -34,8 +34,8 @@ export default function TabNavigator() {
               )}}>
           </Tab.Screen>
         </Tab.Navigator>
-      </GroupContextProvider>
-    </UserContextProvider>
+    //   </GroupContextProvider>
+    // </UserContextProvider>
   );
 }
 

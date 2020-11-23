@@ -13,7 +13,7 @@ export default function Header() {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    height: 70,
+    height: 75,
     backgroundColor: "#70cefa",
   },
 

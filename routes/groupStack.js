@@ -8,7 +8,6 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import { MaterialIcons } from "@expo/vector-icons";
 
-//import { GroupContextProvider } from "../context/groupContext";
 import groups from "../screens/groups";
 import group from "../screens/group";
 import groupSettings from "../screens/groupSettings";
@@ -19,33 +18,31 @@ const Stack = createStackNavigator();
 
 export default function GroupStack() {
   return (
-    // <GroupContextProvider>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: "#ddd",
-          },
-        }}
-      >
-        <Stack.Screen
-          name="Groups"
-          component={groups}
-          options={{ title: "Groups", headerTitleAlign: 'center', headerLeft: () => {} }}
-        />
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#ddd",
+        },
+      }}
+    >
+      <Stack.Screen
+        name="Groups"
+        component={groups}
+        options={{ title: "Groups", headerTitleAlign: 'center', headerLeft: () => {} }}
+      />
 
-        <Stack.Screen
-          name="Group"
-          component={group}
-          options={{ title: 'Group', headerTitleAlign: 'center'}}
-        />
+      <Stack.Screen
+        name="Group"
+        component={group}
+        options={{ title: 'Group', headerTitleAlign: 'center'}}
+      />
 
-        <Stack.Screen
-          name="GroupSettings"
-          component={groupSettings}
-          options={{ title: 'Group Settings', headerTitleAlign: 'center'}}
-        />
+      <Stack.Screen
+        name="GroupSettings"
+        component={groupSettings}
+        options={{ title: 'Group Settings', headerTitleAlign: 'center'}}
+      />
 
-      </Stack.Navigator>
-    //</GroupContextProvider>
+    </Stack.Navigator>
   );
 }

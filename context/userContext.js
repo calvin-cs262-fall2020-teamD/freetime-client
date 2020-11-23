@@ -272,8 +272,8 @@ const UserContext = createContext({});
   /**
    * @param  {} freeTimes
    */
-  const resetFreeTimes = (freeTimes) => {
-    Alert.alert('Resetting FreeTimes!', 'Are you sure you want to reset your freetimes?', [{text: 'Yes', onPress: () => {
+  const resetDayFreeTimes = (freeTimes, day) => {
+    Alert.alert('Resetting FreeTimes!', `Are you sure you want to reset your ${day} freetimes?`, [{text: 'Yes', onPress: () => {
       setDayFreeTimes(() => {
         freeTimes.forEach((item) => {
           item.increments.forEach((item) => item.color = 'white')
@@ -285,8 +285,8 @@ const UserContext = createContext({});
 
   // userProfile.js
   const name = "John Doe";
-  const [userName, setUsername] = useState("JohnnyD123");
-  const userInitials = "JD";
+  const [userName, setUsername] = useState("");
+  const [userInitials, setUserInitials] = useState("");
   const [userSelectedInterests, setUserInterests] = useState([]);
   const [interests, setInterests] = useState([
     { title: "Climbing", key: 1 },
@@ -340,11 +340,12 @@ const UserContext = createContext({});
         setSelectedDayFreeTimes: setSelectedDayFreeTimes,
         resetWeekDays: resetWeekDays,
         inputTime: inputTime,
-        resetFreeTimes: resetFreeTimes,
+        resetDayFreeTimes: resetDayFreeTimes,
         name: name,
         userName: userName,
         setUsername: setUsername,
         userInitials: userInitials,
+        setUserInitials: setUserInitials,
         userSelectedInterests: userSelectedInterests,
         interests: interests,
         setInterests: setInterests,

@@ -14,6 +14,9 @@ import LoginStack from "./routes/loginStack";
 import TabNavigator from "./routes/tabNavigator";
 import { NavigationContainer } from "@react-navigation/native";
 
+import { UserContextProvider } from "./context/userContext";
+import { GroupContextProvider } from "./context/groupContext";
+
 // Initializes Stack Navigator
 const Stack = createStackNavigator();
 
@@ -23,13 +26,17 @@ export default function App() {
 	// Handles basic format for standard page
     <View style={globalStyles.container}>
       <Header></Header>
-      <NavigationContainer>
-		{/* // Handles login screen appearance and features */}
-        <Stack.Navigator screenOptions={{headerShown: false, gestureEnabled: false}}>
-          <Stack.Screen name="LoginStack" component={LoginStack}></Stack.Screen>
-          <Stack.Screen name="TabNavigator" component={TabNavigator}></Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+      <UserContextProvider>
+        <GroupContextProvider>
+          <NavigationContainer>
+          {/* // Handles login screen appearance and features */}
+            <Stack.Navigator screenOptions={{headerShown: false, gestureEnabled: false}}>
+              <Stack.Screen name="LoginStack" component={LoginStack}></Stack.Screen>
+              <Stack.Screen name="TabNavigator" component={TabNavigator}></Stack.Screen>
+            </Stack.Navigator>
+          </NavigationContainer>
+        </GroupContextProvider>
+      </UserContextProvider>
       <StatusBar style="auto" />
     </View>
   );

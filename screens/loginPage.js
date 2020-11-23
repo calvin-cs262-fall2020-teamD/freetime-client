@@ -16,7 +16,7 @@ async function authenticate(navigation, name, userPassword, context) {
     .then((response) => response.json())
     .then((json) => data = json)
     .catch((error) => "")
-  
+
   //Get the ID of the correct user
   for(let i = 0; i < data.length; i++) {
     if(data[i].username == name) {
@@ -29,10 +29,11 @@ async function authenticate(navigation, name, userPassword, context) {
     .then((response) => response.json())
     .then((json) => data = json)
     .catch((error) => "")
-  console.log(context.userName);
+
   //Check if inputted password matches
   if(userPassword == data.userpassword) {
-    // context.setUsername(name);
+    context.setUserInitials(name.slice(0, 1));
+    context.setUsername(name);
     navigation.navigate("TabNavigator", {}, NavigationActions.navigate({routeName: "UserWeek"}));
   } else {
     Alert.alert("Invalid username or password");
@@ -52,15 +53,14 @@ export default function Login({ navigation }) {
   const [usernameValue, onChangeUsernameText] = React.useState('');
   const [passwordValue, onChangePasswordText] = React.useState('');
   const context = useUserContext();
-  
-  
+
   return (
     <ImageBackground style={styles.container} imageStyle={styles.backgroundImg} source={bgImg}>
       <TouchableWithoutFeedback onPress={() => {
         Keyboard.dismiss();
       }}>
         <LinearGradient
-          colors={['rgba(0,170,255,1)', 'rgba(250,250,250,.78)' ]} //rgba(119,255,250,.7)
+          colors={['#70cefa', 'rgba(250,250,250,.78)' ]} //rgba(119,255,250,.7)
           style={styles.linearGradient}>
           <View style={styles.loginBox}>
             <Text style={styles.title}>Login</Text>
@@ -92,8 +92,9 @@ const styles = StyleSheet.create({
   linearGradient: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    //justifyContent: 'center',
     width: '100%',
+    paddingTop: 110, // Made it so that the keyboard can be shown and not cover the input box
     borderTopWidth: 1,
     borderTopColor: 'black',
   },
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
   loginBox: {
     width: '60%',
     backgroundColor: 'rgba(255,255,255,.5)',
-    padding: 30,
+    padding: 25,
   },
   inputBox: {
     // borderColor: 'black',
