@@ -6,15 +6,16 @@ import { TextInput } from "react-native-gesture-handler";
 import bgImg from '../assets/calvinWalkway2.jpg'
 import { useScreens } from "react-native-screens";
 import { NavigationActions } from "react-navigation";
+import { useUserContext } from "../context/userContext";
 
-async function authenticate(navigation, name, userPassword) {
+async function authenticate(navigation, name, userPassword, context) {
   let data = [];
   let id = 0;
   //Fetch list of all users (not including passwords)
   await fetch("https://freetime-service.herokuapp.com/Users")
     .then((response) => response.json())
     .then((json) => data = json)
-    .catch((error) => console.error(error))
+    .catch((error) => "")
   
   //Get the ID of the correct user
   for(let i = 0; i < data.length; i++) {
@@ -23,15 +24,15 @@ async function authenticate(navigation, name, userPassword) {
       break;
     }
   }
-
   //Get the password of that user
   await fetch(`https://freetime-service.herokuapp.com/Pass/${id}`)
     .then((response) => response.json())
     .then((json) => data = json)
     .catch((error) => "")
-  
+  console.log(context.userName);
   //Check if inputted password matches
   if(userPassword == data.userpassword) {
+    // context.setUsername(name);
     navigation.navigate("TabNavigator", {}, NavigationActions.navigate({routeName: "UserWeek"}));
   } else {
     Alert.alert("Invalid username or password");
@@ -50,19 +51,22 @@ const signUp = () => {
 export default function Login({ navigation }) {
   const [usernameValue, onChangeUsernameText] = React.useState('');
   const [passwordValue, onChangePasswordText] = React.useState('');
+  const context = useUserContext();
+  
+  
   return (
     <ImageBackground style={styles.container} imageStyle={styles.backgroundImg} source={bgImg}>
       <TouchableWithoutFeedback onPress={() => {
         Keyboard.dismiss();
       }}>
         <LinearGradient
-          colors={['rgba(0,170,255,1)', 'rgba(119,255,250,.7)' ]}
+          colors={['rgba(0,170,255,1)', 'rgba(250,250,250,.78)' ]} //rgba(119,255,250,.7)
           style={styles.linearGradient}>
           <View style={styles.loginBox}>
             <Text style={styles.title}>Login</Text>
             <TextInput style={styles.inputBox} value={usernameValue} placeholder={"Enter username"} onChangeText={text => onChangeUsernameText(text)}/>
             <TextInput style={styles.inputBox} value={passwordValue} placeholder={"Enter password"} onChangeText={text => onChangePasswordText(text)}/>
-            <TouchableOpacity style={styles.technicallyNotAButton} onPress={() => authenticate(navigation, usernameValue, passwordValue)}>
+            <TouchableOpacity style={styles.technicallyNotAButton} onPress={() => authenticate(navigation, usernameValue, passwordValue, context)}>
               <Text>Submit</Text>
             </TouchableOpacity>
 

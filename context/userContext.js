@@ -218,6 +218,7 @@ const UserContext = createContext({});
         key: "6",
       },
     ]);
+  // loginPage.js
 
   // userTimes.js
   const [dayFreeTimes, setDayFreeTimes] = useState([]);
@@ -284,7 +285,7 @@ const UserContext = createContext({});
 
   // userProfile.js
   const name = "John Doe";
-  const userName = "JohnnyD123";
+  const [userName, setUsername] = useState("JohnnyD123");
   const userInitials = "JD";
   const [userSelectedInterests, setUserInterests] = useState([]);
   const [interests, setInterests] = useState([
@@ -342,14 +343,14 @@ const UserContext = createContext({});
         resetFreeTimes: resetFreeTimes,
         name: name,
         userName: userName,
+        setUsername: setUsername,
         userInitials: userInitials,
         userSelectedInterests: userSelectedInterests,
         interests: interests,
         setInterests: setInterests,
         pressHandlerAdd: pressHandlerAdd,
         pressHandlerRemove: pressHandlerRemove,
-      }}
-    >
+      }}>
       {props.children}
     </UserContext.Provider>
   );

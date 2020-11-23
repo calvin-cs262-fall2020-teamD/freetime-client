@@ -28,7 +28,7 @@ export default function Profile() {
             <View style={styles.userInitialsCircle}>
                 <Text style={styles.initials}>{context.userInitials}</Text>
             </View>
-            <Text style={styles.nameTitle}>{context.name}</Text>
+            <Text style={styles.nameTitle}>{context.userName}</Text>
             <Text style={globalStyles.titleText}>My Interests:</Text>
             <View>
                 <FlatList
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
         marginVertical: 3,
         marginHorizontal: 5,
         textAlign: "center",
-        backgroundColor: "#00E600",
+        backgroundColor: "#70cefa",
     },
 
     interestContainer: {
