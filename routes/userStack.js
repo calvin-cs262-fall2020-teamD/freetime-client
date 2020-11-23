@@ -9,7 +9,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import Header from "../components/header";
 
-import { UserContextProvider } from "../context/userContext";
+//import { UserContextProvider } from "../context/userContext";
 
 import UserWeek from "../screens/userWeek";
 import UserTimes from "../screens/userTimes";
@@ -22,7 +22,7 @@ const Stack = createStackNavigator();
 
 export default function UserStack({ navigation }) {
   return (
-    <UserContextProvider>
+    // <UserContextProvider>
       <Stack.Navigator initialRouteName={"UserWeek"}
         screenOptions={{
           headerStyle: {
@@ -74,6 +74,6 @@ export default function UserStack({ navigation }) {
         />
 
       </Stack.Navigator>
-    </UserContextProvider>
+    // </UserContextProvider>
   );
 }

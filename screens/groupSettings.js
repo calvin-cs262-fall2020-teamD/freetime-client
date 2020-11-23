@@ -13,7 +13,6 @@ import { globalStyles } from "../styles/global";
 
 import { useGroupContext } from "../context/groupContext";
 
-import BackButton from "../components/headerBackButton";
 import Button from "../components/button";
 import { HeaderBackButton } from "@react-navigation/stack";
 

@@ -11,6 +11,8 @@ import {
   Keyboard,
 } from "react-native";
 import { globalStyles } from "../styles/global";
+
+import { useUserContext } from "../context/userContext";
 import { useGroupContext } from "../context/groupContext";
 
 import { MaterialIcons } from "@expo/vector-icons";
@@ -19,11 +21,12 @@ import Card from "../components/card";
 import Button from "../components/button";
 
 export default function Groups(props) {
-  const context = useGroupContext();
+  const userContext = useUserContext();
+  const groupContext = useGroupContext();
 
-  if (context.named) {
+  if (groupContext.named) {
     useEffect(() => props.navigation.setOptions({title: "Groups", headerRight: () =>
-      <TouchableOpacity onPress={context.addGroup}>
+      <TouchableOpacity onPress={groupContext.addGroup}>
         <View style={globalStyles.iconContainer}>
           <MaterialIcons name='group-add' size={30} color="black" />
         </View>
@@ -34,8 +37,8 @@ export default function Groups(props) {
         <View style={styles.groupsContainer}>
           <View style={styles.listContainer}>
             <FlatList
-              data={context.groups}
-              extraData={context.changedGroups}
+              data={groupContext.groups}
+              extraData={groupContext.changedGroups}
               renderItem={({ item }) => (
                 <TouchableOpacity onPress={() => props.navigation.navigate("Group", item)}>
                   <Card text={item.name}></Card>
@@ -60,18 +63,18 @@ export default function Groups(props) {
           <TextInput
             style={globalStyles.textInput}
             placeholder="Group Name"
-            onChangeText={context.changeHandler1}
-            value={context.text1}
+            onChangeText={groupContext.changeHandler1}
+            value={groupContext.text1}
           />
           <TextInput
             style={globalStyles.textInput}
             placeholder="Admin Username"
-            onChangeText={context.changeHandler2}
-            value={context.text2}
+            onChangeText={groupContext.changeHandler2}
+            value={groupContext.text2}
           />
-          <Button text={"Confirm Group"} textColor={'black'} backgroundColor={'#00AAFF'} onPress={context.confirmGroup}></Button>
+          <Button text={"Confirm Group"} textColor={'black'} backgroundColor={'#00AAFF'} onPress={() => groupContext.confirmGroup(userContext.username)}></Button>
           <View style={globalStyles.cancelButtonContainer}>
-            <Button text={"Cancel"} textColor={'black'} backgroundColor={'red'} onPress={context.cancelGroup}></Button>
+            <Button text={"Cancel"} textColor={'black'} backgroundColor={'red'} onPress={groupContext.cancelGroup}></Button>
           </View>
         </View>
       </TouchableWithoutFeedback>

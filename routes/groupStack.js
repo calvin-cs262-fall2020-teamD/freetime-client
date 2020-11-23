@@ -8,7 +8,7 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import { GroupContextProvider } from "../context/groupContext";
+//import { GroupContextProvider } from "../context/groupContext";
 import groups from "../screens/groups";
 import group from "../screens/group";
 import groupSettings from "../screens/groupSettings";
@@ -19,7 +19,7 @@ const Stack = createStackNavigator();
 
 export default function GroupStack() {
   return (
-    <GroupContextProvider>
+    // <GroupContextProvider>
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
@@ -46,6 +46,6 @@ export default function GroupStack() {
         />
 
       </Stack.Navigator>
-    </GroupContextProvider>
+    //</GroupContextProvider>
   );
 }
