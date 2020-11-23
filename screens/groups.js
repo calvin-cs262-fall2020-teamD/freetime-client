@@ -35,6 +35,7 @@ export default function Groups(props) {
           <View style={styles.listContainer}>
             <FlatList
               data={context.groups}
+              extraData={context.changedGroups}
               renderItem={({ item }) => (
                 <TouchableOpacity onPress={() => props.navigation.navigate("Group", item)}>
                   <Card text={item.name}></Card>
@@ -57,19 +58,19 @@ export default function Groups(props) {
             Please input your Group Name and Admin Username
           </Text>
           <TextInput
-            style={styles.textInput}
+            style={globalStyles.textInput}
             placeholder="Group Name"
             onChangeText={context.changeHandler1}
             value={context.text1}
           />
           <TextInput
-            style={styles.textInput}
+            style={globalStyles.textInput}
             placeholder="Admin Username"
             onChangeText={context.changeHandler2}
             value={context.text2}
           />
           <Button text={"Confirm Group"} textColor={'black'} backgroundColor={'#00AAFF'} onPress={context.confirmGroup}></Button>
-          <View style={styles.cancelButtonContainer}>
+          <View style={globalStyles.cancelButtonContainer}>
             <Button text={"Cancel"} textColor={'black'} backgroundColor={'red'} onPress={context.cancelGroup}></Button>
           </View>
         </View>
@@ -93,19 +94,4 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
   },
-
-  textInput: {
-    justifyContent: 'center',
-    margin: 10,
-    padding: 10,
-    borderColor: 'black',
-    borderWidth: 2,
-    borderRadius: 5,
-    backgroundColor: 'white',
-  },
-
-  cancelButtonContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  }
 });

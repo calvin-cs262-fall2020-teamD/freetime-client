@@ -1,26 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
   Text,
   FlatList,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  TextInput,
+  Keyboard
 } from "react-native";
 import { globalStyles } from "../styles/global";
 
 import { useGroupContext } from "../context/groupContext";
 
+import BackButton from "../components/headerBackButton";
 import Button from "../components/button";
+import { HeaderBackButton } from "@react-navigation/stack";
 
 export default function GroupSettings({ route, navigation }) {
   const context = useGroupContext();
 
-  return (
-    <View style={globalStyles.container}>
-      {/* <Button text={"Rename Group"} backgroundColor={"#00AAFF"} textColor={"green"} onPress={}></Button> */}
-      <Button text={"Delete Group"} backgroundColor={"#00AAFF"} textColor={"white"} onPress={() => context.deleteGroup(route.params.name, route.params.key, navigation)}></Button>
-    </View>
-  );
+  if (context.renamed) {
+    useEffect(() => navigation.setOptions({headerLeft: (props) => (<HeaderBackButton {...props} onPress={() => {navigation.goBack()}}></HeaderBackButton>) }));
+
+    return (
+      <View style={globalStyles.container}>
+        <Button text={"Rename Group"} backgroundColor={"#00AAFF"} textColor={"green"} onPress={() => context.renameGroup(route.params.name)}></Button>
+        <Button text={"Delete Group"} backgroundColor={"#00AAFF"} textColor={"white"} onPress={() => context.deleteGroup(route.params.name, route.params.key, navigation)}></Button>
+      </View>
+    )
+  } else {
+    useEffect(() => navigation.setOptions({ headerLeft: () => {} }));
+
+    return (
+      <TouchableWithoutFeedback onPress={() => {
+        Keyboard.dismiss();
+      }}>
+        <View style={globalStyles.container}>
+          <Text style={globalStyles.titleText}>
+            Please rename your Group
+          </Text>
+          <TextInput
+            style={globalStyles.textInput}
+            placeholder={route.params.name}
+            onChangeText={context.changeHandler3}
+            value={context.text3}
+          />
+          <Button text={"Rename Group"} textColor={'black'} backgroundColor={'#00AAFF'} onPress={() => context.renamedGroup(route.params.name, navigation)}></Button>
+          <View style={globalStyles.cancelButtonContainer}>
+            <Button text={"Cancel"} textColor={'black'} backgroundColor={'red'} onPress={() => context.cancelRename(navigation)}></Button>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    )
+  }
+
 }
 
 const styles = StyleSheet.create({

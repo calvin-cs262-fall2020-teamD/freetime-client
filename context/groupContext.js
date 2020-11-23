@@ -4,7 +4,10 @@ import { Alert } from "react-native";
 const GroupContext = createContext({});
 
   export function GroupContextProvider(props) {
+
+    // groups.js
     const [groups, setGroups] = useState([]);
+    const [changedGroups, setChangedGroups] = useState([]);
     const [named, setNamed] = useState(true);
     const [text1, setText1] = useState("");
     const [text2, setText2] = useState("");
@@ -23,16 +26,6 @@ const GroupContext = createContext({});
       setNamed(false);
     }
 
-    const deleteGroup = (name, key, navigation) => {
-      Alert.alert('Deleting this Group!', 'Are you sure you want to delete this Group?', [{text: 'Yes', onPress: () => {
-        setGroups((prevGroups) => {
-          return prevGroups.filter((group) => group.key != key);
-        })
-        navigation.navigate("Groups");
-        Alert.alert(`Your Group "${name}" has been deleted!`);
-      }}, {text: 'No'}]);
-    }
-
     const confirmGroup = () => {
       setGroups((prevGroups) => {
           return [{ name: text1, adminUser: text2, key: Math.random().toString() }, ...prevGroups];
@@ -44,8 +37,49 @@ const GroupContext = createContext({});
       setNamed(true);
     }
 
+    // groupsSettings.js
+
+    const [renamed, setRenamed] = useState(true);
+    const [text3, setText3] = useState("");
+
+    const changeHandler3 = (val) => {
+      setText3(val);
+    }
+
+    const renameGroup = (groupName) => {
+      setRenamed(false);
+      setText3(groupName);
+    }
+
+    const renamedGroup = (name, navigation) => {
+      setGroups(() => {
+        groups.forEach((item) => item.name = name ? item.name = text3 : item.name = item.name);
+
+        return groups;
+      });
+      setRenamed(true);
+      navigation.navigate("Groups");
+    }
+
+    const cancelRename = () => {
+      setRenamed(true);
+    }
+
+    const deleteGroup = (name, key, navigation) => {
+      Alert.alert('Deleting this Group!', 'Are you sure you want to delete this Group?', [{text: 'Yes', onPress: () => {
+        setGroups((prevGroups) => {
+          return prevGroups.filter((group) => group.key != key);
+        })
+        navigation.navigate("Groups");
+        Alert.alert(`Group "${name}" has been deleted!`);
+      }}, {text: 'No'}]);
+    }
+
   return (
-    <GroupContext.Provider value={{ groups: groups, setGroups: setGroups, named: named, setNamed: setNamed, text1: text1, setText1: setText1, text2: text2, setText2: setText2, changeHandler1: changeHandler1, changeHandler2: changeHandler2, addGroup: addGroup, deleteGroup: deleteGroup, confirmGroup: confirmGroup, cancelGroup: cancelGroup}}>
+    <GroupContext.Provider value={{
+      groups: groups, setGroups: setGroups, changedGroups: changedGroups, setChangedGroups: setChangedGroups, named: named, setNamed: setNamed, text1: text1, setText1: setText1, text2: text2, setText2: setText2, changeHandler1: changeHandler1, changeHandler2: changeHandler2, addGroup: addGroup, confirmGroup: confirmGroup, cancelGroup: cancelGroup,
+      renamed: renamed, setRenamed: setRenamed, text3: text3, setText3: setText3, changeHandler3: changeHandler3, renameGroup: renameGroup, renamedGroup: renamedGroup, cancelRename: cancelRename, deleteGroup: deleteGroup
+    }}>
       {props.children}
     </GroupContext.Provider>
   )
