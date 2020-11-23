@@ -26,7 +26,7 @@ export default function UserTimes({ route, navigation }) {
   context.setDayFreeTimes(route.params.freeTimes);
 
   useEffect(() => navigation.setOptions({headerRight: () =>
-    <TouchableOpacity onPress={() => context.resetFreeTimes(route.params.freeTimes)}>
+    <TouchableOpacity onPress={() => context.resetDayFreeTimes(route.params.freeTimes, route.params.day)}>
       <View style={globalStyles.iconContainer}>
         <MaterialIcons name='delete' size={30} color="black" />
       </View>
