@@ -11,8 +11,8 @@ export default function TimeBox({ item }) {
   if(item.key == 0){
     timeString = `${stringOffset}${twelveHrTime}:00 - ${twelveHrTime}:15`;
   } else if (item.key == 3) {
-    if(twelveHrTime == 12) { 
-      timeString = `${stringOffset}${twelveHrTime}:${item.key*15} - 1:00` 
+    if(twelveHrTime == 12) {
+      timeString = `${stringOffset}${twelveHrTime}:${item.key*15} - 1:00`
     } else {
       timeString = `${stringOffset}${twelveHrTime}:${item.key*15} - ${+twelveHrTime+1}:00`
     }
@@ -24,23 +24,23 @@ export default function TimeBox({ item }) {
       <Text style={styles.timeText}>{timeString}</Text>
     </View>
   )
-  
+
 }
 
 const styles = StyleSheet.create({
   timeBox: {
     flex: 1,
-    width: RFPercentage(11),
+    width: RFPercentage(11.75),
     flexDirection: "row",
     borderColor: "black",
-    borderWidth: 1,
-    paddingTop: 7,
+    borderWidth: .5,
+    paddingTop: 10,
     paddingLeft: 5,
     paddingRight: 5,
   },
   timeText: {
     color: "gray",
-    marginTop: 4,
-    fontSize: RFPercentage(1.4),
+    marginTop: 0,
+    fontSize: RFPercentage(1.12),
   }
 });

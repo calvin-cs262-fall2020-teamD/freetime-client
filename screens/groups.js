@@ -58,7 +58,7 @@ export default function Groups(props) {
       }}>
         <View style={globalStyles.container}>
           <Text style={globalStyles.titleText}>
-            Input your Group Name and Admin Username
+            Input your Group Name
           </Text>
           <TextInput
             style={globalStyles.textInput}
@@ -66,15 +66,15 @@ export default function Groups(props) {
             onChangeText={groupContext.changeHandler1}
             value={groupContext.text1}
           />
-          <TextInput
+          {/* <TextInput
             style={globalStyles.textInput}
             placeholder="Admin Username"
             onChangeText={groupContext.changeHandler2}
             value={groupContext.text2}
-          />
-          <Button text={"Confirm Group"} textColor={'black'} backgroundColor={'#00AAFF'} onPress={() => groupContext.confirmGroup(userContext.username)}></Button>
+          /> */}
+          <Button text={"Confirm Group"} textColor={'black'} backgroundColor={'#70cefa'} onPress={() => groupContext.confirmGroup(userContext.userName)}></Button>
           <View style={globalStyles.cancelButtonContainer}>
-            <Button text={"Cancel"} textColor={'black'} backgroundColor={'red'} onPress={groupContext.cancelGroup}></Button>
+            <Button text={"Cancel"} textColor={'black'} backgroundColor={'#ff5f5f'} onPress={groupContext.cancelGroup}></Button>
           </View>
         </View>
       </TouchableWithoutFeedback>

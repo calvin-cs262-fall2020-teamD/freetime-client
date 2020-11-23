@@ -83,12 +83,12 @@ export default function UserTimes({ route, navigation }) {
             </View>
           )}
           getItemLayout={(data, index) => (
-            {length: 42, offset: 42 * index, index}
+            {length: 40.5, offset: 40.5 * index, index}
           )}
           initialScrollIndex={8}
           showsVerticalScrollIndicator={false}
           decelerationRate={.993}
-          snapToInterval={42}
+          snapToInterval={40.5}
           directionalLockEnabled={true}
         />
       </View>
