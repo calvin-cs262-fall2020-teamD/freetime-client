@@ -13,7 +13,7 @@ async function authenticate(navigation, name, pass, context) {
   let data = [];
   let id = 0;
   //Fetch list of all users (not including passwords)
-  await fetch("https://radiant-dusk-08201.herokuapp.com/Users")
+  await fetch("https://freetime-service.herokuapp.com/Users")
     .then((response) => response.json())
     .then((json) => data = json)
     .catch((error) => console.log(error))
@@ -25,7 +25,7 @@ async function authenticate(navigation, name, pass, context) {
     }
   }
   //Get the password of that user
-  await fetch(`https://radiant-dusk-08201.herokuapp.com/Pass/${id}`)
+  await fetch(`https://freetime-service.herokuapp.com/Pass/${id}`)
     .then((response) => response.json())
     .then((json) => data = json)
     .catch((error) => console.log(error))
@@ -46,7 +46,7 @@ const forgotPassword = () => {
 
 const createUser = (name, pass) => {
   const data = {username: name, userPassword: pass };
-  fetch(`https://radiant-dusk-08201.herokuapp.com/createuser`, {
+  fetch(`https://freetime-service.herokuapp.com/createuser`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {"Content-type": "application/json"}
@@ -64,9 +64,9 @@ export default function Login({ navigation }) {
   const context = useUserContext();
 
   async function validateSignup() {
-    //Checking if username is already taken
+    //Checking if username is already taken (this is only within the login function so that it easily has access to setVisible())
     let data = [];
-    await fetch("https://radiant-dusk-08201.herokuapp.com/Users")
+    await fetch("https://freetime-service.herokuapp.com/Users")
       .then((response) => response.json())
       .then((json) => data = json)
       .catch((error) => "")
