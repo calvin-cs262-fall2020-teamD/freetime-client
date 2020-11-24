@@ -36,19 +36,19 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
     setIsLoaded(false);
 
     let userInterests = [];
-    await fetch(`https://temp-freetime-service.herokuapp.com/User/Interests/${id}`)
+    await fetch(`https://freetime-service.herokuapp.com/User/Interests/${id}`)
       .then((response) => response.json())
       .then((json) => userInterests = json)
       .catch((error) => "")
 
     let interests = [];
-    await fetch(`https://temp-freetime-service.herokuapp.com/Interests`)
+    await fetch(`https://freetime-service.herokuapp.com/Interests`)
       .then((response) => response.json())
       .then((json) => interests = json)
       .catch((error) => "")
 
     let userGroups = [];
-    await fetch(`https://temp-freetime-service.herokuapp.com/User/Groups/${id}`)
+    await fetch(`https://freetime-service.herokuapp.com/User/Groups/${id}`)
       .then((response) => response.json())
       .then((json) => userGroups = json)
       .catch((error) => "")
@@ -81,7 +81,7 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
 };
 
 const forgotPassword = () => {
-  
+
 };
 
 const createUser = (name, pass) => {
@@ -122,7 +122,7 @@ export default function Login({ navigation }) {
         break;
       }
     }
-    if(duplicateExists) { 
+    if(duplicateExists) {
       Alert.alert("Username already taken")
     }
     else {
@@ -130,7 +130,8 @@ export default function Login({ navigation }) {
       Alert.alert("Success!!!");
     }
     setVisible(duplicateExists);
-  }  
+  }
+
   if (isLoaded) {
     return (
       <ImageBackground style={styles.container} imageStyle={styles.backgroundImg} source={bgImg}>
@@ -147,22 +148,22 @@ export default function Login({ navigation }) {
               <TouchableOpacity style={styles.technicallyNotAButton} onPress={() => authenticate(navigation, usernameValue, passwordValue, userContext, groupContext, setIsLoaded)}>
                 <Text>Submit</Text>
               </TouchableOpacity>
-                <Text style={styles.options} onPress={forgotPassword}> Forgot Password... </Text>          
+                <Text style={styles.options} onPress={forgotPassword}> Forgot Password... </Text>
               <Text style={styles.options} onPress={() => setVisible(true)}> Sign Up </Text>
             </View>
-            <View>            
+            <View>
               <Dialog.Container visible={visible} onBackdropPress={() => setVisible(false)}>
                 <TouchableOpacity onPress={() => setVisible(false)} style={styles.closeIcon}>
                   <MaterialIcons name="close" color={'black'} size={30} />
                 </TouchableOpacity>
-                <Dialog.Title>Sign Up</Dialog.Title>                      
+                <Dialog.Title>Sign Up</Dialog.Title>
                 <Dialog.Description>Welcome to Freetime!</Dialog.Description>
                 <Dialog.Input label={"Create a username:"} placeholder={"Username"} onChangeText={text => onChangeUsernameText(text)}></Dialog.Input>
                 <Dialog.Input secureTextEntry={true} label={"Create a password:"} placeholder={"Password"} onChangeText={text => onChangePasswordText(text)}></Dialog.Input>
                 <Dialog.Input secureTextEntry={true} label={"Confirm password:"} placeholder={"Password"} onChangeText={text => onChangeConfirmPasswordText(text)}></Dialog.Input>
-                <Dialog.Button 
+                <Dialog.Button
                   style={styles.submitButton}
-                  label={"Sign Up"} 
+                  label={"Sign Up"}
                   onPress={() => (passwordValue == confirmPasswordValue ? validateSignup() : Alert.alert("Passwords don't match")) }>
                 </Dialog.Button>
               </Dialog.Container>
@@ -186,7 +187,7 @@ const styles = StyleSheet.create({
     padding: 2,
     margin: 5,
     position: "absolute",
-    
+
   },
   submitButton: {
     borderWidth: 1,
