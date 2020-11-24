@@ -39,9 +39,9 @@ export default function Profile() {
                     renderItem={({item}) => (
                         <TouchableOpacity
                             style={styles.interestContainer}
-                            onPress={() => context.pressHandlerRemove(item.key, item.title)}
+                            onPress={() => context.pressHandlerRemove(item.id, item.interestname)}
                         >
-                            <Text style={styles.interestCard}>{item.title}</Text>
+                            <Text style={styles.interestCard}>{item.interestname}</Text>
                         </TouchableOpacity>
                     )}
                 />
@@ -55,9 +55,9 @@ export default function Profile() {
                 renderItem={({item}) => (
                     <TouchableOpacity
                         style={styles.interestContainer}
-                        onPress={() => context.pressHandlerAdd(item.key, item.title)}
+                        onPress={() => context.pressHandlerAdd(item.id, item.interestname)}
                     >
-                        <Text style={styles.interestCard}>{item.title}</Text>
+                        <Text style={styles.interestCard}>{item.interestname}</Text>
                     </TouchableOpacity>
                 )}
             />
@@ -67,8 +67,8 @@ export default function Profile() {
 
 const styles = StyleSheet.create({
     userInitialsCircle: {
-        width: 100,
-        height: 100,
+        width: 80,
+        height: 80,
         borderRadius: 100 / 2,
         justifyContent: "center",
         alignSelf: "center",
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     },
 
     initials: {
-        padding: 20,
+        padding: 10,
         fontSize: 40,
         alignSelf: "center",
     },

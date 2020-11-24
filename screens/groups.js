@@ -39,9 +39,10 @@ export default function Groups(props) {
             <FlatList
               data={groupContext.groups}
               extraData={groupContext.changedGroups}
+              keyExtractor={(key) => Math.random().toString()}
               renderItem={({ item }) => (
                 <TouchableOpacity onPress={() => props.navigation.navigate("Group", item)}>
-                  <Card text={item.name}></Card>
+                  <Card text={item.groupname}></Card>
                 </TouchableOpacity>
               )}
             />

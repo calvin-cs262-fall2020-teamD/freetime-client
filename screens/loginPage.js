@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Alert, ImageBackground, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Alert, ImageBackground, TouchableWithoutFeedback, Keyboard, ActivityIndicator } from "react-native";
+import { BubblesLoader } from 'react-native-indicator';
+import { Surface, Shape } from '@react-native-community/art';
 import { globalStyles } from "../styles/global";
 import { LinearGradient } from 'expo-linear-gradient';
 import { TextInput } from "react-native-gesture-handler";
@@ -7,8 +9,9 @@ import bgImg from '../assets/calvinWalkway2.jpg'
 import { useScreens } from "react-native-screens";
 import { NavigationActions } from "react-navigation";
 import { useUserContext } from "../context/userContext";
+import { useGroupContext } from "../context/groupContext";
 
-async function authenticate(navigation, name, userPassword, context) {
+async function authenticate(navigation, name, userPassword, userContext, groupContext, setIsLoaded) {
   let data = [];
   let id = 0;
   //Fetch list of all users (not including passwords)
@@ -32,12 +35,51 @@ async function authenticate(navigation, name, userPassword, context) {
 
   //Check if inputted password matches
   if(userPassword == data.userpassword) {
-    context.setUserInitials(name.slice(0, 1));
-    context.setUsername(name);
+    setIsLoaded(false);
+
+    let userInterests = [];
+    await fetch(`https://temp-freetime-service.herokuapp.com/User/Interests/${id}`)
+      .then((response) => response.json())
+      .then((json) => userInterests = json)
+      .catch((error) => "")
+
+    let interests = [];
+    await fetch(`https://temp-freetime-service.herokuapp.com/Interests`)
+      .then((response) => response.json())
+      .then((json) => interests = json)
+      .catch((error) => "")
+
+    let userGroups = [];
+    await fetch(`https://temp-freetime-service.herokuapp.com/User/Groups/${id}`)
+      .then((response) => response.json())
+      .then((json) => userGroups = json)
+      .catch((error) => "")
+
+    let groupMembers = [];
+    for(let i = 0; i < groupMembers.length; i++) {
+      if(groupMembers[i].groupname == userGroups.groupname) {
+        id = data[i].id;
+        break;
+      }
+    }
+
+    userContext.setUserInitials(name.slice(0, 1));
+    userContext.setUsername(name);
+    userContext.setInterests(interests);
+    for (let interest of userInterests) {
+      userContext.pressHandlerAdd(interest.id.toString(), interest.interestname);
+    }
+    for (let group of userGroups) {
+      groupContext.setGroups((prevGroups) => {
+        return [{ groupname: group.groupname, groupMembers: groupMembers, adminUser: group.username, key: Math.random().toString() }, ...prevGroups];
+      });
+    }
+    //groupContext.setGroups(userGroups);
     navigation.navigate("TabNavigator", {}, NavigationActions.navigate({routeName: "UserWeek"}));
   } else {
     Alert.alert("Invalid username or password");
   }
+
 };
 
 const forgotPassword = () => {
@@ -50,33 +92,43 @@ const signUp = () => {
 }
 
 export default function Login({ navigation }) {
+  const [isLoaded, setIsLoaded] = useState(true);
   const [usernameValue, onChangeUsernameText] = React.useState('');
   const [passwordValue, onChangePasswordText] = React.useState('');
-  const context = useUserContext();
+  const userContext = useUserContext();
+  const groupContext = useGroupContext();
 
-  return (
-    <ImageBackground style={styles.container} imageStyle={styles.backgroundImg} source={bgImg}>
-      <TouchableWithoutFeedback onPress={() => {
-        Keyboard.dismiss();
-      }}>
-        <LinearGradient
-          colors={['#70cefa', 'rgba(250,250,250,.78)' ]} //rgba(119,255,250,.7)
-          style={styles.linearGradient}>
-          <View style={styles.loginBox}>
-            <Text style={styles.title}>Login</Text>
-            <TextInput style={styles.inputBox} value={usernameValue} placeholder={"Enter username"} onChangeText={text => onChangeUsernameText(text)}/>
-            <TextInput style={styles.inputBox} value={passwordValue} placeholder={"Enter password"} onChangeText={text => onChangePasswordText(text)}/>
-            <TouchableOpacity style={styles.technicallyNotAButton} onPress={() => authenticate(navigation, usernameValue, passwordValue, context)}>
-              <Text>Submit</Text>
-            </TouchableOpacity>
+  if (isLoaded) {
+    return (
+      <ImageBackground style={styles.container} imageStyle={styles.backgroundImg} source={bgImg}>
+        <TouchableWithoutFeedback onPress={() => {
+          Keyboard.dismiss();
+        }}>
+          <LinearGradient
+            colors={['#70cefa', 'rgba(250,250,250,.78)' ]} //rgba(119,255,250,.7)
+            style={styles.linearGradient}>
+            <View style={styles.loginBox}>
+              <Text style={styles.title}>Login</Text>
+              <TextInput style={styles.inputBox} value={usernameValue} placeholder={"Enter username"} onChangeText={text => onChangeUsernameText(text)}/>
+              <TextInput style={styles.inputBox} value={passwordValue} placeholder={"Enter password"} onChangeText={text => onChangePasswordText(text)}/>
+              <TouchableOpacity style={styles.technicallyNotAButton} onPress={() => authenticate(navigation, usernameValue, passwordValue, userContext, groupContext, setIsLoaded)}>
+                <Text>Submit</Text>
+              </TouchableOpacity>
 
-            <Text style={styles.options} onPress={forgotPassword}> Forgot Password... </Text>
-            <Text style={styles.options} onPress={signUp}> Sign Up </Text>
-          </View>
-        </LinearGradient>
-      </TouchableWithoutFeedback>
-    </ImageBackground>
-  );
+              <Text style={styles.options} onPress={forgotPassword}> Forgot Password... </Text>
+              <Text style={styles.options} onPress={signUp}> Sign Up </Text>
+            </View>
+          </LinearGradient>
+        </TouchableWithoutFeedback>
+      </ImageBackground>
+    );
+  } else {
+    return (
+      <View style={{flex: 1, justifyContent: 'center'}}>
+        <ActivityIndicator size="large" color="#70cefa"></ActivityIndicator>
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -137,4 +189,9 @@ const styles = StyleSheet.create({
     fontSize: 11,
     //Make side-by-side
   },
+
+  loading: {
+    justifyContent: "center",
+    alignItems: 'center',
+  }
 })

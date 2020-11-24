@@ -3,7 +3,6 @@ import { Alert, StyleSheet } from "react-native";
 
 const UserContext = createContext({});
 
-
   export function UserContextProvider(props) {
     // userWeek.js
     const [weekDays, setWeekDays] = useState([
@@ -239,7 +238,17 @@ const UserContext = createContext({});
                 setWeekDays(() => {
                   weekDays.forEach((item) => {
                     item.freeTimes.forEach((item) => {
-                      item.increments.forEach((item) => (item.color = "white"));
+                      item.increments.forEach((item) => {
+                        if(item.hour % 2 == 0) {
+                          item.color === "#00E600"
+                            ? (item.color = "white")
+                            : null;
+                        } else {
+                          item.color === "#00E600"
+                            ? (item.color = "#ededed")
+                            : null;
+                        }
+                      })
                     });
                   });
                   navigation.navigate("UserWeek");
@@ -276,9 +285,19 @@ const UserContext = createContext({});
     Alert.alert('Resetting FreeTimes!', `Are you sure you want to reset your ${day} freetimes?`, [{text: 'Yes', onPress: () => {
       setDayFreeTimes(() => {
         freeTimes.forEach((item) => {
-          item.increments.forEach((item) => item.color = 'white')
+          item.increments.forEach((item) => {
+            if(item.hour % 2 == 0) {
+              item.color === "#00E600"
+                ? (item.color = "white")
+                : null;
+            } else {
+              item.color === "#00E600"
+                ? (item.color = "#ededed")
+                : null;
+            }
+          })
+          return setSelectedDayFreeTimes(freeTimes);
         });
-        return setSelectedDayFreeTimes(freeTimes);
       });
     }}, {text: 'No'}]);
   };
@@ -289,43 +308,43 @@ const UserContext = createContext({});
   const [userInitials, setUserInitials] = useState("");
   const [userSelectedInterests, setUserInterests] = useState([]);
   const [interests, setInterests] = useState([
-    { title: "Climbing", key: 1 },
-    { title: "Art", key: 2 },
-    { title: "Studying", key: 3 },
-    { title: "Chapel", key: 4 },
-    { title: "Running", key: 5 },
-    { title: "Gaming", key: 6 },
-    { title: "Sports", key: 7 },
-    { title: "Shopping", key: 8 },
+    // { title: "Climbing", key: 1 },
+    // { title: "Art", key: 2 },
+    // { title: "Studying", key: 3 },
+    // { title: "Chapel", key: 4 },
+    // { title: "Running", key: 5 },
+    // { title: "Gaming", key: 6 },
+    // { title: "Sports", key: 7 },
+    // { title: "Shopping", key: 8 },
   ]);
 
   /**
-   * @param  {} key
-   * @param  {} title
+   * @param  {} id
+   * @param  {} interestname
    */
-  const pressHandlerAdd = (key, title) => {
+  const pressHandlerAdd = (id, interestname) => {
     // remove interest from potential interest list
     setInterests((prevInterests) => {
-      return prevInterests.filter((interest) => interest.key != key);
+      return prevInterests.filter((interest) => interest.id != id);
     });
     // add interest to user interests list
     setUserInterests((prevUserInterests) => {
-      return [{ title: title, key: key }, ...prevUserInterests];
+      return [{ interestname: interestname, id: id.toString() }, ...prevUserInterests];
     });
   };
 
   /**
-   * @param  {} key
-   * @param  {} title
+   * @param  {} id
+   * @param  {} interestname
    */
-  const pressHandlerRemove = (key, title) => {
+  const pressHandlerRemove = (id, interestname) => {
     // make updated user interests list, remove key that was passed in
     setUserInterests((prevUserInterests) => {
-      return prevUserInterests.filter((interest) => interest.key != key);
+      return prevUserInterests.filter((interest) => interest.id != id);
     });
     // add the interest back to potential list of interests
     setInterests((prevInterests) => {
-      return [{ title: title, key: key }, ...prevInterests];
+      return [{ interestname: interestname, id: id.toString() }, ...prevInterests];
     });
   };
 
@@ -349,6 +368,7 @@ const UserContext = createContext({});
         userSelectedInterests: userSelectedInterests,
         interests: interests,
         setInterests: setInterests,
+        setUserInterests: setUserInterests,
         pressHandlerAdd: pressHandlerAdd,
         pressHandlerRemove: pressHandlerRemove,
       }}>
