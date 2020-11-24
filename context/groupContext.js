@@ -28,7 +28,7 @@ const GroupContext = createContext({});
 
     const confirmGroup = (adminUser) => {
       setGroups((prevGroups) => {
-          return [{ name: text1, adminUser: adminUser, key: Math.random().toString() }, ...prevGroups];
+          return [{ groupname: text1, adminUser: adminUser, groupMembers: [], key: Math.random().toString() }, ...prevGroups];
         });
       setNamed(true);
     }
@@ -53,7 +53,7 @@ const GroupContext = createContext({});
 
     const renamedGroup = (groupName, navigation) => {
       setGroups(() => {
-        groups.forEach((item) => (item.name === groupName ? item.name = text3 : null));
+        groups.forEach((item) => (item.groupname === groupName ? item.groupname = text3 : null));
 
         return groups;
       });

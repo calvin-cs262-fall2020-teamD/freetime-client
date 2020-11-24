@@ -32,6 +32,7 @@ export default function UserWeek({navigation}) {
                         </View>
                     )}
                     scrollEnabled={true}
+                    showsVerticalScrollIndicator={false}
                 />
             </View>
         </View>
