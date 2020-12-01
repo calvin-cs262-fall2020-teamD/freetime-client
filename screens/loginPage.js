@@ -149,14 +149,14 @@ export default function Login({ navigation }) {
                 <Text>Submit</Text>
               </TouchableOpacity>
                 <Text style={styles.options} onPress={forgotPassword}> Forgot Password... </Text>
-              <Text style={styles.options} onPress={() => setVisible(true)}> Sign Up </Text>
+              <Text style={styles.options} onPress={() => setVisible(true)}> Create Account </Text>
             </View>
             <View>
               <Dialog.Container visible={visible} onBackdropPress={() => setVisible(false)}>
                 <TouchableOpacity onPress={() => setVisible(false)} style={styles.closeIcon}>
                   <MaterialIcons name="close" color={'black'} size={30} />
                 </TouchableOpacity>
-                <Dialog.Title>Sign Up</Dialog.Title>
+                <Dialog.Title>Create Account</Dialog.Title>
                 <Dialog.Description>Welcome to Freetime!</Dialog.Description>
                 <Dialog.Input label={"Create a username:"} placeholder={"Username"} onChangeText={text => onChangeUsernameText(text)}></Dialog.Input>
                 <Dialog.Input secureTextEntry={true} label={"Create a password:"} placeholder={"Password"} onChangeText={text => onChangePasswordText(text)}></Dialog.Input>
