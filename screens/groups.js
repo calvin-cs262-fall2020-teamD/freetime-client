@@ -34,20 +34,23 @@ export default function Groups(props) {
 
     return (
       <View style={globalStyles.container}>
-        <View style={styles.groupsContainer}>
-          <View style={styles.listContainer}>
+          <View style={globalStyles.listContainer}>
             <FlatList
               data={groupContext.groups}
               extraData={groupContext.changedGroups}
               keyExtractor={(key) => Math.random().toString()}
               renderItem={({ item }) => (
+                  <View style={globalStyles.moduleHeader}>
                 <TouchableOpacity onPress={() => props.navigation.navigate("Group", item)}>
-                  <Card text={item.groupname}></Card>
+                   <Text style={globalStyles.moduleHeaderText}>{item.groupname}</Text>
+                  <View style={globalStyles.moduleBox}>
+                    <Text></Text>
+                  </View>
                 </TouchableOpacity>
+                  </View>
               )}
             />
           </View>
-        </View>
       </View>
     );
   } else {
@@ -82,20 +85,3 @@ export default function Groups(props) {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  groupsContainer: {
-    backgroundColor: "white",
-    borderColor: "#70cefa",
-    borderWidth: 1.5,
-    borderRadius: 5,
-    margin: 0,
-    padding: 10,
-    width: "43%",
-    height: "99%",
-  },
-
-  listContainer: {
-    flex: 1,
-  },
-});
