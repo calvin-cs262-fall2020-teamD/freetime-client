@@ -10,7 +10,7 @@ import { globalStyles } from "../styles/global";
 
 import TimeBox from "../components/timeBox";
 import { MaterialIcons } from "@expo/vector-icons";
-
+import { HeaderBackButton } from "@react-navigation/stack";
 import { useUserContext } from "../context/userContext";
 
 export default function UserTimes({ route, navigation }) {
@@ -25,12 +25,63 @@ export default function UserTimes({ route, navigation }) {
 
   context.setDayFreeTimes(route.params.freeTimes);
 
-  useEffect(() => navigation.setOptions({headerRight: () =>
-    <TouchableOpacity onPress={() => context.resetDayFreeTimes(route.params.freeTimes, route.params.day)}>
+  useEffect(() => { 
+    navigation.setOptions({headerLeft: (props) => (<HeaderBackButton {...props} onPress={() => {
+      //Gets called on navigating out of a userTime day
+
+      //Deleting old freetimes for the day
+      fetch(`https://radiant-dusk-08201.herokuapp.com/deletedaytimes`, {
+        method: "DELETE",
+        body: JSON.stringify({userID: context.userID, weekday: route.params.day}),
+        headers: {"Content-type": "application/json"}
+      })
+      .then((response) => response.text())
+      .then((json) => console.log(json))
+      .catch((error) => console.log(error))
+
+      const array = route.params.freeTimes;
+      // console.log(array);
+      let beginning;
+      let end;
+      let rangeSelected = false;
+      for(let i = 0; i < array.length; i++) {
+        for(let n = 0; n < array[i].increments.length; n++) {
+          if(array[i].increments[n].color == "#00E600" && rangeSelected == false) {
+            rangeSelected = true;
+            beginning = `${i},${n}`;
+          } else if (array[i].increments[n].color != "#00E600" && rangeSelected == true) {
+            rangeSelected = false;
+            if(n == 0) { //Last box of previous row was selected and first box of this row isn't
+              end = `${i-1},${array[i].increments.length - 1}`
+            } else {
+              end = `${i},${n-1}`
+            }
+
+            //Adding new freetimes for the day
+            fetch(`https://radiant-dusk-08201.herokuapp.com/uploadtimes`, {
+              method: "POST",
+              body: JSON.stringify({userID: context.userID, starttime: beginning, endtime: end, weekday: route.params.day}),
+              headers: {"Content-type": "application/json"}
+            })
+            .then((response) => response.text())
+            .then((json) => console.log(json))
+            .catch((error) => console.log(error))
+
+            beginning = "";
+            end = "";
+          }
+        }
+      }
+
+      navigation.goBack()
+    }}></HeaderBackButton>) })
+    
+    navigation.setOptions({headerRight: () =>
+    <TouchableOpacity onPress={() => {context.resetDayFreeTimes(route.params.freeTimes, route.params.day)}}>
       <View style={globalStyles.iconContainer}>
         <MaterialIcons name='delete' size={30} color="black" />
       </View>
-    </TouchableOpacity>}), []);
+    </TouchableOpacity>}), []});
 
   return (
       <View style={globalStyles.container}>

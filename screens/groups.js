@@ -20,10 +20,34 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Card from "../components/card";
 import Button from "../components/button";
 
+async function makeGroup(groupContext, groupname, username, userID) {
+  let key;
+  await fetch(`https://radiant-dusk-08201.herokuapp.com/creategroup`, {
+    method: "POST",
+    body: JSON.stringify({groupName: groupname, adminID: userID}),
+    headers: {"Content-type": "application/json"}
+  })
+  .then((response) => response.text())
+  .then((json) => key = JSON.parse(json))
+  .catch((error) => console.log(error))
+
+  //Adding the admin user to the group
+  await fetch(`https://radiant-dusk-08201.herokuapp.com/addgroupmember`, {
+    method: "POST",
+    body: JSON.stringify({memberID: userID, groupID: key.id}),
+    headers: {"Content-type": "application/json"}
+  })
+  .then((response) => response.text())
+  .then((json) => console.log(json))
+  .catch((error) => console.log(error))
+
+  groupContext.confirmGroup(groupname, username, key.id);
+}
+
 export default function Groups(props) {
+  const [groupName, setGroupName] = React.useState('');
   const userContext = useUserContext();
   const groupContext = useGroupContext();
-
   if (groupContext.named) {
     useEffect(() => props.navigation.setOptions({title: "Groups", headerRight: () =>
       <TouchableOpacity onPress={groupContext.addGroup}>
@@ -38,7 +62,7 @@ export default function Groups(props) {
             <FlatList
               data={groupContext.groups}
               extraData={groupContext.changedGroups}
-              keyExtractor={(key) => Math.random().toString()}
+              // keyExtractor={(key) => key.newKey}
               renderItem={({ item }) => (
                   <View style={globalStyles.moduleHeader}>
                 <TouchableOpacity onPress={() => props.navigation.navigate("Group", item)}>
@@ -67,16 +91,13 @@ export default function Groups(props) {
           <TextInput
             style={globalStyles.textInput}
             placeholder="Group Name"
-            onChangeText={groupContext.changeHandler1}
-            value={groupContext.text1}
+            onChangeText={text => setGroupName(text)}
+            value={groupName}
           />
-          {/* <TextInput
-            style={globalStyles.textInput}
-            placeholder="Admin Username"
-            onChangeText={groupContext.changeHandler2}
-            value={groupContext.text2}
-          /> */}
-          <Button text={"Confirm Group"} textColor={'black'} backgroundColor={'#70cefa'} onPress={() => groupContext.confirmGroup(userContext.userName)}></Button>
+          <Button text={"Confirm Group"} textColor={'black'} backgroundColor={'#70cefa'} onPress={() => {
+            let temp = groupName;
+            setGroupName('');
+            makeGroup(groupContext, temp, userContext.userName, userContext.userID)}}></Button>
           <View style={globalStyles.cancelButtonContainer}>
             <Button text={"Cancel"} textColor={'black'} backgroundColor={'#ff5f5f'} onPress={groupContext.cancelGroup}></Button>
           </View>

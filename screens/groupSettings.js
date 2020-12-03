@@ -24,8 +24,8 @@ export default function GroupSettings({ route, navigation }) {
 
     return (
       <View style={globalStyles.container}>
-        <Button text={"Rename Group"} backgroundColor={"#70cefa"} textColor={"green"} onPress={() => context.renameGroup(route.params.name)}></Button>
-        <Button text={"Delete Group"} backgroundColor={"#70cefa"} textColor={"white"} onPress={() => context.deleteGroup(route.params.name, route.params.key, navigation)}></Button>
+        <Button text={"Rename Group"} backgroundColor={"#70cefa"} textColor={"green"} onPress={() => {console.log("renaming group " + route.params.name); context.renameGroup(route.params.name)}}></Button>
+        <Button text={"Delete Group"} backgroundColor={"#70cefa"} textColor={"white"} onPress={() => {console.log("Deleting group " + route.params.name); context.deleteGroup(route.params.name, navigation)}}></Button>
       </View>
     )
   } else {
