@@ -73,6 +73,8 @@ export default function Groups(props) {
                 </TouchableOpacity>
                   </View>
               )}
+              scrollEnabled={true}
+              showsVerticalScrollIndicator={false}
             />
           </View>
       </View>

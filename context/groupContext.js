@@ -103,7 +103,7 @@ const GroupContext = createContext({});
         let myKey;
         console.log("dg function, key: ");
         for(let i = 0; i < groups.length; i++) {
-          if(groups[i].groupname = name) {
+          if(groups[i].groupname == name) {
             myKey = groups[i].key;
             console.log(myKey);
             console.log(name);
@@ -113,7 +113,7 @@ const GroupContext = createContext({});
         setGroups((prevGroups) => {
           return prevGroups.filter((group) => group.groupname != name);
         })
-        
+
         navigation.navigate("Groups");
         Alert.alert(`Group "${name}" has been deleted!`);
       }}, {text: 'No'}]);
