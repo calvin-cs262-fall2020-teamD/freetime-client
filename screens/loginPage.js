@@ -11,6 +11,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useGroupContext } from "../context/groupContext";
 
 async function authenticate(navigation, name, userPassword, userContext, groupContext, setIsLoaded) {
+  setIsLoaded(false);
+
   let data = [];
   let id = 0;
   //Fetch list of all users (not including passwords)
@@ -33,10 +35,9 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
 
   //Check if inputted password matches
   if(userPassword == data.userpassword) {
-    setIsLoaded(false);
 
     let userInterests = [];
-    await fetch(`https://freetime-service.herokuapp.com/User/Interests/${id}`)
+    await fetch(`https://freetime-service.herokuapp.com/User/Interests`)
       .then((response) => response.json())
       .then((json) => userInterests = json)
       .catch((error) => "")
@@ -48,33 +49,38 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
       .catch((error) => "")
 
     let userGroups = [];
-    await fetch(`https://freetime-service.herokuapp.com/User/Groups/${id}`)
+    await fetch(`https://freetime-service.herokuapp.com/User/Groups`)
       .then((response) => response.json())
       .then((json) => userGroups = json)
       .catch((error) => "")
 
     let groupMembers = [];
-    for(let i = 0; i < groupMembers.length; i++) {
-      if(groupMembers[i].groupname == userGroups.groupname) {
-        id = data[i].id;
-        break;
-      }
-    }
+    // for(let i = 0; i < userGroups.length; i++) {
+    //   if(userGroups[i].groupname == userGroups.groupname) {
+    //     id = data[i].id;
+    //     break;
+    //   }
+    // }
 
     userContext.setUserInitials(name.slice(0, 1));
     userContext.setUsername(name);
     userContext.setInterests(interests);
     for (let interest of userInterests) {
-      userContext.pressHandlerAdd(interest.id.toString(), interest.interestname);
+      if(interest.userid == id) {
+        userContext.pressHandlerAdd(interest.id.toString(), interest.interestname);
+      }
     }
     for (let group of userGroups) {
-      groupContext.setGroups((prevGroups) => {
-        return [{ groupname: group.groupname, groupMembers: groupMembers, adminUser: group.username, key: Math.random().toString() }, ...prevGroups];
-      });
+      if(group.memberid == id) {
+        groupContext.setGroups((prevGroups) => {
+          return [{ groupname: group.groupname, groupMembers: groupMembers, adminUser: group.username, key: group.groupid }, ...prevGroups];
+        });
+      }
     }
-    //groupContext.setGroups(userGroups);
+
     navigation.navigate("TabNavigator", {}, NavigationActions.navigate({routeName: "UserWeek"}));
   } else {
+    setIsLoaded(true);
     Alert.alert("Invalid username or password");
   }
 
