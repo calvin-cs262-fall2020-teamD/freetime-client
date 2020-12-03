@@ -61,15 +61,20 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
       }
     }
 
+    //fetch person's freetimes and modify list
+
+    userContext.setUserID(id);
     userContext.setUserInitials(name.slice(0, 1));
     userContext.setUsername(name);
     userContext.setInterests(interests);
     for (let interest of userInterests) {
       userContext.pressHandlerAdd(interest.id.toString(), interest.interestname);
     }
+    console.log("adding groups... ");
     for (let group of userGroups) {
       groupContext.setGroups((prevGroups) => {
-        return [{ groupname: group.groupname, groupMembers: groupMembers, adminUser: group.username, key: Math.random().toString() }, ...prevGroups];
+        console.log(group.groupname + " " + group.key);
+        return [{ groupname: group.groupname, groupMembers: groupMembers, adminUser: group.username, key: group.id }, ...prevGroups];
       });
     }
     //groupContext.setGroups(userGroups);

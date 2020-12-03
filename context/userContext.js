@@ -254,6 +254,14 @@ const UserContext = createContext({});
                   navigation.navigate("UserWeek");
                   return weekDays;
                 });
+                fetch(`https://radiant-dusk-08201.herokuapp.com/deleteweektimes`, {
+                  method: "DELETE",
+                  body: JSON.stringify({userID: userID}),
+                  headers: {"Content-type": "application/json"}
+                })
+                .then((response) => response.text())
+                .then((json) => console.log(json))
+                .catch((error) => console.log(error))
                 Alert.alert("Your UserWeek FreeTimes have been reset!");
               },
             },
@@ -299,11 +307,20 @@ const UserContext = createContext({});
           return setSelectedDayFreeTimes(freeTimes);
         });
       });
+      fetch(`https://radiant-dusk-08201.herokuapp.com/deletedaytimes`, {
+        method: "DELETE",
+        body: JSON.stringify({userID: userID, weekday: day}),
+        headers: {"Content-type": "application/json"}
+      })
+      .then((response) => response.text())
+      .then((json) => console.log(json))
+      .catch((error) => console.log(error))
     }}, {text: 'No'}]);
   };
 
   // userProfile.js
   const name = "John Doe";
+  const [userID, setUserID] = useState(undefined);
   const [userName, setUsername] = useState("");
   const [userInitials, setUserInitials] = useState("");
   const [userSelectedInterests, setUserInterests] = useState([]);
@@ -371,6 +388,8 @@ const UserContext = createContext({});
         setUserInterests: setUserInterests,
         pressHandlerAdd: pressHandlerAdd,
         pressHandlerRemove: pressHandlerRemove,
+        userID: userID,
+        setUserID: setUserID,
       }}>
       {props.children}
     </UserContext.Provider>
