@@ -14,7 +14,7 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
   let data = [];
   let id = 0;
   //Fetch list of all users (not including passwords)
-  await fetch("https://radiant-dusk-08201.herokuapp.com/Users")
+  await fetch("https://freetime-service.herokuapp.com/Users")
     .then((response) => response.json())
     .then((json) => data = json)
     .catch((error) => console.log(error))
@@ -26,7 +26,7 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
     }
   }
   //Get the password of that user
-  await fetch(`https://radiant-dusk-08201.herokuapp.com/Pass/${id}`)
+  await fetch(`https://freetime-service.herokuapp.com/Pass/${id}`)
     .then((response) => response.json())
     .then((json) => data = json)
     .catch((error) => console.log(error))
@@ -36,19 +36,19 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
     setIsLoaded(false);
 
     let userInterests = [];
-    await fetch(`https://radiant-dusk-08201.herokuapp.com/User/Interests/${id}`)
+    await fetch(`https://freetime-service.herokuapp.com/User/Interests/${id}`)
       .then((response) => response.json())
       .then((json) => userInterests = json)
       .catch((error) => "")
 
     let interests = [];
-    await fetch(`https://radiant-dusk-08201.herokuapp.com/Interests`)
+    await fetch(`https://freetime-service.herokuapp.com/Interests`)
       .then((response) => response.json())
       .then((json) => interests = json)
       .catch((error) => "")
 
     let userGroups = [];
-    await fetch(`https://radiant-dusk-08201.herokuapp.com/User/Groups/${id}`)
+    await fetch(`https://freetime-service.herokuapp.com/User/Groups/${id}`)
       .then((response) => response.json())
       .then((json) => userGroups = json)
       .catch((error) => "")
@@ -70,9 +70,11 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
     for (let interest of userInterests) {
       userContext.pressHandlerAdd(interest.id.toString(), interest.interestname);
     }
+    console.log("adding groups... ");
     for (let group of userGroups) {
       groupContext.setGroups((prevGroups) => {
-        return [{ groupname: group.groupname, groupMembers: groupMembers, adminUser: group.username, key: Math.random().toString() }, ...prevGroups];
+        console.log(group.groupname + " " + group.key);
+        return [{ groupname: group.groupname, groupMembers: groupMembers, adminUser: group.username, key: group.id }, ...prevGroups];
       });
     }
     //groupContext.setGroups(userGroups);
@@ -89,7 +91,7 @@ const forgotPassword = () => {
 
 const createUser = (name, pass) => {
   const data = {username: name, userPassword: pass };
-  fetch(`https://radiant-dusk-08201.herokuapp.com/createuser`, {
+  fetch(`https://freetime-service.herokuapp.com/createuser`, {
     method: "POST",
     body: JSON.stringify(data),
     headers: {"Content-type": "application/json"}
@@ -111,7 +113,7 @@ export default function Login({ navigation }) {
   async function validateSignup() {
     //Checking if username is already taken (this is only within the login function so that it easily has access to setVisible())
     let data = [];
-    await fetch("https://radiant-dusk-08201.herokuapp.com/Users")
+    await fetch("https://freetime-service.herokuapp.com/Users")
       .then((response) => response.json())
       .then((json) => data = json)
       .catch((error) => "")

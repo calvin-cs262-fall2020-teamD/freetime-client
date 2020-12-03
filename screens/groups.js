@@ -22,7 +22,7 @@ import Button from "../components/button";
 
 async function makeGroup(groupContext, groupname, username, userID) {
   let key;
-  await fetch(`https://radiant-dusk-08201.herokuapp.com/creategroup`, {
+  await fetch(`https://freetime-service.herokuapp.com/creategroup`, {
     method: "POST",
     body: JSON.stringify({groupName: groupname, adminID: userID}),
     headers: {"Content-type": "application/json"}
@@ -32,7 +32,7 @@ async function makeGroup(groupContext, groupname, username, userID) {
   .catch((error) => console.log(error))
 
   //Adding the admin user to the group
-  await fetch(`https://radiant-dusk-08201.herokuapp.com/addgroupmember`, {
+  await fetch(`https://freetime-service.herokuapp.com/addgroupmember`, {
     method: "POST",
     body: JSON.stringify({memberID: userID, groupID: key.id}),
     headers: {"Content-type": "application/json"}
