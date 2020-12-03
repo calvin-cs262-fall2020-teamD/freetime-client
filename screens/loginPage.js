@@ -77,7 +77,7 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
     for (let group of userGroups) {
       if(group.memberid == id) {
         groupContext.setGroups((prevGroups) => {
-          return [{ groupname: group.groupname, groupMembers: groupMembers, adminUser: group.username, key: group.groupid }, ...prevGroups];
+          return [{ groupname: group.groupname, groupMembers: groupMembers, adminUser: group.username, key: group.groupid.toString() }, ...prevGroups];
         });
       }
     }
