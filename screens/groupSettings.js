@@ -19,16 +19,17 @@ import { HeaderBackButton } from "@react-navigation/stack";
 export default function GroupSettings({ route, navigation }) {
   const context = useGroupContext();
 
-  if (context.renamed) {
+  if (context.renamed && context.membersAdded) {
     useEffect(() => navigation.setOptions({headerLeft: (props) => (<HeaderBackButton {...props} onPress={() => {navigation.goBack()}}></HeaderBackButton>) }));
 
     return (
       <View style={globalStyles.container}>
-        <Button text={"Rename Group"} backgroundColor={"#70cefa"} textColor={"green"} onPress={() => {console.log("renaming group " + route.params.name); context.renameGroup(route.params.name)}}></Button>
-        <Button text={"Delete Group"} backgroundColor={"#70cefa"} textColor={"white"} onPress={() => {console.log("Deleting group " + route.params.name + " key passed in: " + route.params.key); context.deleteGroup(route.params.name, navigation)}}></Button>
+        <Button text={"Add Group Member"} backgroundColor={"#70cefa"} textColor={"white"} onPress={context.addGroupMember}></Button>
+        <Button text={"Rename Group"} backgroundColor={"#70cefa"} textColor={"white"} onPress={() => {context.renameGroup(route.params.name)}}></Button>
+        <Button text={"Delete Group"} backgroundColor={"#70cefa"} textColor={"white"} onPress={() => {context.deleteGroup(route.params.name, navigation)}}></Button>
       </View>
     )
-  } else {
+  } else if (!context.renamed && context.membersAdded) {
     useEffect(() => navigation.setOptions({ headerLeft: () => {} }));
 
     return (
@@ -52,8 +53,36 @@ export default function GroupSettings({ route, navigation }) {
         </View>
       </TouchableWithoutFeedback>
     )
-  }
+  } else {
+    useEffect(() => navigation.setOptions({ headerLeft: () => {} }));
 
+    return (
+      <TouchableWithoutFeedback onPress={() => {
+        Keyboard.dismiss();
+      }}>
+        <View style={globalStyles.container}>
+          <Text style={globalStyles.titleText}>
+            Please add Members to your Group
+          </Text>
+          <FlatList
+            data={context.users}
+            keyExtractor={(user) => user.id.toString()}
+            renderItem={({ item }) => (
+              <View style={globalStyles.container}>
+                <Text style={globalStyles.moduleHeaderText}>{ item.username }</Text>
+              </View>
+            )}
+            scrollEnabled={true}
+            showsVerticalScrollIndicator={false}
+          />
+          <Button text={"Add Member"} textColor={'black'} backgroundColor={'#70cefa'} onPress={context.groupMemberAdded}></Button>
+          <View style={globalStyles.cancelButtonContainer}>
+            <Button text={"Cancel"} textColor={'black'} backgroundColor={'#ff5f5f'} onPress={context.cancelGroupMember}></Button>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    )
+  }
 }
 
 const styles = StyleSheet.create({

@@ -229,8 +229,8 @@ const UserContext = createContext({});
      */
     const resetWeekDays = (navigation) => {
       Alert.alert(
-          "Resetting all of the UserWeek FreeTimes!",
-          "Are you sure you want to reset your freetimes?",
+          "Deleting all of the UserWeek FreeTimes!",
+          "Are you sure you want to delete your freetimes?",
           [
             {
               text: "Yes",
@@ -262,7 +262,7 @@ const UserContext = createContext({});
                 .then((response) => response.text())
                 .then((json) => console.log(json))
                 .catch((error) => console.log(error))
-                Alert.alert("Your UserWeek FreeTimes have been reset!");
+                Alert.alert("Your UserWeek FreeTimes have been deleted!");
               },
             },
             { text: "No" },
@@ -290,7 +290,7 @@ const UserContext = createContext({});
    * @param  {} freeTimes
    */
   const resetDayFreeTimes = (freeTimes, day) => {
-    Alert.alert('Resetting FreeTimes!', `Are you sure you want to reset your ${day} freetimes?`, [{text: 'Yes', onPress: () => {
+    Alert.alert('Deleting FreeTimes!', `Are you sure you want to delete your ${day} freetimes?`, [{text: 'Yes', onPress: () => {
       setDayFreeTimes(() => {
         freeTimes.forEach((item) => {
           item.increments.forEach((item) => {

@@ -9,7 +9,7 @@ async function deleteFromDB(key, name) {
     headers: {"Content-type": "application/json"}
   })
   .then((response) => response.text())
-  .then((json) => console.log(json))
+  .then((json) => json)
   .catch((error) => console.log(error))
 
   console.log("member records deleted")
@@ -21,14 +21,16 @@ async function deleteFromDB(key, name) {
     headers: {"Content-type": "application/json"}
   })
   .then((response) => response.text())
-  .then((json) => console.log(json))
+  .then((json) => json)
   .catch((error) => console.log(error))
-  console.log("group deleted")
 }
 
 const GroupContext = createContext({});
 
   export function GroupContextProvider(props) {
+
+    // Users GET from database
+    const [users, setUsers] = useState([]);
 
     // groups.js
     const [groups, setGroups] = useState([]);
@@ -64,6 +66,20 @@ const GroupContext = createContext({});
 
     // groupsSettings.js
 
+    const [membersAdded, setMembersAdded] = useState(true);
+
+    const addGroupMember = () => {
+      setMembersAdded(false);
+    }
+
+    const addedGroupMember = (groupMembers, member) => {
+       //groupMembers.push(member);
+    }
+
+    const cancelGroupMember = () => {
+      setMembersAdded(true);
+    }
+
     const [renamed, setRenamed] = useState(true);
     const [text3, setText3] = useState("");
 
@@ -83,8 +99,9 @@ const GroupContext = createContext({});
         headers: {"Content-type": "application/json"}
       })
       .then((response) => response.text())
-      .then((json) => console.log(json))
+      .then((json) => json)
       .catch((error) => console.log(error))
+
       setGroups(() => {
         groups.forEach((item) => (item.groupname === groupName ? item.groupname = text3 : null));
 
@@ -101,12 +118,9 @@ const GroupContext = createContext({});
     const deleteGroup = (name, navigation) => {
       Alert.alert('Deleting this Group!', 'Are you sure you want to delete this Group?', [{text: 'Yes', onPress: () => {
         let myKey;
-        console.log("dg function, key: ");
         for(let i = 0; i < groups.length; i++) {
           if(groups[i].groupname == name) {
             myKey = groups[i].key;
-            console.log(myKey);
-            console.log(name);
             deleteFromDB(myKey, name);
           }
         }
@@ -121,8 +135,9 @@ const GroupContext = createContext({});
 
   return (
     <GroupContext.Provider value={{
+      users: users, setUsers: setUsers,
       groups: groups, setGroups: setGroups, changedGroups: changedGroups, setChangedGroups: setChangedGroups, named: named, setNamed: setNamed, text1: text1, setText1: setText1, text2: text2, setText2: setText2, changeHandler1: changeHandler1, changeHandler2: changeHandler2, addGroup: addGroup, confirmGroup: confirmGroup, cancelGroup: cancelGroup,
-      renamed: renamed, setRenamed: setRenamed, text3: text3, setText3: setText3, changeHandler3: changeHandler3, renameGroup: renameGroup, renamedGroup: renamedGroup, cancelRename: cancelRename, deleteGroup: deleteGroup
+      membersAdded: membersAdded, setMembersAdded: setMembersAdded, addGroupMember: addGroupMember, addedGroupMember: addedGroupMember, cancelGroupMember: cancelGroupMember, renamed: renamed, setRenamed: setRenamed, text3: text3, setText3: setText3, changeHandler3: changeHandler3, renameGroup: renameGroup, renamedGroup: renamedGroup, cancelRename: cancelRename, deleteGroup: deleteGroup
     }}>
       {props.children}
     </GroupContext.Provider>
