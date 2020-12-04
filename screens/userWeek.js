@@ -1,13 +1,11 @@
-import React, {useState} from "react";
+import React from "react";
 import {
     View,
-    StyleSheet,
     Text,
     FlatList,
     TouchableOpacity,
 } from "react-native";
 import {globalStyles} from "../styles/global";
-import Card from "../components/card";
 
 import {useUserContext} from "../context/userContext";
 
@@ -25,9 +23,9 @@ export default function UserWeek({navigation}) {
                                 onPress={() => navigation.navigate("UserTimes", item)}
                             >
                                 <Text style={globalStyles.moduleHeaderText}>{item.day}</Text>
-                                <View style={globalStyles.moduleBox}>
+                                {/*<View style={globalStyles.moduleBox}>
                                     <Text></Text>
-                                </View>
+                                </View>*/}
                             </TouchableOpacity>
                         </View>
                     )}

@@ -217,12 +217,12 @@ const UserContext = createContext({});
         key: "6",
       },
     ]);
-  // loginPage.js
+    // loginPage.js
 
-  // userTimes.js
-  const [dayFreeTimes, setDayFreeTimes] = useState([]);
+    // userTimes.js
+    const [dayFreeTimes, setDayFreeTimes] = useState([]);
 
-  const [selectedDayFreeTimes, setSelectedDayFreeTimes] = useState([]);
+    const [selectedDayFreeTimes, setSelectedDayFreeTimes] = useState([]);
 
     /**
      * @param  {} navigation
@@ -239,14 +239,14 @@ const UserContext = createContext({});
                   weekDays.forEach((item) => {
                     item.freeTimes.forEach((item) => {
                       item.increments.forEach((item) => {
-                        if(item.hour % 2 == 0) {
+                        if (item.hour % 2 == 0) {
                           item.color === "#00E600"
-                            ? (item.color = "white")
-                            : null;
+                              ? (item.color = "white")
+                              : null;
                         } else {
                           item.color === "#00E600"
-                            ? (item.color = "#ededed")
-                            : null;
+                              ? (item.color = "#ededed")
+                              : null;
                         }
                       })
                     });
@@ -257,125 +257,127 @@ const UserContext = createContext({});
                 Alert.alert("Your UserWeek FreeTimes have been reset!");
               },
             },
-            { text: "No" },
+            {text: "No"},
           ]
       );
     };
 
-  const inputTime = (item) => {
-    setDayFreeTimes(() => {
-      if(item.hour % 2 == 0) {
-        item.color === "white"
-          ? (item.color = "#00E600")
-          : (item.color = "white");
-      } else {
-        item.color === "#ededed"
-          ? (item.color = "#00E600")
-          : (item.color = "#ededed");
-      }
-
-      return setSelectedDayFreeTimes(dayFreeTimes);
-    });
-  };
-
-  /**
-   * @param  {} freeTimes
-   */
-  const resetDayFreeTimes = (freeTimes, day) => {
-    Alert.alert('Resetting FreeTimes!', `Are you sure you want to reset your ${day} freetimes?`, [{text: 'Yes', onPress: () => {
+    const inputTime = (item) => {
       setDayFreeTimes(() => {
-        freeTimes.forEach((item) => {
-          item.increments.forEach((item) => {
-            if(item.hour % 2 == 0) {
-              item.color === "#00E600"
-                ? (item.color = "white")
-                : null;
-            } else {
-              item.color === "#00E600"
-                ? (item.color = "#ededed")
-                : null;
-            }
-          })
-          return setSelectedDayFreeTimes(freeTimes);
-        });
+        if (item.hour % 2 == 0) {
+          item.color === "white"
+              ? (item.color = "#00E600")
+              : (item.color = "white");
+        } else {
+          item.color === "#ededed"
+              ? (item.color = "#00E600")
+              : (item.color = "#ededed");
+        }
+
+        return setSelectedDayFreeTimes(dayFreeTimes);
       });
-    }}, {text: 'No'}]);
-  };
+    };
 
-  // userProfile.js
-  const name = "John Doe";
-  const [userName, setUsername] = useState("");
-  const [userInitials, setUserInitials] = useState("");
-  const [userSelectedInterests, setUserInterests] = useState([]);
-  const [interests, setInterests] = useState([
-    // { title: "Climbing", key: 1 },
-    // { title: "Art", key: 2 },
-    // { title: "Studying", key: 3 },
-    // { title: "Chapel", key: 4 },
-    // { title: "Running", key: 5 },
-    // { title: "Gaming", key: 6 },
-    // { title: "Sports", key: 7 },
-    // { title: "Shopping", key: 8 },
-  ]);
+    /**
+     * @param  {} freeTimes
+     */
+    const resetDayFreeTimes = (freeTimes, day) => {
+      Alert.alert('Resetting FreeTimes!', `Are you sure you want to reset your ${day} freetimes?`, [{
+        text: 'Yes', onPress: () => {
+          setDayFreeTimes(() => {
+            freeTimes.forEach((item) => {
+              item.increments.forEach((item) => {
+                if (item.hour % 2 == 0) {
+                  item.color === "#00E600"
+                      ? (item.color = "white")
+                      : null;
+                } else {
+                  item.color === "#00E600"
+                      ? (item.color = "#ededed")
+                      : null;
+                }
+              })
+              return setSelectedDayFreeTimes(freeTimes);
+            });
+          });
+        }
+      }, {text: 'No'}]);
+    };
 
-  /**
-   * @param  {} id
-   * @param  {} interestname
-   */
-  const pressHandlerAdd = (id, interestname) => {
-    // remove interest from potential interest list
-    setInterests((prevInterests) => {
-      return prevInterests.filter((interest) => interest.id != id);
-    });
-    // add interest to user interests list
-    setUserInterests((prevUserInterests) => {
-      return [{ interestname: interestname, id: id.toString() }, ...prevUserInterests];
-    });
-  };
+    // userProfile.js
+    const name = "John Doe";
+    const [userName, setUsername] = useState("");
+    const [userInitials, setUserInitials] = useState("");
+    const [userSelectedInterests, setUserInterests] = useState([]);
+    const [interests, setInterests] = useState([
+      // { title: "Climbing", key: 1 },
+      // { title: "Art", key: 2 },
+      // { title: "Studying", key: 3 },
+      // { title: "Chapel", key: 4 },
+      // { title: "Running", key: 5 },
+      // { title: "Gaming", key: 6 },
+      // { title: "Sports", key: 7 },
+      // { title: "Shopping", key: 8 },
+    ]);
 
-  /**
-   * @param  {} id
-   * @param  {} interestname
-   */
-  const pressHandlerRemove = (id, interestname) => {
-    // make updated user interests list, remove key that was passed in
-    setUserInterests((prevUserInterests) => {
-      return prevUserInterests.filter((interest) => interest.id != id);
-    });
-    // add the interest back to potential list of interests
-    setInterests((prevInterests) => {
-      return [{ interestname: interestname, id: id.toString() }, ...prevInterests];
-    });
-  };
+    /**
+     * @param  {} id
+     * @param  {} interestname
+     */
+    const pressHandlerAdd = (id, interestname) => {
+      // remove interest from potential interest list
+      setInterests((prevInterests) => {
+        return prevInterests.filter((interest) => interest.id != id);
+      });
+      // add interest to user interests list
+      setUserInterests((prevUserInterests) => {
+        return [{interestname: interestname, id: id.toString()}, ...prevUserInterests];
+      });
+    };
 
-  return (
-    <UserContext.Provider
-      value={{
-        weekDays: weekDays,
-        setWeekDays: setWeekDays,
-        dayFreeTimes: dayFreeTimes,
-        setDayFreeTimes: setDayFreeTimes,
-        selectedDayFreeTimes: selectedDayFreeTimes,
-        setSelectedDayFreeTimes: setSelectedDayFreeTimes,
-        resetWeekDays: resetWeekDays,
-        inputTime: inputTime,
-        resetDayFreeTimes: resetDayFreeTimes,
-        name: name,
-        userName: userName,
-        setUsername: setUsername,
-        userInitials: userInitials,
-        setUserInitials: setUserInitials,
-        userSelectedInterests: userSelectedInterests,
-        interests: interests,
-        setInterests: setInterests,
-        setUserInterests: setUserInterests,
-        pressHandlerAdd: pressHandlerAdd,
-        pressHandlerRemove: pressHandlerRemove,
-      }}>
-      {props.children}
-    </UserContext.Provider>
-  );
-}
+    /**
+     * @param  {} id
+     * @param  {} interestname
+     */
+    const pressHandlerRemove = (id, interestname) => {
+      // make updated user interests list, remove key that was passed in
+      setUserInterests((prevUserInterests) => {
+        return prevUserInterests.filter((interest) => interest.id != id);
+      });
+      // add the interest back to potential list of interests
+      setInterests((prevInterests) => {
+        return [{interestname: interestname, id: id.toString()}, ...prevInterests];
+      });
+    };
+
+    return (
+        <UserContext.Provider
+            value={{
+              weekDays: weekDays,
+              setWeekDays: setWeekDays,
+              dayFreeTimes: dayFreeTimes,
+              setDayFreeTimes: setDayFreeTimes,
+              selectedDayFreeTimes: selectedDayFreeTimes,
+              setSelectedDayFreeTimes: setSelectedDayFreeTimes,
+              resetWeekDays: resetWeekDays,
+              inputTime: inputTime,
+              resetDayFreeTimes: resetDayFreeTimes,
+              name: name,
+              userName: userName,
+              setUsername: setUsername,
+              userInitials: userInitials,
+              setUserInitials: setUserInitials,
+              userSelectedInterests: userSelectedInterests,
+              interests: interests,
+              setInterests: setInterests,
+              setUserInterests: setUserInterests,
+              pressHandlerAdd: pressHandlerAdd,
+              pressHandlerRemove: pressHandlerRemove,
+            }}>
+          {props.children}
+        </UserContext.Provider>
+    );
+  }
 
 export const useUserContext = () => useContext(UserContext);
 

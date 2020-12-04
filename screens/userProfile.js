@@ -1,13 +1,8 @@
 /*
  This file includes the implementation for the user's profile, which displays their name,
  username, and allows them to select interests
- Last updated: 11/13/2020
-
- Current Issues:
- - Name, username, initials are placeholders
- - If top list is too full, bottom list is pushed down (smaller screen issues)
- - General UI polishing needed
   */
+
 import React from "react";
 import {
     FlatList,
@@ -32,7 +27,7 @@ export default function Profile() {
             <Text style={globalStyles.titleText}>My Interests:</Text>
             <View>
                 <FlatList
-                    key={"_"} // essential for multiple columns in a FlatList, not sure why
+                    key={"_"}
                     data={context.userSelectedInterests}
                     numColumns={2}
                     scrollEnabled={true}
