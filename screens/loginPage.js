@@ -57,7 +57,7 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
       .catch((error) => console.log(error))
 
     let userGroupsMembers = [];
-    await fetch(`https://temp-freetime-service.herokuapp.com/User/Groups/Members`)
+    await fetch(`https://freetime-service.herokuapp.com/User/Groups/Members`)
       .then((response) => response.json())
       .then((json) => userGroupsMembers = json)
       .catch((error) => console.log(error))

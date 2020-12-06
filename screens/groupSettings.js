@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   TextInput,
-  Keyboard
+  Keyboard,
+  ScrollView
 } from "react-native";
 import { globalStyles } from "../styles/global";
 
@@ -15,6 +16,7 @@ import { useGroupContext } from "../context/groupContext";
 
 import Button from "../components/button";
 import { HeaderBackButton } from "@react-navigation/stack";
+//import { ScrollView } from "react-native-gesture-handler";
 
 export default function GroupSettings({ route, navigation }) {
   const context = useGroupContext();
@@ -53,7 +55,7 @@ export default function GroupSettings({ route, navigation }) {
         </View>
       </TouchableWithoutFeedback>
     )
-  } else {
+  } else if (context.renamed && !context.membersAdded) {
     useEffect(() => navigation.setOptions({ headerLeft: () => {} }));
 
     return (
@@ -64,20 +66,31 @@ export default function GroupSettings({ route, navigation }) {
           <Text style={globalStyles.titleText}>
             Please add Members to your Group
           </Text>
-          <FlatList
-            data={context.users}
-            keyExtractor={(user) => user.id.toString()}
-            renderItem={({ item }) => (
-              <View style={globalStyles.container}>
-                <Text style={globalStyles.moduleHeaderText}>{ item.username }</Text>
-              </View>
-            )}
-            scrollEnabled={true}
-            showsVerticalScrollIndicator={false}
+          <TextInput
+            style={globalStyles.textInput}
+            placeholder={"Username"}
+            onChangeText={context.changeHandler4}
+            value={context.text4}
           />
-          <Button text={"Add Member"} textColor={'black'} backgroundColor={'#70cefa'} onPress={context.groupMemberAdded}></Button>
+          <View style={globalStyles.container}>
+            <FlatList
+              data={context.users}
+              keyExtractor={(user) => user.id.toString()}
+              renderItem={({ item }) => (
+                <View style={globalStyles.container}>
+                  <Text /*style={globalStyles.moduleHeaderText}*/>{ item.username }</Text>
+                </View>
+              )}
+              scrollEnabled={true}
+              showsVerticalScrollIndicator={false}
+              //numColumns={2}
+            />
+          </View>
+          <View style={globalStyles.container}>
+          <Button text={"Add Member"} textColor={'black'} backgroundColor={'#70cefa'} onPress={() => context.addedGroupMember(route.params.adminUser, route.params.groupMembers, context.text4, route.params.key, navigation)/*addMember(context, route.params.groupMembers, context.text4, route.params.key, navigation)*/}></Button>
           <View style={globalStyles.cancelButtonContainer}>
             <Button text={"Cancel"} textColor={'black'} backgroundColor={'#ff5f5f'} onPress={context.cancelGroupMember}></Button>
+          </View>
           </View>
         </View>
       </TouchableWithoutFeedback>

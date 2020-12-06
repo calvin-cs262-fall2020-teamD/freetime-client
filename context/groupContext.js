@@ -12,8 +12,6 @@ async function deleteFromDB(key, name) {
   .then((json) => json)
   .catch((error) => console.log(error))
 
-  console.log("member records deleted")
-
   //Deleting group record
   await fetch(`https://freetime-service.herokuapp.com/deletegroup`, {
     method: "DELETE",
@@ -67,13 +65,57 @@ const GroupContext = createContext({});
     // groupsSettings.js
 
     const [membersAdded, setMembersAdded] = useState(true);
+    const [addedGroupMembers, setAddedGroupMembers] = useState([]);
+    const [text4, setText4] = useState("");
 
-    const addGroupMember = () => {
-      setMembersAdded(false);
+    const changeHandler4 = (val) => {
+        setText4(val);
     }
 
-    const addedGroupMember = (groupMembers, member) => {
-       //groupMembers.push(member);
+    const addGroupMember = () => {
+        setText4("");
+        setMembersAdded(false);
+    }
+
+    const addedGroupMember = (adminUser, groupMembers, member, groupID, navigation) => {
+        let memberExists = false;
+        for(let currentMember of groupMembers) {
+            if(currentMember.username == member || adminUser == member) {
+                Alert.alert(`There was already a ${member} User!`);
+                memberExists = true;
+                break;
+            }
+        }
+
+        if(!memberExists) {
+            let i = 0;
+            for(let user of users) {
+                if(user.username == member) {
+                    groupMembers.push(user);
+
+                    fetch(`https://freetime-service.herokuapp.com/addgroupmember`, {
+                    method: "POST",
+                    body: JSON.stringify({memberID: user.id, groupID: groupID}),
+                    headers: {"Content-type": "application/json"}
+                    })
+                    .then((response) => response.text())
+                    .then((json) => json)
+                    .catch((error) => console.log(error))
+
+                    break;
+                } else {
+                    i++;
+                }
+            }
+
+            if(i == users.length) {
+                Alert.alert(`There wasn't a ${member} User!`);
+            }
+        }
+
+        setAddedGroupMembers(groupMembers);
+        setMembersAdded(true);
+        navigation.goBack();
     }
 
     const cancelGroupMember = () => {
@@ -108,7 +150,7 @@ const GroupContext = createContext({});
         return groups;
       });
       setRenamed(true);
-      navigation.navigate("Groups");
+      navigation.goBack();
     }
 
     const cancelRename = () => {
@@ -137,7 +179,7 @@ const GroupContext = createContext({});
     <GroupContext.Provider value={{
       users: users, setUsers: setUsers,
       groups: groups, setGroups: setGroups, changedGroups: changedGroups, setChangedGroups: setChangedGroups, named: named, setNamed: setNamed, text1: text1, setText1: setText1, text2: text2, setText2: setText2, changeHandler1: changeHandler1, changeHandler2: changeHandler2, addGroup: addGroup, confirmGroup: confirmGroup, cancelGroup: cancelGroup,
-      membersAdded: membersAdded, setMembersAdded: setMembersAdded, addGroupMember: addGroupMember, addedGroupMember: addedGroupMember, cancelGroupMember: cancelGroupMember, renamed: renamed, setRenamed: setRenamed, text3: text3, setText3: setText3, changeHandler3: changeHandler3, renameGroup: renameGroup, renamedGroup: renamedGroup, cancelRename: cancelRename, deleteGroup: deleteGroup
+      addGroupMember: addGroupMember, addedGroupMember: addedGroupMember, cancelGroupMember: cancelGroupMember, membersAdded: membersAdded, setMembersAdded: setMembersAdded, addedGroupMembers: addedGroupMembers, setAddedGroupMembers: setAddedGroupMembers, text4: text4, setText4: setText4, changeHandler4: changeHandler4, renamed: renamed, setRenamed: setRenamed, text3: text3, setText3: setText3, changeHandler3: changeHandler3, renameGroup: renameGroup, renamedGroup: renamedGroup, cancelRename: cancelRename, deleteGroup: deleteGroup
     }}>
       {props.children}
     </GroupContext.Provider>
