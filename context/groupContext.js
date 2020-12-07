@@ -9,10 +9,8 @@ async function deleteFromDB(key, name) {
     headers: {"Content-type": "application/json"}
   })
   .then((response) => response.text())
-  .then((json) => console.log(json))
+  .then((json) => json)
   .catch((error) => console.log(error))
-
-  console.log("member records deleted")
 
   //Deleting group record
   await fetch(`https://freetime-service.herokuapp.com/deletegroup`, {
@@ -21,14 +19,16 @@ async function deleteFromDB(key, name) {
     headers: {"Content-type": "application/json"}
   })
   .then((response) => response.text())
-  .then((json) => console.log(json))
+  .then((json) => json)
   .catch((error) => console.log(error))
-  console.log("group deleted")
 }
 
 const GroupContext = createContext({});
 
   export function GroupContextProvider(props) {
+
+    // Users GET from database
+    const [users, setUsers] = useState([]);
 
     // groups.js
     const [groups, setGroups] = useState([]);
@@ -64,6 +64,64 @@ const GroupContext = createContext({});
 
     // groupsSettings.js
 
+    const [membersAdded, setMembersAdded] = useState(true);
+    const [addedGroupMembers, setAddedGroupMembers] = useState([]);
+    const [text4, setText4] = useState("");
+
+    const changeHandler4 = (val) => {
+        setText4(val);
+    }
+
+    const addGroupMember = () => {
+        setText4("");
+        setMembersAdded(false);
+    }
+
+    const addedGroupMember = (adminUser, groupMembers, member, groupID, navigation) => {
+        let memberExists = false;
+        for(let currentMember of groupMembers) {
+            if(currentMember.username == member || adminUser == member) {
+                Alert.alert(`There was already a ${member} User!`);
+                memberExists = true;
+                break;
+            }
+        }
+
+        if(!memberExists) {
+            let i = 0;
+            for(let user of users) {
+                if(user.username == member) {
+                    groupMembers.push(user);
+
+                    fetch(`https://freetime-service.herokuapp.com/addgroupmember`, {
+                    method: "POST",
+                    body: JSON.stringify({memberID: user.id, groupID: groupID}),
+                    headers: {"Content-type": "application/json"}
+                    })
+                    .then((response) => response.text())
+                    .then((json) => json)
+                    .catch((error) => console.log(error))
+
+                    break;
+                } else {
+                    i++;
+                }
+            }
+
+            if(i == users.length) {
+                Alert.alert(`There wasn't a ${member} User!`);
+            }
+        }
+
+        setAddedGroupMembers(groupMembers);
+        setMembersAdded(true);
+        navigation.goBack();
+    }
+
+    const cancelGroupMember = () => {
+      setMembersAdded(true);
+    }
+
     const [renamed, setRenamed] = useState(true);
     const [text3, setText3] = useState("");
 
@@ -83,15 +141,16 @@ const GroupContext = createContext({});
         headers: {"Content-type": "application/json"}
       })
       .then((response) => response.text())
-      .then((json) => console.log(json))
+      .then((json) => json)
       .catch((error) => console.log(error))
+
       setGroups(() => {
         groups.forEach((item) => (item.groupname === groupName ? item.groupname = text3 : null));
 
         return groups;
       });
       setRenamed(true);
-      navigation.navigate("Groups");
+      navigation.goBack();
     }
 
     const cancelRename = () => {
@@ -101,12 +160,9 @@ const GroupContext = createContext({});
     const deleteGroup = (name, navigation) => {
       Alert.alert('Deleting this Group!', 'Are you sure you want to delete this Group?', [{text: 'Yes', onPress: () => {
         let myKey;
-        console.log("dg function, key: ");
         for(let i = 0; i < groups.length; i++) {
           if(groups[i].groupname == name) {
             myKey = groups[i].key;
-            console.log(myKey);
-            console.log(name);
             deleteFromDB(myKey, name);
           }
         }
@@ -121,8 +177,9 @@ const GroupContext = createContext({});
 
   return (
     <GroupContext.Provider value={{
+      users: users, setUsers: setUsers,
       groups: groups, setGroups: setGroups, changedGroups: changedGroups, setChangedGroups: setChangedGroups, named: named, setNamed: setNamed, text1: text1, setText1: setText1, text2: text2, setText2: setText2, changeHandler1: changeHandler1, changeHandler2: changeHandler2, addGroup: addGroup, confirmGroup: confirmGroup, cancelGroup: cancelGroup,
-      renamed: renamed, setRenamed: setRenamed, text3: text3, setText3: setText3, changeHandler3: changeHandler3, renameGroup: renameGroup, renamedGroup: renamedGroup, cancelRename: cancelRename, deleteGroup: deleteGroup
+      addGroupMember: addGroupMember, addedGroupMember: addedGroupMember, cancelGroupMember: cancelGroupMember, membersAdded: membersAdded, setMembersAdded: setMembersAdded, addedGroupMembers: addedGroupMembers, setAddedGroupMembers: setAddedGroupMembers, text4: text4, setText4: setText4, changeHandler4: changeHandler4, renamed: renamed, setRenamed: setRenamed, text3: text3, setText3: setText3, changeHandler3: changeHandler3, renameGroup: renameGroup, renamedGroup: renamedGroup, cancelRename: cancelRename, deleteGroup: deleteGroup
     }}>
       {props.children}
     </GroupContext.Provider>

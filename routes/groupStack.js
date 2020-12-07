@@ -28,19 +28,19 @@ export default function GroupStack() {
       <Stack.Screen
         name="Groups"
         component={groups}
-        options={{ title: "Groups", headerTitleAlign: 'center', headerLeft: () => {} }}
+        options={{ title: "Groups", headerTitleAlign: 'center', headerLeft: () => {}, gestureEnabled: false }}
       />
 
       <Stack.Screen
         name="Group"
         component={group}
-        options={{ title: 'Group', headerTitleAlign: 'center'}}
+        options={{ title: 'Group', headerTitleAlign: 'center', gestureEnabled: false }}
       />
 
       <Stack.Screen
         name="GroupSettings"
         component={groupSettings}
-        options={{ title: 'Group Settings', headerTitleAlign: 'center'}}
+        options={{ title: 'Group Settings', headerTitleAlign: 'center', gestureEnabled: false }}
       />
 
     </Stack.Navigator>

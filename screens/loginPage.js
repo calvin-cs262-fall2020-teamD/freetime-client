@@ -20,6 +20,8 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
     .then((response) => response.json())
     .then((json) => data = json)
     .catch((error) => console.log(error))
+
+  groupContext.setUsers(data);
   //Get the ID of the correct user
   for(let i = 0; i < data.length; i++) {
     if(data[i].username == name) {
@@ -40,27 +42,25 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
     await fetch(`https://freetime-service.herokuapp.com/User/Interests`)
       .then((response) => response.json())
       .then((json) => userInterests = json)
-      .catch((error) => "")
+      .catch((error) => console.log(error))
 
     let interests = [];
     await fetch(`https://freetime-service.herokuapp.com/Interests`)
       .then((response) => response.json())
       .then((json) => interests = json)
-      .catch((error) => "")
+      .catch((error) => console.log(error))
 
     let userGroups = [];
     await fetch(`https://freetime-service.herokuapp.com/User/Groups`)
       .then((response) => response.json())
       .then((json) => userGroups = json)
-      .catch((error) => "")
+      .catch((error) => console.log(error))
 
-    let groupMembers = [];
-    // for(let i = 0; i < userGroups.length; i++) {
-    //   if(userGroups[i].groupname == userGroups.groupname) {
-    //     id = data[i].id;
-    //     break;
-    //   }
-    // }
+    let userGroupsMembers = [];
+    await fetch(`https://freetime-service.herokuapp.com/User/Groups/Members`)
+      .then((response) => response.json())
+      .then((json) => userGroupsMembers = json)
+      .catch((error) => console.log(error))
 
     //fetch person's freetimes and modify list
 
@@ -73,9 +73,14 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
         userContext.pressHandlerAdd(interest.id.toString(), interest.interestname);
       }
     }
-    console.log("adding groups... ");
     for (let group of userGroups) {
       if(group.memberid == id) {
+        let groupMembers = [];
+        for(let member of userGroupsMembers) {
+          if(member.groupname == group.groupname && member.memberid != group.adminid) {
+            groupMembers.push(member);
+          }
+        }
         groupContext.setGroups((prevGroups) => {
           return [{ groupname: group.groupname, groupMembers: groupMembers, adminUser: group.username, key: group.groupid.toString() }, ...prevGroups];
         });
@@ -102,7 +107,7 @@ const createUser = (name, pass) => {
     headers: {"Content-type": "application/json"}
   })
   .then((response) => response.text())
-  .then((json) => console.log(json))
+  .then((json) => json)
   .catch((error) => console.log(error))
 }
 
@@ -121,7 +126,7 @@ export default function Login({ navigation }) {
     await fetch("https://freetime-service.herokuapp.com/Users")
       .then((response) => response.json())
       .then((json) => data = json)
-      .catch((error) => "")
+      .catch((error) => console.log(error))
     let duplicateExists = false;
     // console.log(name);
     for(let i = 0; i < data.length; i++) {

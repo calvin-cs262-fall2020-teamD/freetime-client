@@ -39,7 +39,7 @@ export default function Profile() {
                     renderItem={({item}) => (
                         <TouchableOpacity
                             style={styles.interestContainer}
-                            onPress={() => context.pressHandlerRemove(item.id, item.interestname)}
+                            onPress={() => context.pressHandlerRemove(item.id, item.interestname, context.userID)}
                         >
                             <Text style={styles.interestCard}>{item.interestname}</Text>
                         </TouchableOpacity>
@@ -55,7 +55,7 @@ export default function Profile() {
                 renderItem={({item}) => (
                     <TouchableOpacity
                         style={styles.interestContainer}
-                        onPress={() => context.pressHandlerAdd(item.id, item.interestname)}
+                        onPress={() => context.pressHandlerAdd(item.id, item.interestname, context.userID)}
                     >
                         <Text style={styles.interestCard}>{item.interestname}</Text>
                     </TouchableOpacity>

@@ -220,17 +220,14 @@ const UserContext = createContext({});
   // loginPage.js
 
   // userTimes.js
-  const [dayFreeTimes, setDayFreeTimes] = useState([]);
-
-  const [selectedDayFreeTimes, setSelectedDayFreeTimes] = useState([]);
 
     /**
      * @param  {} navigation
      */
     const resetWeekDays = (navigation) => {
       Alert.alert(
-          "Resetting all of the UserWeek FreeTimes!",
-          "Are you sure you want to reset your freetimes?",
+          "Deleting all of the UserWeek FreeTimes!",
+          "Are you sure you want to delete your freetimes?",
           [
             {
               text: "Yes",
@@ -260,63 +257,16 @@ const UserContext = createContext({});
                   headers: {"Content-type": "application/json"}
                 })
                 .then((response) => response.text())
-                .then((json) => console.log(json))
+                .then((json) => json)
                 .catch((error) => console.log(error))
-                Alert.alert("Your UserWeek FreeTimes have been reset!");
+
+                Alert.alert("Your UserWeek FreeTimes have been deleted!");
               },
             },
             { text: "No" },
           ]
       );
     };
-
-  const inputTime = (item) => {
-    setDayFreeTimes(() => {
-      if(item.hour % 2 == 0) {
-        item.color === "white"
-          ? (item.color = "#00E600")
-          : (item.color = "white");
-      } else {
-        item.color === "#ededed"
-          ? (item.color = "#00E600")
-          : (item.color = "#ededed");
-      }
-
-      return setSelectedDayFreeTimes(dayFreeTimes);
-    });
-  };
-
-  /**
-   * @param  {} freeTimes
-   */
-  const resetDayFreeTimes = (freeTimes, day) => {
-    Alert.alert('Resetting FreeTimes!', `Are you sure you want to reset your ${day} freetimes?`, [{text: 'Yes', onPress: () => {
-      setDayFreeTimes(() => {
-        freeTimes.forEach((item) => {
-          item.increments.forEach((item) => {
-            if(item.hour % 2 == 0) {
-              item.color === "#00E600"
-                ? (item.color = "white")
-                : null;
-            } else {
-              item.color === "#00E600"
-                ? (item.color = "#ededed")
-                : null;
-            }
-          })
-          return setSelectedDayFreeTimes(freeTimes);
-        });
-      });
-      fetch(`https://radiant-dusk-08201.herokuapp.com/deletedaytimes`, {
-        method: "DELETE",
-        body: JSON.stringify({userID: userID, weekday: day}),
-        headers: {"Content-type": "application/json"}
-      })
-      .then((response) => response.text())
-      .then((json) => console.log(json))
-      .catch((error) => console.log(error))
-    }}, {text: 'No'}]);
-  };
 
   // userProfile.js
   const name = "John Doe";
@@ -339,7 +289,7 @@ const UserContext = createContext({});
    * @param  {} id
    * @param  {} interestname
    */
-  const pressHandlerAdd = (id, interestname) => {
+  const pressHandlerAdd = (id, interestname, userID) => {
     // remove interest from potential interest list
     setInterests((prevInterests) => {
       return prevInterests.filter((interest) => interest.id != id);
@@ -348,13 +298,22 @@ const UserContext = createContext({});
     setUserInterests((prevUserInterests) => {
       return [{ interestname: interestname, id: id.toString() }, ...prevUserInterests];
     });
+
+    fetch(`https://freetime-service.herokuapp.com/User/addInterest`, {
+      method: "POST",
+      body: JSON.stringify({userID: userID, interestID: id}),
+      headers: {"Content-type": "application/json"}
+      })
+      .then((response) => response.text())
+      .then((json) => json)
+      .catch((error) => console.log(error))
   };
 
   /**
    * @param  {} id
    * @param  {} interestname
    */
-  const pressHandlerRemove = (id, interestname) => {
+  const pressHandlerRemove = (id, interestname, userID) => {
     // make updated user interests list, remove key that was passed in
     setUserInterests((prevUserInterests) => {
       return prevUserInterests.filter((interest) => interest.id != id);
@@ -363,6 +322,15 @@ const UserContext = createContext({});
     setInterests((prevInterests) => {
       return [{ interestname: interestname, id: id.toString() }, ...prevInterests];
     });
+
+    fetch(`https://freetime-service.herokuapp.com/User/deleteInterest`, {
+      method: "DELETE",
+      body: JSON.stringify({userID: userID, interestID: id}),
+      headers: {"Content-type": "application/json"}
+      })
+      .then((response) => response.text())
+      .then((json) => json)
+      .catch((error) => console.log(error))
   };
 
   return (
@@ -370,13 +338,8 @@ const UserContext = createContext({});
       value={{
         weekDays: weekDays,
         setWeekDays: setWeekDays,
-        dayFreeTimes: dayFreeTimes,
-        setDayFreeTimes: setDayFreeTimes,
-        selectedDayFreeTimes: selectedDayFreeTimes,
-        setSelectedDayFreeTimes: setSelectedDayFreeTimes,
         resetWeekDays: resetWeekDays,
-        inputTime: inputTime,
-        resetDayFreeTimes: resetDayFreeTimes,
+        //resetDayFreeTimes: resetDayFreeTimes,
         name: name,
         userName: userName,
         setUsername: setUsername,

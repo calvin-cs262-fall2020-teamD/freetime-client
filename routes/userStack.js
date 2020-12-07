@@ -55,19 +55,19 @@ export default function UserStack({ navigation }) {
       <Stack.Screen
         name="Settings"
         component={Settings}
-        options={{ title: "Settings" }}
+        options={{ title: "Settings", gestureEnabled: false }}
       />
 
       <Stack.Screen
         name="Profile"
         component={Profile}
-        options={{ title: "Profile" }}
+        options={{ title: "Profile", gestureEnabled: false }}
       />
 
       <Stack.Screen
         name="About"
         component={About}
-        options={{ title: "About" }}
+        options={{ title: "About", gestureEnabled: false }}
       />
 
     </Stack.Navigator>
