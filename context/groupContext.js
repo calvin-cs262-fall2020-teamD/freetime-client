@@ -79,12 +79,18 @@ const GroupContext = createContext({});
 
     const addedGroupMember = (adminUser, groupMembers, member, groupID, navigation) => {
         let memberExists = false;
-        for(let currentMember of groupMembers) {
-            if(currentMember.username == member || adminUser == member) {
+
+        if(adminUser == member) {
+          Alert.alert(`You can't add yourself ${member}!`);
+          memberExists = true;
+        } else {
+          for(let currentMember of groupMembers) {
+            if(currentMember.username == member) {
                 Alert.alert(`There was already a ${member} User!`);
                 memberExists = true;
                 break;
             }
+          }
         }
 
         if(!memberExists) {
