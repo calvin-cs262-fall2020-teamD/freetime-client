@@ -38,7 +38,7 @@ async function makeGroup(groupContext, groupname, username, userID) {
     headers: {"Content-type": "application/json"}
   })
   .then((response) => response.text())
-  .then((json) => console.log(json))
+  .then((json) => json)
   .catch((error) => console.log(error))
 
   groupContext.confirmGroup(groupname, username, key.id);

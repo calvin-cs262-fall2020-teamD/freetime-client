@@ -5,6 +5,7 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
+  Alert
 } from "react-native";
 import { globalStyles } from "../styles/global";
 
@@ -16,16 +17,59 @@ import { useUserContext } from "../context/userContext";
 export default function UserTimes({ route, navigation }) {
   const context = useUserContext();
 
-  const freeTimeIncrements = [
-    {increment: "   00   ", key: "0"},
-    {increment: "   15   ", key: "1"},
-    {increment: "   30   ", key: "2"},
-    {increment: "   45   ", key: "3"},
-  ];
+  const [dayTimes, setDayTimes] = useState(route.params.freeTimes);
+  const [selectedDayTimes, setSelectedDayTimes] = useState([]);
 
-  context.setDayFreeTimes(route.params.freeTimes);
+  const inputDayTimes = (item) => {
+    setDayTimes(() => {
+      if(item.hour % 2 == 0) {
+        item.color === "white"
+          ? (item.color = "#00E600")
+          : (item.color = "white");
+      } else {
+        item.color === "#ededed"
+          ? (item.color = "#00E600")
+          : (item.color = "#ededed");
+      }
 
-  useEffect(() => { 
+      return dayTimes.map((item) => selectedDayTimes[item.key] = item);
+    });
+  };
+
+  /**
+   * @param  {} freeTimes
+   */
+  const resetDayTimes = () => {
+    Alert.alert('Deleting FreeTimes!', `Are you sure you want to delete your ${route.params.day} freetimes?`, [{text: 'Yes', onPress: () => {
+      setDayTimes(() => {
+        dayTimes.forEach((item) => {
+          item.increments.forEach((item) => {
+            if(item.hour % 2 == 0) {
+              item.color === "#00E600"
+                ? (item.color = "white")
+                : null;
+            } else {
+              item.color === "#00E600"
+                ? (item.color = "#ededed")
+                : null;
+            }
+          })
+        })
+        return dayTimes.map((item) => selectedDayTimes[item.key] = item);
+      });
+
+      // fetch(`https://radiant-dusk-08201.herokuapp.com/deletedaytimes`, {
+      //   method: "DELETE",
+      //   body: JSON.stringify({userID: userID, weekday: day}),
+      //   headers: {"Content-type": "application/json"}
+      // })
+      // .then((response) => response.text())
+      // .then((json) => json)
+      // .catch((error) => console.log(error))
+    }}, {text: 'No'}]);
+  };
+
+  useEffect(() => {
     navigation.setOptions({headerLeft: (props) => (<HeaderBackButton {...props} onPress={() => {
       //Gets called on navigating out of a userTime day
 
@@ -36,11 +80,11 @@ export default function UserTimes({ route, navigation }) {
         headers: {"Content-type": "application/json"}
       })
       .then((response) => response.text())
-      .then((json) => console.log(json))
+      .then((json) => json)
       .catch((error) => console.log(error))
 
       const array = route.params.freeTimes;
-      // console.log(array);
+
       let beginning;
       let end;
       let rangeSelected = false;
@@ -64,7 +108,7 @@ export default function UserTimes({ route, navigation }) {
               headers: {"Content-type": "application/json"}
             })
             .then((response) => response.text())
-            .then((json) => console.log(json))
+            .then((json) => json)
             .catch((error) => console.log(error))
 
             beginning = "";
@@ -75,9 +119,9 @@ export default function UserTimes({ route, navigation }) {
 
       navigation.goBack()
     }}></HeaderBackButton>) })
-    
+
     navigation.setOptions({headerRight: () =>
-    <TouchableOpacity onPress={() => {context.resetDayFreeTimes(route.params.freeTimes, route.params.day)}}>
+    <TouchableOpacity onPress={resetDayTimes}>
       <View style={globalStyles.iconContainer}>
         <MaterialIcons name='delete' size={30} color="black" />
       </View>
@@ -108,8 +152,8 @@ export default function UserTimes({ route, navigation }) {
         {/* This is the FlatList that displays the hours */}
         <FlatList
           style={styles.outerContainer}
-          data={context.dayFreeTimes}
-          extraData={context.setSelectedDayFreeTimes}
+          data={dayTimes}
+          extraData={selectedDayTimes}
           renderItem={({ item }) => (
             <View style={styles.listContainer}>
               <View style={styles.timeContainer}>
@@ -120,9 +164,9 @@ export default function UserTimes({ route, navigation }) {
                 <FlatList
                   style={styles.boxList}
                   data={item.increments}
-                  extraData={context.setSelectedDayFreeTimes}
+                  extraData={selectedDayTimes}
                   renderItem={({item}) => (
-                    <TouchableOpacity onPress={() => context.inputTime(item)}>
+                    <TouchableOpacity onPress={() => inputDayTimes(item)}>
                       <TimeBox item={item}></TimeBox>
                     </TouchableOpacity>
                   )}
