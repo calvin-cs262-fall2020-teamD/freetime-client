@@ -5,7 +5,8 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  Alert
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import { globalStyles } from "../styles/global";
 
@@ -70,11 +71,12 @@ export default function UserTimes({ route, navigation }) {
   };
 
   useEffect(() => {
-    navigation.setOptions({headerLeft: (props) => (<HeaderBackButton {...props} onPress={() => {
+    navigation.setOptions({headerLeft: (props) => (<HeaderBackButton {...props} onPress={async function() {
       //Gets called on navigating out of a userTime day
+      context.setLoading(true);
 
       //Deleting old freetimes for the day
-      fetch(`https://radiant-dusk-08201.herokuapp.com/deletedaytimes`, {
+      await fetch(`https://freetime-service.herokuapp.com/deletedaytimes`, {
         method: "DELETE",
         body: JSON.stringify({userID: context.userID, weekday: route.params.day}),
         headers: {"Content-type": "application/json"}
@@ -102,7 +104,7 @@ export default function UserTimes({ route, navigation }) {
             }
 
             //Adding new freetimes for the day
-            fetch(`https://radiant-dusk-08201.herokuapp.com/uploadtimes`, {
+            await fetch(`https://freetime-service.herokuapp.com/uploadtimes`, {
               method: "POST",
               body: JSON.stringify({userID: context.userID, starttime: beginning, endtime: end, weekday: route.params.day}),
               headers: {"Content-type": "application/json"}
@@ -116,7 +118,7 @@ export default function UserTimes({ route, navigation }) {
           }
         }
       }
-
+      context.setLoading(false);
       navigation.goBack()
     }}></HeaderBackButton>) })
 
@@ -127,7 +129,8 @@ export default function UserTimes({ route, navigation }) {
       </View>
     </TouchableOpacity>}), []});
 
-  return (
+  if(!context.loading) {
+    return (
       <View style={globalStyles.container}>
         <Text style={globalStyles.titleText}>
           Tap slots to input {route.params.day} FreeTimes!
@@ -187,7 +190,14 @@ export default function UserTimes({ route, navigation }) {
           directionalLockEnabled={true}
         />
       </View>
-  );
+    );
+  } else {
+    return (
+      <View style={{flex: 1, justifyContent: 'center'}}>
+        <ActivityIndicator size="large" color="#70cefa"></ActivityIndicator>
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({

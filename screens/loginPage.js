@@ -38,6 +38,12 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
   //Check if inputted password matches
   if(userPassword == data.userpassword) {
 
+    let userFreeTimes = [];
+    await fetch(`https://temp-freetime-service.herokuapp.com/getfreetimes`)
+      .then((response) => response.json())
+      .then((json) => userFreeTimes = json)
+      .catch((error) => console.log(error))
+
     let userInterests = [];
     await fetch(`https://freetime-service.herokuapp.com/User/Interests`)
       .then((response) => response.json())
@@ -67,6 +73,31 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
     userContext.setUserID(id);
     userContext.setUserInitials(name.slice(0, 1));
     userContext.setUsername(name);
+    userFreeTimes = userFreeTimes.filter((freetime) => freetime.userid == id);
+    userContext.setWeekDays(() => {
+      userContext.weekDays.forEach((userDay) => {
+        userFreeTimes.forEach((userFreeTime) => {
+          if(userDay.day == userFreeTime.weekday) {
+            userDay.freeTimes.forEach((userDayFreeTime) => {
+              let beginning = userFreeTime.starttime.split(",");
+              let end = userFreeTime.endtime.split(",");
+              for(let i = beginning[0]; i <= end[0]; i++) {
+                if(userDayFreeTime.key == i) {
+                  for(let j = beginning[1]; j <= end[1]; j++) {
+                    userDayFreeTime.increments.forEach((userFreeTimeIncrement) => {
+                      if(userFreeTimeIncrement.key == j) {
+                        userFreeTimeIncrement.color = "#00E600";
+                      }
+                    })
+                  }
+                }
+              }
+            })
+          }
+        })
+      })
+      return userContext.weekDays;
+    })
     userContext.setInterests(interests);
     for (let interest of userInterests) {
       if(interest.userid == id) {
