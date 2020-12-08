@@ -52,10 +52,14 @@ const GroupContext = createContext({});
     }
 
     const confirmGroup = (groupName, adminUsername, newkey) => {
-      setGroups((prevGroups) => {
+      if(groupName.trim().length >= 3) {
+        setGroups((prevGroups) => {
           return [{ groupname: groupName, adminUser: adminUsername, groupMembers: [], key: String(newkey)}, ...prevGroups];
         });
-      setNamed(true);
+        setNamed(true);
+      } else {
+        Alert.alert(`Please input a name that has 3 or more characters!`);
+      }
     }
 
     const cancelGroup = () => {
@@ -141,7 +145,8 @@ const GroupContext = createContext({});
     }
 
     const renamedGroup = (key, groupName, navigation) => {
-      fetch(`https://freetime-service.herokuapp.com/changegroupname`, {
+      if(text3.trim().length >= 3) {
+        fetch(`https://freetime-service.herokuapp.com/changegroupname`, {
         method: "PUT",
         body: JSON.stringify({groupname: text3, id: key}),
         headers: {"Content-type": "application/json"}
@@ -157,6 +162,9 @@ const GroupContext = createContext({});
       });
       setRenamed(true);
       navigation.goBack();
+      } else {
+        Alert.alert(`Please input a name that has 3 or more characters!`);
+      }
     }
 
     const cancelRename = () => {

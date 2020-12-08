@@ -4,6 +4,7 @@ import { Alert, StyleSheet } from "react-native";
 const UserContext = createContext({});
 
   export function UserContextProvider(props) {
+    const [loading, setLoading] = useState(false);
     // userWeek.js
     const [weekDays, setWeekDays] = useState([
       {
@@ -231,7 +232,17 @@ const UserContext = createContext({});
           [
             {
               text: "Yes",
-              onPress: () => {
+              onPress: async function() {
+                setLoading(true);
+                await fetch(`https://freetime-service.herokuapp.com/deleteweektimes`, {
+                  method: "DELETE",
+                  body: JSON.stringify({userID: userID}),
+                  headers: {"Content-type": "application/json"}
+                })
+                .then((response) => response.text())
+                .then((json) => json)
+                .catch((error) => console.log(error))
+
                 setWeekDays(() => {
                   weekDays.forEach((item) => {
                     item.freeTimes.forEach((item) => {
@@ -248,18 +259,11 @@ const UserContext = createContext({});
                       })
                     });
                   });
+
                   navigation.navigate("UserWeek");
                   return weekDays;
                 });
-                fetch(`https://radiant-dusk-08201.herokuapp.com/deleteweektimes`, {
-                  method: "DELETE",
-                  body: JSON.stringify({userID: userID}),
-                  headers: {"Content-type": "application/json"}
-                })
-                .then((response) => response.text())
-                .then((json) => json)
-                .catch((error) => console.log(error))
-
+                setLoading(false);
                 Alert.alert("Your UserWeek FreeTimes have been deleted!");
               },
             },
@@ -336,6 +340,8 @@ const UserContext = createContext({});
   return (
     <UserContext.Provider
       value={{
+        loading: loading,
+        setLoading: setLoading,
         weekDays: weekDays,
         setWeekDays: setWeekDays,
         resetWeekDays: resetWeekDays,
