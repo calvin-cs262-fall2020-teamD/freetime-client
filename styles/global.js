@@ -64,25 +64,36 @@ export const globalStyles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 3,
     margin: 3,
-    marginTop: 30,
-    paddingTop: 19,
+    marginTop: 15,
+    padding: 15,
   },
 
   moduleHeaderText: {
     alignSelf: "center",
-    fontSize: 20
+    fontSize: 20,
+    shadowOffset: {width: -.5, height: .5},
+    shadowColor: "white",
+    shadowOpacity: .6,
+    shadowRadius: 3,
   },
 
-  moduleBox: {
-    flex: 1,
-    backgroundColor: "#EEE",
-    borderWidth: 1.5,
-    borderRadius: 5,
-    borderColor: "#70cefa",
-    borderBottomColor: "transparent",
-    elevation: 5,
-    margin: 10,
-    marginBottom: 1,
-    height: 125,
+  // moduleBox: {
+  //   flex: 1,
+  //   backgroundColor: "#EEE",
+  //   borderWidth: 1.5,
+  //   borderRadius: 5,
+  //   borderColor: "#70cefa",
+  //   borderBottomColor: "transparent",
+  //   elevation: 5,
+  //   margin: 10,
+  //   marginBottom: 1,
+  //   height: 125,
+  // },
+
+  loadingText: {
+    textAlign: "center",
+    color: "#70cefa",
+    fontSize: 20,
+    margin: 5,
   }
 });

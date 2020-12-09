@@ -26,6 +26,7 @@ export default function Settings({ navigation }) {
   } else {
     return (
       <View style={{flex: 1, justifyContent: 'center'}}>
+        <Text style={globalStyles.loadingText}>Deleting your FreeTimes...</Text>
         <ActivityIndicator size="large" color="#70cefa"></ActivityIndicator>
       </View>
     )
