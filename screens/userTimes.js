@@ -60,7 +60,7 @@ export default function UserTimes({route, navigation}) {
                     return dayTimes.map((item) => selectedDayTimes[item.key] = item);
                 });
 
-                // fetch(`https://radiant-dusk-08201.herokuapp.com/deletedaytimes`, {
+                // fetch(`https://freetime-service.herokuapp.com/deletedaytimes`, {
                 //   method: "DELETE",
                 //   body: JSON.stringify({userID: userID, weekday: day}),
                 //   headers: {"Content-type": "application/json"}
