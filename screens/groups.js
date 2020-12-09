@@ -67,9 +67,6 @@ export default function Groups(props) {
                   <View style={globalStyles.moduleHeader}>
                 <TouchableOpacity onPress={() => props.navigation.navigate("Group", item)}>
                    <Text style={globalStyles.moduleHeaderText}>{item.groupname}</Text>
-                  <View style={globalStyles.moduleBox}>
-                    <Text></Text>
-                  </View>
                 </TouchableOpacity>
                   </View>
               )}

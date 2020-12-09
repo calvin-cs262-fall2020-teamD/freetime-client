@@ -194,6 +194,7 @@ export default function UserTimes({ route, navigation }) {
   } else {
     return (
       <View style={{flex: 1, justifyContent: 'center'}}>
+        <Text style={globalStyles.loadingText}>Saving your FreeTimes...</Text>
         <ActivityIndicator size="large" color="#70cefa"></ActivityIndicator>
       </View>
     )

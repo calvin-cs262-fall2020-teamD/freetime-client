@@ -74,30 +74,117 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
     userContext.setUserInitials(name.slice(0, 1));
     userContext.setUsername(name);
     userFreeTimes = userFreeTimes.filter((freetime) => freetime.userid == id);
-    userContext.setWeekDays(() => {
-      userContext.weekDays.forEach((userDay) => {
-        userFreeTimes.forEach((userFreeTime) => {
-          if(userDay.day == userFreeTime.weekday) {
-            userDay.freeTimes.forEach((userDayFreeTime) => {
-              let beginning = userFreeTime.starttime.split(",");
-              let end = userFreeTime.endtime.split(",");
-              for(let i = beginning[0]; i <= end[0]; i++) {
-                if(userDayFreeTime.key == i) {
-                  for(let j = beginning[1]; j <= end[1]; j++) {
-                    userDayFreeTime.increments.forEach((userFreeTimeIncrement) => {
-                      if(userFreeTimeIncrement.key == j) {
-                        userFreeTimeIncrement.color = "#00E600";
-                      }
-                    })
-                  }
-                }
-              }
-            })
-          }
-        })
-      })
-      return userContext.weekDays;
-    })
+    console.log(userFreeTimes);
+    // userContext.setWeekDays(() => {
+    //   userContext.weekDays.forEach((userDay) => {
+    //     userFreeTimes.forEach((userFreeTime) => {
+    //       if(userDay.day == userFreeTime.weekday) {
+    //         userDay.freeTimes.forEach((userDayFreeTime) => {
+    //           let beginning = userFreeTime.starttime.split(",");
+    //           let beginningHour = Number(beginning[0]);
+    //           let beginningIncrement = Number(beginning[1]);
+    //           let end = userFreeTime.endtime.split(",");
+    //           let endHour = Number(end[0]);
+    //           let endIncrement = Number(end[1]);
+    //           for(let i = 0; i <= (endHour - beginningHour); i++) {
+    //             if(userDayFreeTime.key == i+beginningHour) {
+    //               for(let j = 0; j <= (endIncrement - beginningIncrement); j++) {
+    //                 userDayFreeTime.increments.forEach((userFreeTimeIncrement) => {
+    //                   if(userFreeTimeIncrement.key == (j+beginningIncrement)) {
+    //                     userFreeTimeIncrement.color = "#00E600";
+    //                   }
+    //                 })
+    //               }
+    //             }
+    //           }
+    //         })
+    //       }
+    //     })
+    //   })
+    //   return userContext.weekDays;
+    // })
+    // userContext.setWeekDays(() => {
+    //   userContext.weekDays.forEach((userDay) => {
+    //     userFreeTimes.forEach((userFreeTime) => {
+    //       if(userDay.day == userFreeTime.weekday) {
+    //         userDay.freeTimes.forEach((userDayFreeTime) => {
+    //           userDayFreeTime.increments.forEach((userFreeTimeIncrement) => {
+    //           let beginning = userFreeTime.starttime.split(",");
+    //           let beginningHour = Number(beginning[0]);
+    //           let beginningIncrement = Number(beginning[1]);
+    //           let end = userFreeTime.endtime.split(",");
+    //           let endHour = Number(end[0]);
+    //           let endIncrement = Number(end[1]);
+    //           for(let i = 0; i <= (endHour - beginningHour); i++) {
+
+    //               for(let j = 0; j <= (endIncrement - beginningIncrement); j++) {
+
+    //                   if(userDayFreeTime.key == i+beginningHour) {
+    //                   if(userFreeTimeIncrement.key == (j+beginningIncrement)) {
+    //                     userFreeTimeIncrement.color = "#00E600";
+    //                   }
+    //                 }
+
+
+    //               }
+
+    //           }
+    //         })
+    //         })
+    //       }
+    //     })
+    //   })
+    //   return userContext.weekDays;
+    // })
+    // userContext.setWeekDays(() => {
+    //   userContext.weekDays.forEach((userDay) => {
+    //     userFreeTimes.forEach((userFreeTime) => {
+    //       if(userDay.day == userFreeTime.weekday) {
+    //         for(let i = 0; i < userDay.freeTimes.length; i++) {
+    //           let beginning = userFreeTime.starttime;
+    //           console.log("starttime" + beginning);
+    //           let end = userFreeTime.endtime;
+    //           // end = end[0] + "," + (Number(end[1])+1);
+    //           console.log("endtime" + end);
+    //           console.log("length" + userDay.freeTimes[i].increments.length)
+    //           let range = (4*(end.split(",")[0] - beginning.split(",")[0])) + (end.split(",")[1] - beginning.split(",")[1]);
+    //           if(Math.sign((end.split(",")[1] - beginning.split(",")[1])) == 0 || Math.sign((end.split(",")[1] - beginning.split(",")[1])) == 1) {
+    //             range+=1;
+    //           } else {
+    //             range-=1;
+    //           }
+    //           console.log(range);
+    //           let increment = 1;
+    //           for(let j = 0; j < /*userDay.freeTimes[i].increments.length*/range; j++) {
+    //             if((userDay.freeTimes[i].key + "," + userDay.freeTimes[i].increments[j%4].key == beginning && userDay.freeTimes[i].key + "," + userDay.freeTimes[i].increments[j%4].key != end)) {
+    //               console.log(beginning);
+    //               console.log(userDay.freeTimes[i].key + "," + userDay.freeTimes[i].increments[j%4].key);
+    //               console.log(end);
+
+    //               beginning = `${i},${(j+1)%4}`;
+    //               console.log(beginning);
+    //               userDay.freeTimes[i].increments[j%4].color = "#00E600";
+    //               if((j) == 3) {
+    //                 beginning = `${i},${(j+1)%4}`;
+    //                 i+=1;
+    //                 userDay.freeTimes[i+increment].increments[(j+1)%4].color = "#00E600";
+    //                 increment+=1;
+    //                 console.log("wrap" + beginning);
+    //               }
+    //             } else if(beginning == end) {
+    //               //i+=1;
+    //               userDay.freeTimes[i].increments[j%4].color = "#00E600";
+    //             } else {
+    //               //beginning = `${i+1},${j%4}`;
+    //               console.log("else");
+    //             }
+    //           }
+    //         }
+    //       }
+    //     })
+    //   })
+    //   return userContext.weekDays;
+    // })
     userContext.setInterests(interests);
     for (let interest of userInterests) {
       if(interest.userid == id) {
@@ -221,6 +308,7 @@ export default function Login({ navigation }) {
   } else {
     return (
       <View style={{flex: 1, justifyContent: 'center'}}>
+        <Text style={globalStyles.loadingText}>Loading please wait...</Text>
         <ActivityIndicator size="large" color="#70cefa"></ActivityIndicator>
       </View>
     )
@@ -285,12 +373,13 @@ const styles = StyleSheet.create({
     color: 'black',
     alignItems: 'center',
     width: '45%',
-    padding: 3,
+    padding: 8,
     borderRadius: 10,
     // borderColor: 'gray',
     // borderWidth: 1,
-    margin: 3,
-    marginBottom: 5
+    margin: 8,
+    marginLeft: 1.5,
+    marginBottom: 7.5,
   },
   options: {
     fontSize: 13,
