@@ -11,32 +11,36 @@ import groupStack from "../routes/groupStack";
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
-  return (
-    // <UserContextProvider>
-    //   <GroupContextProvider>
+    return (
+        // <UserContextProvider>
+        //   <GroupContextProvider>
         <Tab.Navigator
-          initialRouteName="UserWeek"
-          tabBarOptions={{
-            tabStyle: styles.tabStyle,
-            //labelStyle: styles.labelStyle,
-            activeTintColor: 'black',
-            labelPosition: 'beside-icon',
-            activeBackgroundColor: '#70cefa',
-          }}
+            initialRouteName="UserWeek"
+            tabBarOptions={{
+                tabStyle: styles.tabStyle,
+                //labelStyle: styles.labelStyle,
+                activeTintColor: 'black',
+                labelPosition: 'beside-icon',
+                activeBackgroundColor: '#70cefa',
+            }}
         >
-          <Tab.Screen name="User Week" component={userStack} options={{tabBarIcon: ({ color, size }) => (
-                <MaterialIcons name="person" color={'black'} size={30} />
-              )}}>
-          </Tab.Screen>
+            <Tab.Screen name="User Week" component={userStack} options={{
+                tabBarIcon: ({color, size}) => (
+                    <MaterialIcons name="person" color={'black'} size={30}/>
+                )
+            }}>
+            </Tab.Screen>
 
-          <Tab.Screen name="Groups" component={groupStack} options={{tabBarIcon: ({ color, size }) => (
-                <MaterialIcons name="group" color={'black'} size={30} />
-              )}}>
-          </Tab.Screen>
+            <Tab.Screen name="Groups" component={groupStack} options={{
+                tabBarIcon: ({color, size}) => (
+                    <MaterialIcons name="group" color={'black'} size={30}/>
+                )
+            }}>
+            </Tab.Screen>
         </Tab.Navigator>
-    //   </GroupContextProvider>
-    // </UserContextProvider>
-  );
+        //   </GroupContextProvider>
+        // </UserContextProvider>
+    );
 }
 
 const styles = StyleSheet.create({

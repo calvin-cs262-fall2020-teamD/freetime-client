@@ -218,9 +218,9 @@ const UserContext = createContext({});
         key: "6",
       },
     ]);
-  // loginPage.js
+    // loginPage.js
 
-  // userTimes.js
+    // userTimes.js
 
     /**
      * @param  {} navigation
@@ -232,29 +232,29 @@ const UserContext = createContext({});
           [
             {
               text: "Yes",
-              onPress: async function() {
+              onPress: async function () {
                 setLoading(true);
                 await fetch(`https://freetime-service.herokuapp.com/deleteweektimes`, {
                   method: "DELETE",
                   body: JSON.stringify({userID: userID}),
                   headers: {"Content-type": "application/json"}
                 })
-                .then((response) => response.text())
-                .then((json) => json)
-                .catch((error) => console.log(error))
+                    .then((response) => response.text())
+                    .then((json) => json)
+                    .catch((error) => console.log(error))
 
                 setWeekDays(() => {
                   weekDays.forEach((item) => {
                     item.freeTimes.forEach((item) => {
                       item.increments.forEach((item) => {
-                        if(item.hour % 2 == 0) {
+                        if (item.hour % 2 == 0) {
                           item.color === "#00E600"
-                            ? (item.color = "white")
-                            : null;
+                              ? (item.color = "white")
+                              : null;
                         } else {
                           item.color === "#00E600"
-                            ? (item.color = "#ededed")
-                            : null;
+                              ? (item.color = "#ededed")
+                              : null;
                         }
                       })
                     });
@@ -267,103 +267,103 @@ const UserContext = createContext({});
                 Alert.alert("Your UserWeek FreeTimes have been deleted!");
               },
             },
-            { text: "No" },
+            {text: "No"},
           ]
       );
     };
 
-  // userProfile.js
-  const name = "John Doe";
-  const [userID, setUserID] = useState(undefined);
-  const [userName, setUsername] = useState("");
-  const [userInitials, setUserInitials] = useState("");
-  const [userSelectedInterests, setUserInterests] = useState([]);
-  const [interests, setInterests] = useState([
-    // { title: "Climbing", key: 1 },
-    // { title: "Art", key: 2 },
-    // { title: "Studying", key: 3 },
-    // { title: "Chapel", key: 4 },
-    // { title: "Running", key: 5 },
-    // { title: "Gaming", key: 6 },
-    // { title: "Sports", key: 7 },
-    // { title: "Shopping", key: 8 },
-  ]);
+    // userProfile.js
+    const name = "John Doe";
+    const [userID, setUserID] = useState(undefined);
+    const [userName, setUsername] = useState("");
+    const [userInitials, setUserInitials] = useState("");
+    const [userSelectedInterests, setUserInterests] = useState([]);
+    const [interests, setInterests] = useState([
+      // { title: "Climbing", key: 1 },
+      // { title: "Art", key: 2 },
+      // { title: "Studying", key: 3 },
+      // { title: "Chapel", key: 4 },
+      // { title: "Running", key: 5 },
+      // { title: "Gaming", key: 6 },
+      // { title: "Sports", key: 7 },
+      // { title: "Shopping", key: 8 },
+    ]);
 
-  /**
-   * @param  {} id
-   * @param  {} interestname
-   */
-  const pressHandlerAdd = (id, interestname, userID) => {
-    // remove interest from potential interest list
-    setInterests((prevInterests) => {
-      return prevInterests.filter((interest) => interest.id != id);
-    });
-    // add interest to user interests list
-    setUserInterests((prevUserInterests) => {
-      return [{ interestname: interestname, id: id.toString() }, ...prevUserInterests];
-    });
+    /**
+     * @param  {} id
+     * @param  {} interestname
+     */
+    const pressHandlerAdd = (id, interestname, userID) => {
+      // remove interest from potential interest list
+      setInterests((prevInterests) => {
+        return prevInterests.filter((interest) => interest.id != id);
+      });
+      // add interest to user interests list
+      setUserInterests((prevUserInterests) => {
+        return [{interestname: interestname, id: id.toString()}, ...prevUserInterests];
+      });
 
-    fetch(`https://freetime-service.herokuapp.com/User/addInterest`, {
-      method: "POST",
-      body: JSON.stringify({userID: userID, interestID: id}),
-      headers: {"Content-type": "application/json"}
+      fetch(`https://freetime-service.herokuapp.com/User/addInterest`, {
+        method: "POST",
+        body: JSON.stringify({userID: userID, interestID: id}),
+        headers: {"Content-type": "application/json"}
       })
-      .then((response) => response.text())
-      .then((json) => json)
-      .catch((error) => console.log(error))
-  };
+          .then((response) => response.text())
+          .then((json) => json)
+          .catch((error) => console.log(error))
+    };
 
-  /**
-   * @param  {} id
-   * @param  {} interestname
-   */
-  const pressHandlerRemove = (id, interestname, userID) => {
-    // make updated user interests list, remove key that was passed in
-    setUserInterests((prevUserInterests) => {
-      return prevUserInterests.filter((interest) => interest.id != id);
-    });
-    // add the interest back to potential list of interests
-    setInterests((prevInterests) => {
-      return [{ interestname: interestname, id: id.toString() }, ...prevInterests];
-    });
+    /**
+     * @param  {} id
+     * @param  {} interestname
+     */
+    const pressHandlerRemove = (id, interestname, userID) => {
+      // make updated user interests list, remove key that was passed in
+      setUserInterests((prevUserInterests) => {
+        return prevUserInterests.filter((interest) => interest.id != id);
+      });
+      // add the interest back to potential list of interests
+      setInterests((prevInterests) => {
+        return [{interestname: interestname, id: id.toString()}, ...prevInterests];
+      });
 
-    fetch(`https://freetime-service.herokuapp.com/User/deleteInterest`, {
-      method: "DELETE",
-      body: JSON.stringify({userID: userID, interestID: id}),
-      headers: {"Content-type": "application/json"}
+      fetch(`https://freetime-service.herokuapp.com/User/deleteInterest`, {
+        method: "DELETE",
+        body: JSON.stringify({userID: userID, interestID: id}),
+        headers: {"Content-type": "application/json"}
       })
-      .then((response) => response.text())
-      .then((json) => json)
-      .catch((error) => console.log(error))
-  };
+          .then((response) => response.text())
+          .then((json) => json)
+          .catch((error) => console.log(error))
+    };
 
-  return (
-    <UserContext.Provider
-      value={{
-        loading: loading,
-        setLoading: setLoading,
-        weekDays: weekDays,
-        setWeekDays: setWeekDays,
-        resetWeekDays: resetWeekDays,
-        //resetDayFreeTimes: resetDayFreeTimes,
-        name: name,
-        userName: userName,
-        setUsername: setUsername,
-        userInitials: userInitials,
-        setUserInitials: setUserInitials,
-        userSelectedInterests: userSelectedInterests,
-        interests: interests,
-        setInterests: setInterests,
-        setUserInterests: setUserInterests,
-        pressHandlerAdd: pressHandlerAdd,
-        pressHandlerRemove: pressHandlerRemove,
-        userID: userID,
-        setUserID: setUserID,
-      }}>
-      {props.children}
-    </UserContext.Provider>
-  );
-}
+    return (
+        <UserContext.Provider
+            value={{
+              loading: loading,
+              setLoading: setLoading,
+              weekDays: weekDays,
+              setWeekDays: setWeekDays,
+              resetWeekDays: resetWeekDays,
+              //resetDayFreeTimes: resetDayFreeTimes,
+              name: name,
+              userName: userName,
+              setUsername: setUsername,
+              userInitials: userInitials,
+              setUserInitials: setUserInitials,
+              userSelectedInterests: userSelectedInterests,
+              interests: interests,
+              setInterests: setInterests,
+              setUserInterests: setUserInterests,
+              pressHandlerAdd: pressHandlerAdd,
+              pressHandlerRemove: pressHandlerRemove,
+              userID: userID,
+              setUserID: setUserID,
+            }}>
+          {props.children}
+        </UserContext.Provider>
+    );
+  }
 
 export const useUserContext = () => useContext(UserContext);
 
