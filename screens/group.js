@@ -42,7 +42,7 @@ export default function Group({route, navigation}) {
                 )}
             />
             
-            <Text>Best Time(s) for the group to meet:</Text> {/* Per day? */}
+            {/* <Text>Best Time(s) for the group to meet:</Text>
             <FlatList
                 data={context.bestTimes}
                 renderItem={({item}) => (
@@ -50,7 +50,7 @@ export default function Group({route, navigation}) {
                         <Text style={globalStyles.moduleHeaderText}>{item.username}</Text>
                     </View>
                 )}
-            />
+            /> */}
             
         </View>
     )

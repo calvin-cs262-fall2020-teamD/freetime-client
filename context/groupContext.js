@@ -24,19 +24,14 @@ async function deleteFromDB(key, name) {
 }
 
 async function matchTimes(members) {
-    //Step 1, get members ids
-    let data = [];
+    //Step 1, extract member ids
+    // console.log("members passed in: " + JSON.stringify(members));
+
+    let names = [];
     let ids = [];
-    await fetch("https://freetime-service.herokuapp.com/Users")
-        .then((response) => response.json())
-        .then((json) => data = json)
-        .catch((error) => console.log(error))
-    
-    for (let i = 0; i < data.length; i++) {
-        if (members.includes(data[i].username)) {
-            ids.push(data[i].id)
-        }
-    }
+    members.forEach((member) => { ids.push(member.memberid); names.push(member.username)}); //members doesn't include admin
+    ids.push(members[0].adminid);
+    // console.log("ids: " + ids)
 
     //Step 2, get freetime of those members
     let freeTimes = [];
@@ -44,40 +39,45 @@ async function matchTimes(members) {
         .then((response) => response.json())
         .then((json) => freeTimes = json)
         .catch((error) => console.log(error))
-    freeTimes = userFreeTimes.filter((freetime) => ids.includes(freetime.userid));
-    data = [];
+    freeTimes = freeTimes.filter((freetime) => ids.includes(freetime.userid));
+
+    // console.log("Filtered freetime: " + JSON.stringify(freeTimes));
+    
+    let data = [];
     ids.forEach((member) => { data.push(freeTimes.filter((freetime) => freetime.userid == member)) })
 
-    //Step 3, get overlapping intervals
-    let matches = [];
-    let temp = [];
-    for(let i = 0; i < data.length; i++) { //For every member
-        for(let n = 0; n < data[i].length; n++) { //for each time slot they have
-            start = data[n].starttime.split(',');
-            end = data[n].endtime.split(',');
-            while((start[0] <= end[0] && start[1] <= end[1]) || (start[0] < end[0])) { 
-                if(i == 0) { //If the matches is empty, just fill it with the first member's times
-                    matches.push({slot: start, day: data[n].weekday});
-                } else {
-                    for(let x = 0; x < matches.length; x++) {
-                        if(matches[x].slot[0] == start[0] && matches[x].slot[1] == start[1]) {
-                            temp.push({slot: start, day: data[n].weekday});
-                        }
-                    }
-                }
-                if(start[1] < 3) {
-                    start[1]++;
-                } else { //if start[1] == 3
-                    start[0]++;
-                    start[1] = 0;
-                }
-            }
-        }
-        matches = temp;
-        temp = [];
-    }
-    console.log(matches);
-    //Step 4, return array of 
+    // console.log("new data: " + JSON.stringify(data));
+
+    // //Step 3, get overlapping intervals
+    // let matches = [];
+    // let temp = [];
+    // for(let i = 0; i < data.length; i++) { //For every member
+    //     for(let n = 0; n < data[i].length; n++) { //for each time slot they have
+    //         start = data[n].starttime.split(',');
+    //         end = data[n].endtime.split(',');
+    //         while((start[0] <= end[0] && start[1] <= end[1]) || (start[0] < end[0])) { 
+    //             if(i == 0) { //If the matches is empty, just fill it with the first member's times
+    //                 matches.push({slot: start, day: data[n].weekday});
+    //             } else {
+    //                 for(let x = 0; x < matches.length; x++) {
+    //                     if(matches[x].slot[0] == start[0] && matches[x].slot[1] == start[1]) {
+    //                         temp.push({slot: start, day: data[n].weekday});
+    //                     }
+    //                 }
+    //             }
+    //             if(start[1] < 3) {
+    //                 start[1]++;
+    //             } else { //if start[1] == 3
+    //                 start[0]++;
+    //                 start[1] = 0;
+    //             }
+    //         }
+    //     }
+    //     matches = temp;
+    //     temp = [];
+    // }
+    // console.log(matches);
+    // //Step 4, return array of 
 }
 
 const GroupContext = createContext({});
@@ -293,6 +293,7 @@ export function GroupContextProvider(props) {
             deleteGroup: deleteGroup,
             bestTimes: bestTimes,
             setBestTimes: setBestTimes,
+            matchTimes: matchTimes,
         }}>
             {props.children}
         </GroupContext.Provider>
