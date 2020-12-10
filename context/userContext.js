@@ -278,16 +278,7 @@ const UserContext = createContext({});
     const [userName, setUsername] = useState("");
     const [userInitials, setUserInitials] = useState("");
     const [userSelectedInterests, setUserInterests] = useState([]);
-    const [interests, setInterests] = useState([
-      // { title: "Climbing", key: 1 },
-      // { title: "Art", key: 2 },
-      // { title: "Studying", key: 3 },
-      // { title: "Chapel", key: 4 },
-      // { title: "Running", key: 5 },
-      // { title: "Gaming", key: 6 },
-      // { title: "Sports", key: 7 },
-      // { title: "Shopping", key: 8 },
-    ]);
+    const [interests, setInterests] = useState([]);
 
     /**
      * @param  {} id
