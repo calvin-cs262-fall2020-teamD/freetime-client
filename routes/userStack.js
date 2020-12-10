@@ -4,6 +4,7 @@ import {
     TouchableOpacity,
 } from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
+import Dialog from 'react-native-dialog'; //https://www.npmjs.com/package/react-native-dialog
 import {createStackNavigator} from "@react-navigation/stack";
 
 import UserWeek from "../screens/userWeek";
@@ -16,6 +17,7 @@ import {globalStyles} from "../styles/global";
 const Stack = createStackNavigator();
 
 export default function UserStack({navigation}) {
+    const [visible, setVisible] = React.useState(false);
     return (
         <Stack.Navigator initialRouteName={"UserWeek"}
                          screenOptions={{
@@ -29,14 +31,25 @@ export default function UserStack({navigation}) {
                 component={UserWeek}
                 options={{
                     title: "User Week", headerTitleAlign: 'center', headerRight: () =>
-                        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-                            <View style={globalStyles.iconContainer}>
-                                <MaterialIcons name='settings' size={30} color="black"/>
+                        <View style={globalStyles.container}>
+                            <View style={globalStyles.rightIconContainer}>
+                                <TouchableOpacity style={{marginRight: 60}}onPress={() => setVisible(true)}>
+                                    <MaterialIcons name='help' size={32} color="black" />
+                                </TouchableOpacity>
+                                <Dialog.Container visible={visible} onBackdropPress={() => setVisible(false)}>
+                                    <Dialog.Title>User Week Help</Dialog.Title>
+                                    <Dialog.Description>- Press a Day Card to enter FreeTimes.</Dialog.Description>
+                                    <Dialog.Description>- Press the Settings icon to learn about our app FreeTime.</Dialog.Description>
+                                    <Dialog.Description>- Press the Settings icon to delete all your Week's selected FreeTimes.</Dialog.Description>
+                                </Dialog.Container>
+                                <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+                                    <MaterialIcons name='settings' size={32} color="black"/>
+                                </TouchableOpacity>
                             </View>
-                        </TouchableOpacity>,
+                        </View>,
                     headerLeft: () =>
                         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-                            <View style={globalStyles.iconContainer}>
+                            <View style={globalStyles.leftIconContainer}>
                                 <MaterialIcons name='account-circle' size={33} color="black"/>
                             </View>
                         </TouchableOpacity>,
