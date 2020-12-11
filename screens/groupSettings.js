@@ -92,7 +92,7 @@ export default function GroupSettings({route, navigation}) {
                             keyExtractor={(user) => user.id.toString()}
                             renderItem={({item}) => (
                                 <View style={globalStyles.container}>
-                                    <Text>{item.username}</Text>
+                                    <Text style={{marginLeft: 10, fontSize: 15}}>{item.username}</Text>
                                 </View>
                             )}
                             scrollEnabled={true}

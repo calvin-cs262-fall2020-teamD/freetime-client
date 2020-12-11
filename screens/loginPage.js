@@ -92,10 +92,10 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
         let end;
         const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
         for(let i = 0; i < userFreeTimes.length; i++) { //for each increment
-            start = userFreeTimes[i].starttime.split(',');
-            end = userFreeTimes[i].endtime.split(',');
+            start = userFreeTimes[i].starttime.split(',').map((item) => parseInt(item));
+            end = userFreeTimes[i].endtime.split(',').map((item) => parseInt(item));
             while((start[0] <= end[0] && start[1] <= end[1]) || (start[0] < end[0])) {
-                userContext.weekDays[ days.indexOf( userFreeTimes[i].weekday) ].freeTimes[ start[0] ].increments[ start[1] ].color = "#00E600";
+                userContext.weekDays[ days.indexOf( userFreeTimes[i].weekday) ].freeTimes[ parseInt(start[0]) ].increments[ parseInt(start[1]) ].color = "#00E600";
                 if(start[1] < 3) {
                     start[1]++;
                 } else { //if start[1] == 3
@@ -115,7 +115,7 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
             if (group.memberid == id) {
                 let groupMembers = [];
                 for (let member of userGroupsMembers) {
-                    if (member.groupname == group.groupname && member.memberid != group.adminid) {
+                    if (member.groupname == group.groupname) {
                         groupMembers.push(member);
                     }
                 }
