@@ -133,10 +133,10 @@ export default function UserTimes({route, navigation}) {
                         <MaterialIcons name='help' size={32} color="black" />
                     </TouchableOpacity>
                     <Dialog.Container visible={visible} onBackdropPress={() => setVisible(false)}>
-                        <Dialog.Title>User Times Help</Dialog.Title>
-                        <Dialog.Description>- Press a TimeBox to select that FreeTime.</Dialog.Description>
-                        <Dialog.Description>- Press the Back Button to save your selected FreeTimes for this day.</Dialog.Description>
-                        <Dialog.Description>- Press the Delete icon to delete your selected FreeTimes for this day.</Dialog.Description>
+                        <Dialog.Title style={globalStyles.helpHeader}>User Times Help</Dialog.Title>
+                        <Dialog.Description style={globalStyles.helpDescription}>• Press a TimeBox to select that FreeTime.</Dialog.Description>
+                        <Dialog.Description style={globalStyles.helpDescription}>• Press the Back Button to save your FreeTimes.</Dialog.Description>
+                        <Dialog.Description style={globalStyles.helpDescription}>• Press the Delete icon to delete your FreeTimes for this day.</Dialog.Description>
                     </Dialog.Container>
                     <TouchableOpacity onPress={resetDayTimes}>
                         <MaterialIcons name='delete' size={32} color="black"/>

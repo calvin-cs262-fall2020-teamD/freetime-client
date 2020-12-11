@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
 import {
+    StyleSheet,
     View,
     Text,
     FlatList,
@@ -7,7 +8,6 @@ import {
 } from "react-native";
 import {globalStyles} from "../styles/global";
 import {useGroupContext} from "../context/groupContext";
-
 import {MaterialIcons} from "@expo/vector-icons";
 import Dialog from 'react-native-dialog'; //https://www.npmjs.com/package/react-native-dialog
 
@@ -15,7 +15,7 @@ export default function Group({route, navigation}) {
     const [visible, setVisible] = React.useState(false);
 
     const context = useGroupContext();
-
+    
     useEffect(() => navigation.setOptions({
         title: route.params.groupname, headerRight: () =>
             <View style={globalStyles.container}>
@@ -24,10 +24,11 @@ export default function Group({route, navigation}) {
                         <MaterialIcons name='help' size={32} color="black" />
                     </TouchableOpacity>
                     <Dialog.Container visible={visible} onBackdropPress={() => setVisible(false)}>
-                        <Dialog.Title>Group Help</Dialog.Title>
-                        <Dialog.Description>- Press the Settings icon to add Group Members.</Dialog.Description>
-                        <Dialog.Description>- Press the Settings icon to rename this Group.</Dialog.Description>
-                        <Dialog.Description>- Press the Settings icon to delete this Group.</Dialog.Description>
+                        <Dialog.Title style={globalStyles.helpHeader}>Group Help</Dialog.Title>
+                        <Dialog.Description style={globalStyles.helpDescription}>• Press the Settings icon to access Group settings.</Dialog.Description>
+                        <Dialog.Description style={globalStyles.helpDescription}>• In settings you can add Group Members.</Dialog.Description>
+                        <Dialog.Description style={globalStyles.helpDescription}>• In settings you can rename this Group.</Dialog.Description>
+                        <Dialog.Description style={globalStyles.helpDescription}>• In settings you can delete this Group.</Dialog.Description>
                     </Dialog.Container>
                     <TouchableOpacity onPress={() => navigation.navigate("GroupSettings", {
                         name: route.params.groupname,
@@ -43,7 +44,7 @@ export default function Group({route, navigation}) {
 
     return (
         <View style={globalStyles.container}>
-            <Text style={globalStyles.titleText}>Admin Username: {route.params.adminUser}</Text>
+            <Text style={globalStyles.titleText}>Admin Member: {route.params.adminUser}</Text>
             <Text style={globalStyles.titleText}>Group Members:</Text>
             <FlatList
                 data={route.params.groupMembers}
@@ -55,6 +56,18 @@ export default function Group({route, navigation}) {
                     </View>
                 )}
             />
+            
+            <Text style={globalStyles.titleText}>Best Time(s) for the group to meet:</Text>
+            <FlatList
+                data={context.bestTimes}
+                keyExtractor={(item) => item}
+                renderItem={({item}) => (
+                    <View style={globalStyles.container}>
+                        <Text style={globalStyles.moduleHeaderText}>{item}</Text>
+                    </View>
+                )}
+            />
+            
         </View>
     )
 }

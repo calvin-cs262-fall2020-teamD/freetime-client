@@ -8,6 +8,7 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
     Alert,
+    ActivityIndicator,
 } from "react-native";
 import {globalStyles} from "../styles/global";
 
@@ -43,7 +44,7 @@ async function makeGroup(groupContext, groupname, username, userID) {
 
         groupContext.confirmGroup(groupname, username, key.id);
     } else {
-        Alert.alert(`Please input a name that has greater than 3 and less than 12 characters!`);
+        Alert.alert(`Please input a name that has a length between 3 and 12 characters!`);
     }
 }
 
@@ -62,9 +63,9 @@ export default function Groups(props) {
                             <MaterialIcons name='help' size={32} color="black" />
                         </TouchableOpacity>
                         <Dialog.Container visible={visible} onBackdropPress={() => setVisible(false)}>
-                            <Dialog.Title>Groups Help</Dialog.Title>
-                            <Dialog.Description>- Press a Group Card to view that Group.</Dialog.Description>
-                            <Dialog.Description>- Press the Add Group icon to create a new Group.</Dialog.Description>
+                            <Dialog.Title style={globalStyles.helpHeader}>Groups Help</Dialog.Title>
+                            <Dialog.Description style={globalStyles.helpDescription}>• Press the Add Group icon to create a new Group.</Dialog.Description>
+                            <Dialog.Description style={globalStyles.helpDescription}>• Press a Group Card to view that Group.</Dialog.Description>
                         </Dialog.Container>
                         <TouchableOpacity onPress={groupContext.addGroup}>
                             <MaterialIcons name='group-add' size={32} color="black"/>
@@ -81,7 +82,7 @@ export default function Groups(props) {
                         extraData={groupContext.changedGroups}
                         renderItem={({item}) => (
                             <View style={globalStyles.moduleHeader}>
-                                <TouchableOpacity onPress={() => props.navigation.navigate("Group", item)}>
+                                <TouchableOpacity onPress={() => { groupContext.matchTimes(groupContext, item.groupMembers); props.navigation.navigate("Group", item)}}>
                                     <Text style={globalStyles.moduleHeaderText}>{item.groupname}</Text>
                                 </TouchableOpacity>
                             </View>
@@ -92,7 +93,7 @@ export default function Groups(props) {
                 </View>
             </View>
         )
-    } else {
+    } else if(!groupContext.named) {
         useEffect(() => props.navigation.setOptions({
             title: 'Add Group', headerRight: () => {
             }

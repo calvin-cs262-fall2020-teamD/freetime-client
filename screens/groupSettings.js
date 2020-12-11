@@ -101,7 +101,7 @@ export default function GroupSettings({route, navigation}) {
                     </View>
                     <View style={globalStyles.container}>
                         <Button text={"Add Member"} textColor={'black'} backgroundColor={'#70cefa'}
-                                onPress={() => context.addedGroupMember(route.params.adminUser, route.params.groupMembers, context.text4, route.params.key, navigation)/*addMember(context, route.params.groupMembers, context.text4, route.params.key, navigation)*/}></Button>
+                                onPress={() => context.addedGroupMember(context, route.params.adminUser, route.params.groupMembers, context.text4, route.params.key, navigation)}></Button>
                         <View style={globalStyles.cancelButtonContainer}>
                             <Button text={"Cancel"} textColor={'black'} backgroundColor={'#ff5f5f'}
                                     onPress={context.cancelGroupMember}></Button>
