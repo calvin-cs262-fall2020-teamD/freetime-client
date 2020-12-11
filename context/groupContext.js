@@ -23,6 +23,107 @@ async function deleteFromDB(key, name) {
         .catch((error) => console.log(error))
 }
 
+async function matchTimes(context, members) {
+    //Step 1, extract member ids
+    let names = [];
+    let ids = [];
+    members.forEach((member) => { ids.push(member.memberid); names.push(member.username)}); //members doesn't include admin
+    ids.push(members[0].adminid);
+    //Step 2, get freetime of those members
+    let freeTimes = [];
+    await fetch(`https://freetime-service.herokuapp.com/getfreetimes`)
+        .then((response) => response.json())
+        .then((json) => freeTimes = json)
+        .catch((error) => console.log(error))
+    freeTimes = freeTimes.filter((freetime) => ids.includes(freetime.userid));
+    let data = [];
+    ids.forEach((member) => { data.push(freeTimes.filter((freetime) => freetime.userid == member)) })
+    //Step 3, get overlapping intervals
+    //This is done by splitting up fetched ranges into individual time slots, which then get made back into new ranges in step 4
+    let matches = [];
+    let temp = [];
+    let start;
+    let end;
+    for(let i = 0; i < data.length; i++) { //For every member
+        for(let n = 0; n < data[i].length; n++) { //for each time slot they have
+            start = data[i][n].starttime.split(',');
+            end = data[i][n].endtime.split(',');
+            while((start[0] <= end[0] && start[1] <= end[1]) || (start[0] < end[0])) { 
+                if(i == 0) { //If the matches is empty, just fill it with the first member's times
+                    temp.push({slot: start.map((i)=>i), day: data[i][n].weekday});
+                } else {
+                    for(let x = 0; x < matches.length; x++) {
+                        if(matches[x].slot[0] == start[0] && matches[x].slot[1] == start[1]) {
+                            temp.push({slot: start.map((i)=>i), day: data[i][n].weekday});
+                        }
+                    }                    
+                }
+                if(start[1] < 3) {
+                    start[1]++;
+                } else {
+                    start[0]++;
+                    start[1] = 0;
+                }
+            }
+        }
+        matches = temp;
+        temp = [];
+    }   
+    //Step 4, re-form into ranges not individual slots
+    let ranges = [{start: matches[0].slot, end: matches[0].slot, day: matches[0].day}];
+    for(let i = 0; i < matches.length-1; i++) {
+        if((parseInt(matches[i+1].slot[1]) == parseInt(ranges[ranges.length-1].end[1]) + 1 && parseInt(matches[i+1].slot[0]) == parseInt(ranges[ranges.length-1].end[0]) ) || (parseInt(matches[i+1].slot[0]) != parseInt(ranges[ranges.length-1].end[0]) && (parseInt(matches[i+1].slot[1]) - parseInt(ranges[ranges.length-1].end[1]) == 3))) {
+            //Somewhere above ^^^ there were string and integer type mismatches, for now it's easier to manually parse everything to ints than to figure out where the issue is originating from
+            ranges[ranges.length-1].end = [matches[i+1].slot[0],matches[i+1].slot[1]];
+        } else { //start a new range
+            ranges.push({start: matches[i+1].slot, end: matches[i+1].slot, day: matches[i+1].day});
+        }
+    }
+    //Step 5, format into array 
+    const startminutes = ["00","15","30","45"];
+    const endminutes = ["15","30","45","00"];
+    for(let i = 0; i < ranges.length; i++) {
+        //starts
+        if(parseInt(ranges[i].start[0]) <= 12 && parseInt(ranges[i].start[0]) != 0) { 
+            ranges[i].start = ranges[i].start[0] + ":" + startminutes[parseInt(ranges[i].start[1])] + "am";
+        } //if its before 1pm and not midnight
+        else if(parseInt(ranges[i].start[0]) > 12) { 
+            ranges[i].start = parseInt(ranges[i].start[0]) - 12 + ":" + startminutes[parseInt(ranges[i].start[1])] + "pm"; 
+        }
+        else { 
+            ranges[i].start = "12:" + startminutes[parseInt(ranges[i].start[1])] + "am";
+        }
+
+        //ends
+        if(parseInt(ranges[i].end[0]) <= 12 && parseInt(ranges[i].end[0]) != 0) { 
+            if(parseInt(ranges[i].end[1]) == 3) {
+                ranges[i].end = parseInt(ranges[i].end[0]) + 1 + ":" + endminutes[parseInt(ranges[i].end[1])] + "am";
+            } else {
+                ranges[i].end = ranges[i].end[0] + ":" + endminutes[parseInt(ranges[i].end[1])] + "am";
+            }
+        }
+        else if(parseInt(ranges[i].end[0]) > 12) { //doesnt hadle next hour
+            if(parseInt(ranges[i].end[1]) == 3) {
+                ranges[i].end = parseInt(ranges[i].end[0]) - 11 + ":" + endminutes[parseInt(ranges[i].end[1])] + "pm"; 
+            } else {
+                ranges[i].end = parseInt(ranges[i].end[0]) - 12 + ":" + endminutes[parseInt(ranges[i].end[1])] + "pm"; 
+            }
+        }
+        else { 
+            if(parseInt(ranges[i].end[1]) == 3) {
+                ranges[i].end = "1:" + endminutes[parseInt(ranges[i].end[1])] + "am";
+            } else {
+                ranges[i].end = "12:" + endminutes[parseInt(ranges[i].end[1])] + "am";
+            }
+        }
+    }
+    let formattedStrings = [];
+    for(let i = 0; i < ranges.length; i++) {
+        formattedStrings.push(ranges[i].day + ": " + ranges[i].start + " to " + ranges[i].end);
+    }
+    context.setBestTimes(formattedStrings);
+}
+
 const GroupContext = createContext({});
 
 export function GroupContextProvider(props) {
@@ -35,7 +136,7 @@ export function GroupContextProvider(props) {
     const [named, setNamed] = useState(true);
     const [text1, setText1] = useState("");
     const [text2, setText2] = useState("");
-
+    const [bestTimes, setBestTimes] = useState([]);
     const changeHandler1 = (val) => {
         setText1(val);
     };
@@ -81,9 +182,8 @@ export function GroupContextProvider(props) {
         setMembersAdded(false);
     }
 
-    const addedGroupMember = (adminUser, groupMembers, member, groupID, navigation) => {
+    const addedGroupMember = (context, adminUser, groupMembers, member, groupID, navigation) => {
         let memberExists = false;
-
         if (adminUser == member) {
             Alert.alert(`You can't add yourself ${member}!`);
             memberExists = true;
@@ -111,7 +211,7 @@ export function GroupContextProvider(props) {
                         .then((response) => response.text())
                         .then((json) => json)
                         .catch((error) => console.log(error))
-
+                    matchTimes(context, groupMembers);
                     break;
                 } else {
                     i++;
@@ -228,7 +328,10 @@ export function GroupContextProvider(props) {
             renameGroup: renameGroup,
             renamedGroup: renamedGroup,
             cancelRename: cancelRename,
-            deleteGroup: deleteGroup
+            deleteGroup: deleteGroup,
+            bestTimes: bestTimes,
+            setBestTimes: setBestTimes,
+            matchTimes: matchTimes,
         }}>
             {props.children}
         </GroupContext.Provider>

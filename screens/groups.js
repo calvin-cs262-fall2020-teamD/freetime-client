@@ -82,7 +82,7 @@ export default function Groups(props) {
                         extraData={groupContext.changedGroups}
                         renderItem={({item}) => (
                             <View style={globalStyles.moduleHeader}>
-                                <TouchableOpacity onPress={() => props.navigation.navigate("Group", item)}>
+                                <TouchableOpacity onPress={() => { groupContext.matchTimes(groupContext, item.groupMembers); props.navigation.navigate("Group", item)}}>
                                     <Text style={globalStyles.moduleHeaderText}>{item.groupname}</Text>
                                 </TouchableOpacity>
                             </View>

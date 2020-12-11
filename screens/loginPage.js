@@ -22,6 +22,9 @@ import {useGroupContext} from "../context/groupContext";
 
 async function authenticate(navigation, name, userPassword, userContext, groupContext, setIsLoaded) {
     setIsLoaded(false);
+    //deleting any potentially saved data
+    groupContext.setGroups([]);
+    userContext.setUserInterests([]);
 
     let data = [];
     let id = 0;
