@@ -15,7 +15,7 @@ export default function Group({route, navigation}) {
     const [visible, setVisible] = React.useState(false);
 
     const context = useGroupContext();
-    
+
     useEffect(() => navigation.setOptions({
         title: route.params.groupname, headerRight: () =>
             <View style={globalStyles.container}>
@@ -43,6 +43,7 @@ export default function Group({route, navigation}) {
     }));
 
     return (
+        // This FlatList will display the Admin and Group Members array
         <View style={globalStyles.container}>
             <Text style={globalStyles.titleText}>Admin Member: {route.params.adminUser}</Text>
             <Text style={globalStyles.titleText}>Group Members:</Text>
@@ -56,7 +57,8 @@ export default function Group({route, navigation}) {
                     </View>
                 )}
             />
-            
+
+            {/* This FlatList will display the matching times array */}
             <Text style={globalStyles.titleText}>Best Time(s) for the group to meet:</Text>
             <FlatList
                 data={context.bestTimes}
@@ -67,7 +69,6 @@ export default function Group({route, navigation}) {
                     </View>
                 )}
             />
-            
         </View>
     )
 }

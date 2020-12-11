@@ -23,7 +23,10 @@ export default function UserTimes({route, navigation}) {
 
     const [dayTimes, setDayTimes] = useState(route.params.freeTimes);
     const [selectedDayTimes, setSelectedDayTimes] = useState([]);
-
+    /**
+     * @param  {} item
+     */
+    // Changes the TimeBox color according to whether or not you select that time
     const inputDayTimes = (item) => {
         setDayTimes(() => {
             if (item.hour % 2 == 0) {
@@ -43,6 +46,7 @@ export default function UserTimes({route, navigation}) {
     /**
      * @param  {} freeTimes
      */
+    // Sets all of the Day TimeBox's to white and grey to indicate that they are Deleted
     const resetDayTimes = () => {
         Alert.alert('Deleting FreeTimes!', `Are you sure you want to delete your ${route.params.day} freetimes?`, [{
             text: 'Yes', onPress: () => {
@@ -68,6 +72,7 @@ export default function UserTimes({route, navigation}) {
 
     useEffect(() => {
         navigation.setOptions({
+            // This is the saving of your selected Free Times
             headerLeft: (props) => (<HeaderBackButton {...props} onPress={async function () {
                 //Gets called on navigating out of a userTime day
                 context.setLoading(true);

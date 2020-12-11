@@ -19,8 +19,15 @@ import {MaterialIcons} from "@expo/vector-icons";
 import Dialog from 'react-native-dialog'; //https://www.npmjs.com/package/react-native-dialog
 
 import Button from "../components/button";
-
+/**
+ * @param  {} userContext
+ * @param  {} groupContext
+ * @param  {} groupname
+ * @param  {} username
+ * @param  {} userID
+ */
 async function makeGroup(userContext, groupContext, groupname, username, userID) {
+    // This checks to make sure you put in the correct lenth for a Group name
     if (groupname.trim().length >= 3 && groupname.trim().length <= 12) {
         let key;
         await fetch(`https://freetime-service.herokuapp.com/creategroup`, {
@@ -42,6 +49,7 @@ async function makeGroup(userContext, groupContext, groupname, username, userID)
             .then((json) => json)
             .catch((error) => console.log(error))
 
+        // Puts the Group in the groups array
         groupContext.confirmGroup(userContext, groupname, username, key.id);
     } else {
         Alert.alert(`Please input a name that has a length between 3 and 12 characters!`);
@@ -75,6 +83,7 @@ export default function Groups(props) {
         }));
 
         return (
+            // This FlatList will display each Group
             <View style={globalStyles.container}>
                 <View style={globalStyles.listContainer}>
                     <FlatList
@@ -100,6 +109,7 @@ export default function Groups(props) {
         }));
 
         return (
+            // This is the screen for adding a Group
             <TouchableWithoutFeedback onPress={() => {
                 Keyboard.dismiss();
             }}>

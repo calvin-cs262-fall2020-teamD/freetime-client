@@ -12,6 +12,7 @@ import {useUserContext} from "../context/userContext";
 export default function UserWeek({navigation}) {
     const context = useUserContext();
 
+    // Displays the FlatList with the User Week days
     return (
         <View style={globalStyles.container}>
             <View style={globalStyles.listContainer}>
@@ -23,9 +24,6 @@ export default function UserWeek({navigation}) {
                                 onPress={() => navigation.navigate("UserTimes", item)}
                             >
                                 <Text style={globalStyles.moduleHeaderText}>{item.day}</Text>
-                                {/* <View style={globalStyles.moduleBox}>
-                                    <Text></Text>
-                                </View> */}
                             </TouchableOpacity>
                         </View>
                     )}

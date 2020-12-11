@@ -15,6 +15,7 @@ export default function Settings({navigation}) {
     const context = useUserContext();
 
     if (!context.loading) {
+        // Displays the two button's in your User Week Settings
         return (
             <View style={globalStyles.container}>
                 <Button text={"About FreeTime"} backgroundColor={"#70cefa"} textColor={"green"}

@@ -17,6 +17,7 @@ import {useUserContext} from "../context/userContext";
 export default function Profile() {
     const context = useUserContext();
 
+    // Displays your User Profile
     return (
         <View style={globalStyles.container}>
             <View style={styles.userInitialsCircle}>

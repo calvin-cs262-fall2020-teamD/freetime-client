@@ -1,6 +1,10 @@
 import React, {createContext, useContext, useState} from "react";
 import {Alert} from "react-native";
 
+/**
+ * @param  {} key
+ * @param  {} name
+ */
 async function deleteFromDB(key, name) {
     //Deleting member records
     await fetch(`https://freetime-service.herokuapp.com/deletegroupmembers`, {
@@ -22,7 +26,10 @@ async function deleteFromDB(key, name) {
         .then((json) => json)
         .catch((error) => console.log(error))
 }
-
+/**
+ * @param  {} context
+ * @param  {} members
+ */
 async function matchTimes(context, members) {
     //Step 1, extract member ids
     let ids = [];
@@ -140,20 +147,35 @@ export function GroupContextProvider(props) {
     const [text1, setText1] = useState("");
     const [text2, setText2] = useState("");
     const [bestTimes, setBestTimes] = useState([]);
+
+    /**
+     * @param  {} val
+     */
+    // This function is used for entering a Group name
     const changeHandler1 = (val) => {
         setText1(val);
     };
-
+    /**
+     * @param  {} val
+     */
     const changeHandler2 = (val) => {
         setText2(val);
     }
 
+    // This function will bring you to the Add Group screen
     const addGroup = () => {
         setText1("");
         setText2("");
         setNamed(false);
     }
 
+    /**
+     * @param  {} userContext
+     * @param  {} groupName
+     * @param  {} adminUsername
+     * @param  {} newkey
+     */
+    // This function will create a new Group by adding it to the groups array
     const confirmGroup = (userContext, groupName, adminUsername, newkey) => {
         setGroups((prevGroups) => {
             return [{
@@ -166,6 +188,7 @@ export function GroupContextProvider(props) {
         setNamed(true);
     }
 
+    // This function will bring you back to the Groups screen
     const cancelGroup = () => {
         setNamed(true);
     }
@@ -176,21 +199,36 @@ export function GroupContextProvider(props) {
     const [addedGroupMembers, setAddedGroupMembers] = useState([]);
     const [text4, setText4] = useState("");
 
+    /**
+     * @param  {} val
+     */
+    // This function changes the inputted name to add to a Group
     const changeHandler4 = (val) => {
         setText4(val);
     }
 
+    // This function will bring you to the Add Group Member screen
     const addGroupMember = () => {
         setText4("");
         setMembersAdded(false);
     }
-
+    /**
+     * @param  {} context
+     * @param  {} adminUser
+     * @param  {} groupMembers
+     * @param  {} member
+     * @param  {} groupID
+     * @param  {} navigation
+     */
+    // This function checks for the Group Member in the database and if they are there it will add it to your Group
     const addedGroupMember = (context, adminUser, groupMembers, member, groupID, navigation) => {
         let memberExists = false;
+        // Makes sure you don't add yourself to the Group as the admin created it
         if (adminUser == member) {
             Alert.alert(`You can't add yourself ${member}!`);
             memberExists = true;
         } else {
+            // Double checks that the Group Member being added isn't already there
             for (let currentMember of groupMembers) {
                 if (currentMember.username == member) {
                     Alert.alert(`There was already a ${member} User!`);
@@ -200,6 +238,7 @@ export function GroupContextProvider(props) {
             }
         }
 
+        // Pushes the user to the GroupMembers array and POST's it to the database
         if (!memberExists) {
             let i = 0;
             for (let user of users) {
@@ -231,6 +270,7 @@ export function GroupContextProvider(props) {
         navigation.goBack();
     }
 
+    // This function brings you back to the Group screen
     const cancelGroupMember = () => {
         setMembersAdded(true);
     }
@@ -238,15 +278,25 @@ export function GroupContextProvider(props) {
     const [renamed, setRenamed] = useState(true);
     const [text3, setText3] = useState("");
 
+    /**
+     * @param  {} val
+     */
+    // This function is used for renaming a Group name
     const changeHandler3 = (val) => {
         setText3(val);
     }
 
+    // This function brings you to the Rename Group screen
     const renameGroup = (groupName) => {
         setRenamed(false);
         setText3(groupName);
     }
-
+    /**
+     * @param  {} key
+     * @param  {} groupName
+     * @param  {} navigation
+     */
+    // This function will set the new name for the Group and PUT it to the database
     const renamedGroup = (key, groupName, navigation) => {
         if (text3.trim().length >= 3 && text3.trim().length <= 12) {
             fetch(`https://freetime-service.herokuapp.com/changegroupname`, {
@@ -270,10 +320,15 @@ export function GroupContextProvider(props) {
         }
     }
 
+    // This function brings you back to the Group Settings screen
     const cancelRename = () => {
         setRenamed(true);
     }
-
+    /**
+     * @param  {} name
+     * @param  {} navigation
+     */
+    // This function will delete your Group and DELETE it in the database along with all of its Group Members
     const deleteGroup = (name, navigation) => {
         Alert.alert('Deleting this Group!', 'Are you sure you want to delete this Group?', [{
             text: 'Yes', onPress: () => {
@@ -281,6 +336,7 @@ export function GroupContextProvider(props) {
                 for (let i = 0; i < groups.length; i++) {
                     if (groups[i].groupname == name) {
                         myKey = groups[i].key;
+                        // Delete's from the database here
                         deleteFromDB(myKey, name);
                     }
                 }

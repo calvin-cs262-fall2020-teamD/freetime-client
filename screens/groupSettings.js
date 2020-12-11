@@ -26,6 +26,7 @@ export default function GroupSettings({route, navigation}) {
         }));
 
         return (
+            // This is the base screen for Group Settings with three buttons for Group functionality
             <View style={globalStyles.container}>
                 <Button text={"Add Group Member"} backgroundColor={"#70cefa"} textColor={"white"}
                         onPress={context.addGroupMember}></Button>
@@ -44,6 +45,7 @@ export default function GroupSettings({route, navigation}) {
         }));
 
         return (
+            // Displays the screen for renaming you Group
             <TouchableWithoutFeedback onPress={() => {
                 Keyboard.dismiss();
             }}>
@@ -73,6 +75,7 @@ export default function GroupSettings({route, navigation}) {
         }));
 
         return (
+            // Displays the screen for Adding Group Members
             <TouchableWithoutFeedback onPress={() => {
                 Keyboard.dismiss();
             }}>
@@ -112,5 +115,3 @@ export default function GroupSettings({route, navigation}) {
         )
     }
 }
-
-const styles = StyleSheet.create({});

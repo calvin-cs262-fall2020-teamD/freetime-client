@@ -6,9 +6,7 @@ import {
 } from "react-native";
 import {globalStyles} from "../styles/global";
 
-//import { useUserContext } from "../context/userContext";
-
-export default function About({navigation}) {
+export default function About() {
     return (
         <View style={globalStyles.container}>
             <Text style={globalStyles.titleText}>FreeTime</Text>

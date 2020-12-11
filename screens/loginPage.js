@@ -48,45 +48,50 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
         .then((json) => data = json)
         .catch((error) => console.log(error))
 
-    //Check if inputted password matches
+    //Check if inputted password matches and then GET's all of the information for the loggin in User
     if (userPassword == data.userpassword) {
 
+        // GETing all the FreeTimes
         let userFreeTimes = [];
         await fetch(`https://freetime-service.herokuapp.com/getfreetimes`)
             .then((response) => response.json())
             .then((json) => userFreeTimes = json)
             .catch((error) => console.log(error))
 
+        // GETing the User's Interests
         let userInterests = [];
         await fetch(`https://freetime-service.herokuapp.com/User/Interests`)
             .then((response) => response.json())
             .then((json) => userInterests = json)
             .catch((error) => console.log(error))
 
+        // GETing all of the Interests
         let interests = [];
         await fetch(`https://freetime-service.herokuapp.com/Interests`)
             .then((response) => response.json())
             .then((json) => interests = json)
             .catch((error) => console.log(error))
 
+        // GETing the User's Groups
         let userGroups = [];
         await fetch(`https://freetime-service.herokuapp.com/User/Groups`)
             .then((response) => response.json())
             .then((json) => userGroups = json)
             .catch((error) => console.log(error))
 
+        // GETing the User's Groups Members
         let userGroupsMembers = [];
         await fetch(`https://freetime-service.herokuapp.com/User/Groups/Members`)
             .then((response) => response.json())
             .then((json) => userGroupsMembers = json)
             .catch((error) => console.log(error))
 
-        //fetch person's freetimes and modify list
-
+        // This sets the User's Profile Page accordingly
         userContext.setUserID(id);
         userContext.setUserInitials(name.slice(0, 1));
         userContext.setUsername(name);
 
+        // This is the function to display the User's times correctly in their User Week
         userFreeTimes = userFreeTimes.filter((freetime) => freetime.userid == id);
         let start;
         let end;
@@ -105,12 +110,14 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
             }
         }
 
+        // Filter for the User's Interests and add them to their profile
         userContext.setInterests(interests);
         for (let interest of userInterests) {
             if (interest.userid == id) {
                 userContext.pressHandlerAdd(interest.id.toString(), interest.interestname);
             }
         }
+        // Filter for the User's Groups and Group Members
         for (let group of userGroups) {
             if (group.memberid == id) {
                 let groupMembers = [];
@@ -130,6 +137,7 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
             }
         }
 
+        // Go to the User's User Week with all of the loaded in data
         navigation.navigate("TabNavigator", {}, NavigationActions.navigate({routeName: "UserWeek"}));
     } else {
         setIsLoaded(true);
@@ -141,7 +149,11 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
 const forgotPassword = () => {
 
 };
-
+/**
+ * @param  {} name
+ * @param  {} pass
+ */
+// POST's your new User to the database
 const createUser = (name, pass) => {
     const data = {username: name, userPassword: pass};
     fetch(`https://freetime-service.herokuapp.com/createuser`, {
@@ -193,6 +205,7 @@ export default function Login({navigation}) {
     }
 
     if (isLoaded) {
+        // This is the Login screen
         return (
             <ImageBackground style={styles.container} imageStyle={styles.backgroundImg} source={bgImg}>
                 <TouchableWithoutFeedback onPress={() => {
@@ -275,7 +288,6 @@ const styles = StyleSheet.create({
     linearGradient: {
         flex: 1,
         alignItems: 'center',
-        //justifyContent: 'center',
         width: '100%',
         paddingTop: 110, // Made it so that the keyboard can be shown and not cover the input box
         borderTopWidth: 1,
@@ -294,9 +306,7 @@ const styles = StyleSheet.create({
         padding: 25,
     },
     inputBox: {
-        // borderColor: 'black',
         height: 30,
-        // borderWidth: 1,
         backgroundColor: 'rgba(255,255,255,.8)',
         borderRadius: 10,
         margin: 5,
@@ -311,15 +321,12 @@ const styles = StyleSheet.create({
         width: '45%',
         padding: 8,
         borderRadius: 10,
-        // borderColor: 'gray',
-        // borderWidth: 1,
         margin: 8,
         marginLeft: 1.5,
         marginBottom: 7.5,
     },
     options: {
         fontSize: 13,
-        //Make side-by-side
     },
 
     loading: {
