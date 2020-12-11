@@ -48,7 +48,7 @@ async function matchTimes(context, members) {
         for(let n = 0; n < data[i].length; n++) { //for each time slot they have
             start = data[i][n].starttime.split(',');
             end = data[i][n].endtime.split(',');
-            while((start[0] <= end[0] && start[1] <= end[1]) || (start[0] < end[0])) { 
+            while((start[0] <= end[0] && start[1] <= end[1]) || (start[0] < end[0])) {
                 if(i == 0) { //If the matches is empty, just fill it with the first member's times
                     temp.push({slot: start.map((i)=>i), day: data[i][n].weekday});
                 } else {
@@ -56,7 +56,7 @@ async function matchTimes(context, members) {
                         if(matches[x].slot[0] == start[0] && matches[x].slot[1] == start[1]) {
                             temp.push({slot: start.map((i)=>i), day: data[i][n].weekday});
                         }
-                    }                    
+                    }
                 }
                 if(start[1] < 3) {
                     start[1]++;
@@ -68,7 +68,7 @@ async function matchTimes(context, members) {
         }
         matches = temp;
         temp = [];
-    }   
+    }
     //Step 4, re-form into ranges not individual slots
     let ranges = [{start: matches[0].slot, end: matches[0].slot, day: matches[0].day}];
     for(let i = 0; i < matches.length-1; i++) {
@@ -79,23 +79,23 @@ async function matchTimes(context, members) {
             ranges.push({start: matches[i+1].slot, end: matches[i+1].slot, day: matches[i+1].day});
         }
     }
-    //Step 5, format into array 
+    //Step 5, format into array
     const startminutes = ["00","15","30","45"];
     const endminutes = ["15","30","45","00"];
     for(let i = 0; i < ranges.length; i++) {
         //starts
-        if(parseInt(ranges[i].start[0]) <= 12 && parseInt(ranges[i].start[0]) != 0) { 
+        if(parseInt(ranges[i].start[0]) <= 12 && parseInt(ranges[i].start[0]) != 0) {
             ranges[i].start = ranges[i].start[0] + ":" + startminutes[parseInt(ranges[i].start[1])] + "am";
         } //if its before 1pm and not midnight
-        else if(parseInt(ranges[i].start[0]) > 12) { 
-            ranges[i].start = parseInt(ranges[i].start[0]) - 12 + ":" + startminutes[parseInt(ranges[i].start[1])] + "pm"; 
+        else if(parseInt(ranges[i].start[0]) > 12) {
+            ranges[i].start = parseInt(ranges[i].start[0]) - 12 + ":" + startminutes[parseInt(ranges[i].start[1])] + "pm";
         }
-        else { 
+        else {
             ranges[i].start = "12:" + startminutes[parseInt(ranges[i].start[1])] + "am";
         }
 
         //ends
-        if(parseInt(ranges[i].end[0]) <= 12 && parseInt(ranges[i].end[0]) != 0) { 
+        if(parseInt(ranges[i].end[0]) <= 12 && parseInt(ranges[i].end[0]) != 0) {
             if(parseInt(ranges[i].end[1]) == 3) {
                 ranges[i].end = parseInt(ranges[i].end[0]) + 1 + ":" + endminutes[parseInt(ranges[i].end[1])] + "am";
             } else {
@@ -104,12 +104,12 @@ async function matchTimes(context, members) {
         }
         else if(parseInt(ranges[i].end[0]) > 12) { //doesnt hadle next hour
             if(parseInt(ranges[i].end[1]) == 3) {
-                ranges[i].end = parseInt(ranges[i].end[0]) - 11 + ":" + endminutes[parseInt(ranges[i].end[1])] + "pm"; 
+                ranges[i].end = parseInt(ranges[i].end[0]) - 11 + ":" + endminutes[parseInt(ranges[i].end[1])] + "pm";
             } else {
-                ranges[i].end = parseInt(ranges[i].end[0]) - 12 + ":" + endminutes[parseInt(ranges[i].end[1])] + "pm"; 
+                ranges[i].end = parseInt(ranges[i].end[0]) - 12 + ":" + endminutes[parseInt(ranges[i].end[1])] + "pm";
             }
         }
-        else { 
+        else {
             if(parseInt(ranges[i].end[1]) == 3) {
                 ranges[i].end = "1:" + endminutes[parseInt(ranges[i].end[1])] + "am";
             } else {
@@ -151,12 +151,12 @@ export function GroupContextProvider(props) {
         setNamed(false);
     }
 
-    const confirmGroup = (groupName, adminUsername, newkey) => {
+    const confirmGroup = (userContext, groupName, adminUsername, newkey) => {
         setGroups((prevGroups) => {
             return [{
                 groupname: groupName,
                 adminUser: adminUsername,
-                groupMembers: [],
+                groupMembers: [{id: userContext.userid, username: adminUsername}],
                 key: String(newkey)
             }, ...prevGroups];
         });

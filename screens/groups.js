@@ -20,7 +20,7 @@ import Dialog from 'react-native-dialog'; //https://www.npmjs.com/package/react-
 
 import Button from "../components/button";
 
-async function makeGroup(groupContext, groupname, username, userID) {
+async function makeGroup(userContext, groupContext, groupname, username, userID) {
     if (groupname.trim().length >= 3 && groupname.trim().length <= 12) {
         let key;
         await fetch(`https://freetime-service.herokuapp.com/creategroup`, {
@@ -42,7 +42,7 @@ async function makeGroup(groupContext, groupname, username, userID) {
             .then((json) => json)
             .catch((error) => console.log(error))
 
-        groupContext.confirmGroup(groupname, username, key.id);
+        groupContext.confirmGroup(userContext, groupname, username, key.id);
     } else {
         Alert.alert(`Please input a name that has a length between 3 and 12 characters!`);
     }
@@ -116,7 +116,7 @@ export default function Groups(props) {
                     <Button text={"Confirm Group"} textColor={'black'} backgroundColor={'#70cefa'} onPress={() => {
                         let temp = groupName;
                         setGroupName('');
-                        makeGroup(groupContext, temp, userContext.userName, userContext.userID)
+                        makeGroup(userContext, groupContext, temp, userContext.userName, userContext.userID)
                     }}></Button>
                     <View style={globalStyles.cancelButtonContainer}>
                         <Button text={"Cancel"} textColor={'black'} backgroundColor={'#ff5f5f'}
