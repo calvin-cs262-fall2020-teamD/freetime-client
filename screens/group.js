@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
 import {
+    StyleSheet,
     View,
     Text,
     FlatList,
@@ -42,15 +43,16 @@ export default function Group({route, navigation}) {
                 )}
             />
             
-            {/* <Text>Best Time(s) for the group to meet:</Text>
+            <Text style={globalStyles.titleText}>Best Time(s) for the group to meet:</Text>
             <FlatList
                 data={context.bestTimes}
+                keyExtractor={(item) => item}
                 renderItem={({item}) => (
                     <View style={globalStyles.container}>
-                        <Text style={globalStyles.moduleHeaderText}>{item.username}</Text>
+                        <Text style={globalStyles.moduleHeaderText}>{item}</Text>
                     </View>
                 )}
-            /> */}
+            />
             
         </View>
     )

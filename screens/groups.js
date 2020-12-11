@@ -64,7 +64,7 @@ export default function Groups(props) {
                         // keyExtractor={(key) => key.newKey}
                         renderItem={({item}) => (
                             <View style={globalStyles.moduleHeader}>
-                                <TouchableOpacity onPress={() => { groupContext.matchTimes(item.groupMembers); props.navigation.navigate("Group", item)}}>
+                                <TouchableOpacity onPress={() => { groupContext.matchTimes(groupContext, item.groupMembers); props.navigation.navigate("Group", item)}}>
                                     <Text style={globalStyles.moduleHeaderText}>{item.groupname}</Text>
                                 </TouchableOpacity>
                             </View>
