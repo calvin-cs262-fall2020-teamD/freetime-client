@@ -85,7 +85,7 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
 
         userContext.setUserID(id);
         userContext.setUserInitials(name.slice(0, 1));
-        userContext.setUsername(name);   
+        userContext.setUsername(name);
 
         userFreeTimes = userFreeTimes.filter((freetime) => freetime.userid == id);
         let start;
@@ -94,7 +94,7 @@ async function authenticate(navigation, name, userPassword, userContext, groupCo
         for(let i = 0; i < userFreeTimes.length; i++) { //for each increment
             start = userFreeTimes[i].starttime.split(',');
             end = userFreeTimes[i].endtime.split(',');
-            while((start[0] <= end[0] && start[1] <= end[1]) || (start[0] < end[0])) { 
+            while((start[0] <= end[0] && start[1] <= end[1]) || (start[0] < end[0])) {
                 userContext.weekDays[ days.indexOf( userFreeTimes[i].weekday) ].freeTimes[ start[0] ].increments[ start[1] ].color = "#00E600";
                 if(start[1] < 3) {
                     start[1]++;
@@ -164,6 +164,7 @@ export default function Login({navigation}) {
     const groupContext = useGroupContext();
 
     async function validateSignup() {
+        setIsLoaded(false);
         //Checking if username is already taken (this is only within the login function so that it easily has access to setVisible())
         let data = [];
         await fetch("https://freetime-service.herokuapp.com/Users")
@@ -181,8 +182,10 @@ export default function Login({navigation}) {
             }
         }
         if (duplicateExists) {
+            setIsLoaded(true);
             Alert.alert("Username already taken")
         } else {
+            setIsLoaded(true);
             createUser(usernameValue, passwordValue);
             Alert.alert("Success!!!");
         }
@@ -230,7 +233,7 @@ export default function Login({navigation}) {
                                 <Dialog.Button
                                     style={styles.submitButton}
                                     label={"Sign Up"}
-                                    onPress={() => (passwordValue == confirmPasswordValue ? validateSignup() : Alert.alert("Passwords don't match"))}>
+                                    onPress={() => (passwordValue == confirmPasswordValue ? validateSignup(setIsLoaded) : Alert.alert("Passwords don't match"))}>
                                 </Dialog.Button>
                             </Dialog.Container>
                         </View>

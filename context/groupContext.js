@@ -68,9 +68,7 @@ async function matchTimes(context, members) {
         }
         matches = temp;
         temp = [];
-    }
-    console.log("final matches: " + JSON.stringify(matches));
-    
+    }   
     //Step 4, re-form into ranges not individual slots
     let ranges = [{start: matches[0].slot, end: matches[0].slot, day: matches[0].day}];
     for(let i = 0; i < matches.length-1; i++) {
@@ -81,8 +79,6 @@ async function matchTimes(context, members) {
             ranges.push({start: matches[i+1].slot, end: matches[i+1].slot, day: matches[i+1].day});
         }
     }
-    console.log("final ranges: " + JSON.stringify(ranges));
-
     //Step 5, format into array 
     const startminutes = ["00","15","30","45"];
     const endminutes = ["15","30","45","00"];
@@ -90,7 +86,6 @@ async function matchTimes(context, members) {
         //starts
         if(parseInt(ranges[i].start[0]) <= 12 && parseInt(ranges[i].start[0]) != 0) { 
             ranges[i].start = ranges[i].start[0] + ":" + startminutes[parseInt(ranges[i].start[1])] + "am";
-
         } //if its before 1pm and not midnight
         else if(parseInt(ranges[i].start[0]) > 12) { 
             ranges[i].start = parseInt(ranges[i].start[0]) - 12 + ":" + startminutes[parseInt(ranges[i].start[1])] + "pm"; 
@@ -126,14 +121,12 @@ async function matchTimes(context, members) {
     for(let i = 0; i < ranges.length; i++) {
         formattedStrings.push(ranges[i].day + ": " + ranges[i].start + " to " + ranges[i].end);
     }
-    console.log(JSON.stringify(formattedStrings));
     context.setBestTimes(formattedStrings);
 }
 
 const GroupContext = createContext({});
 
 export function GroupContextProvider(props) {
-
     // Users GET from database
     const [users, setUsers] = useState([]);
 
@@ -159,19 +152,15 @@ export function GroupContextProvider(props) {
     }
 
     const confirmGroup = (groupName, adminUsername, newkey) => {
-        if (groupName.trim().length >= 3) {
-            setGroups((prevGroups) => {
-                return [{
-                    groupname: groupName,
-                    adminUser: adminUsername,
-                    groupMembers: [adminUsername],
-                    key: String(newkey)
-                }, ...prevGroups];
-            });
-            setNamed(true);
-        } else {
-            Alert.alert(`Please input a name that has 3 or more characters!`);
-        }
+        setGroups((prevGroups) => {
+            return [{
+                groupname: groupName,
+                adminUser: adminUsername,
+                groupMembers: [],
+                key: String(newkey)
+            }, ...prevGroups];
+        });
+        setNamed(true);
     }
 
     const cancelGroup = () => {
@@ -256,7 +245,7 @@ export function GroupContextProvider(props) {
     }
 
     const renamedGroup = (key, groupName, navigation) => {
-        if (text3.trim().length >= 3) {
+        if (text3.trim().length >= 3 && text3.trim().length <= 12) {
             fetch(`https://freetime-service.herokuapp.com/changegroupname`, {
                 method: "PUT",
                 body: JSON.stringify({groupname: text3, id: key}),
@@ -274,7 +263,7 @@ export function GroupContextProvider(props) {
             setRenamed(true);
             navigation.goBack();
         } else {
-            Alert.alert(`Please input a name that has 3 or more characters!`);
+            Alert.alert(`Please input a name that has a length between 3 and 12 characters!`);
         }
     }
 

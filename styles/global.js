@@ -14,7 +14,16 @@ export const globalStyles = StyleSheet.create({
         padding: 5,
     },
 
-    iconContainer: {
+    leftIconContainer: {
+        marginLeft: 6,
+        marginRight: 6,
+    },
+
+    rightIconContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: "center",
+        alignItems: "center",
         marginLeft: 6,
         marginRight: 6,
     },
@@ -54,7 +63,6 @@ export const globalStyles = StyleSheet.create({
         justifyContent: "space-around",
         backgroundColor: "#70cefa",
         borderColor: "black",
-        //borderBottomColor: "#70cefa",
         borderWidth: 1.5,
         borderRadius: 5,
         elevation: 5,
@@ -76,23 +84,20 @@ export const globalStyles = StyleSheet.create({
         shadowRadius: 3,
     },
 
-    // moduleBox: {
-    //   flex: 1,
-    //   backgroundColor: "#EEE",
-    //   borderWidth: 1.5,
-    //   borderRadius: 5,
-    //   borderColor: "#70cefa",
-    //   borderBottomColor: "transparent",
-    //   elevation: 5,
-    //   margin: 10,
-    //   marginBottom: 1,
-    //   height: 125,
-    // },
-
     loadingText: {
         textAlign: "center",
         color: "#70cefa",
         fontSize: 20,
         margin: 5,
+    },
+
+    helpHeader: {
+        fontWeight: "bold",
+        fontSize: 20,
+    },
+
+    helpDescription: {
+        fontSize: 14.5,
+        textAlign: "left",
     }
 });

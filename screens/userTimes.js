@@ -12,10 +12,13 @@ import {globalStyles} from "../styles/global";
 
 import TimeBox from "../components/timeBox";
 import {MaterialIcons} from "@expo/vector-icons";
+import Dialog from 'react-native-dialog'; //https://www.npmjs.com/package/react-native-dialog
 import {HeaderBackButton} from "@react-navigation/stack";
 import {useUserContext} from "../context/userContext";
 
 export default function UserTimes({route, navigation}) {
+    const [visible, setVisible] = React.useState(false);
+
     const context = useUserContext();
 
     const [dayTimes, setDayTimes] = useState(route.params.freeTimes);
@@ -59,15 +62,6 @@ export default function UserTimes({route, navigation}) {
                     })
                     return dayTimes.map((item) => selectedDayTimes[item.key] = item);
                 });
-
-                // fetch(`https://freetime-service.herokuapp.com/deletedaytimes`, {
-                //   method: "DELETE",
-                //   body: JSON.stringify({userID: userID, weekday: day}),
-                //   headers: {"Content-type": "application/json"}
-                // })
-                // .then((response) => response.text())
-                // .then((json) => json)
-                // .catch((error) => console.log(error))
             }
         }, {text: 'No'}]);
     };
@@ -127,17 +121,28 @@ export default function UserTimes({route, navigation}) {
                     }
                 }
                 context.setLoading(false);
-                navigation.goBack()
+                navigation.navigate("UserWeek");
             }}></HeaderBackButton>)
         })
 
         navigation.setOptions({
             headerRight: () =>
-                <TouchableOpacity onPress={resetDayTimes}>
-                    <View style={globalStyles.iconContainer}>
-                        <MaterialIcons name='delete' size={30} color="black"/>
-                    </View>
-                </TouchableOpacity>
+              <View style={globalStyles.container}>
+                <View style={globalStyles.rightIconContainer}>
+                    <TouchableOpacity style={{marginRight: 60}}onPress={() => setVisible(true)}>
+                        <MaterialIcons name='help' size={32} color="black" />
+                    </TouchableOpacity>
+                    <Dialog.Container visible={visible} onBackdropPress={() => setVisible(false)}>
+                        <Dialog.Title style={globalStyles.helpHeader}>User Times Help</Dialog.Title>
+                        <Dialog.Description style={globalStyles.helpDescription}>• Press a TimeBox to select that FreeTime.</Dialog.Description>
+                        <Dialog.Description style={globalStyles.helpDescription}>• Press the Back Button to save your FreeTimes.</Dialog.Description>
+                        <Dialog.Description style={globalStyles.helpDescription}>• Press the Delete icon to delete your FreeTimes for this day.</Dialog.Description>
+                    </Dialog.Container>
+                    <TouchableOpacity onPress={resetDayTimes}>
+                        <MaterialIcons name='delete' size={32} color="black"/>
+                    </TouchableOpacity>
+                </View>
+            </View>
         }), []
     });
 
@@ -147,22 +152,6 @@ export default function UserTimes({route, navigation}) {
                 <Text style={globalStyles.titleText}>
                     Tap slots to input {route.params.day} FreeTimes!
                 </Text>
-
-                {/* This is the FlatList that shows the increment markers */}
-                {/* <View style={styles.incrementContainer}>
-          <FlatList
-            style={styles.incrementList}
-            data={freeTimeIncrements}
-            renderItem={({ item }) => (
-              <View style={styles.incrementBox}>
-                <Text>{item.increment}</Text>
-              </View>
-            )}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            scrollEnabled={false}
-            />
-        </View> */}
 
                 {/* This is the FlatList that displays the hours */}
                 <FlatList
@@ -214,21 +203,6 @@ export default function UserTimes({route, navigation}) {
 }
 
 const styles = StyleSheet.create({
-    // incrementContainer: {
-    //   paddingLeft: "15%",
-    // },
-    // incrementList: {
-    //   backgroundColor: "red",
-    // },
-    // incrementBox: {
-    //   backgroundColor: "pink",
-    //   borderColor: "black",
-    //   borderWidth: 1,
-    //   paddingLeft: 16,
-    //   paddingRight: 16,
-    //   // marginLeft: "25%",
-    // },
-
     listContainer: {
         flex: 1,
         flexDirection: 'row',

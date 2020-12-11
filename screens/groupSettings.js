@@ -14,7 +14,6 @@ import {useGroupContext} from "../context/groupContext";
 
 import Button from "../components/button";
 import {HeaderBackButton} from "@react-navigation/stack";
-//import { ScrollView } from "react-native-gesture-handler";
 
 export default function GroupSettings({route, navigation}) {
     const context = useGroupContext();
@@ -93,12 +92,11 @@ export default function GroupSettings({route, navigation}) {
                             keyExtractor={(user) => user.id.toString()}
                             renderItem={({item}) => (
                                 <View style={globalStyles.container}>
-                                    <Text /*style={globalStyles.moduleHeaderText}*/>{item.username}</Text>
+                                    <Text>{item.username}</Text>
                                 </View>
                             )}
                             scrollEnabled={true}
                             showsVerticalScrollIndicator={false}
-                            //numColumns={2}
                         />
                     </View>
                     <View style={globalStyles.container}>
