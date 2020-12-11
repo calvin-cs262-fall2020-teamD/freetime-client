@@ -2,6 +2,7 @@ import React from "react";
 import {
     View,
     TouchableOpacity,
+    Text,
 } from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 import Dialog from 'react-native-dialog'; //https://www.npmjs.com/package/react-native-dialog
@@ -37,10 +38,12 @@ export default function UserStack({navigation}) {
                                     <MaterialIcons name='help' size={32} color="black" />
                                 </TouchableOpacity>
                                 <Dialog.Container visible={visible} onBackdropPress={() => setVisible(false)}>
-                                    <Dialog.Title>User Week Help</Dialog.Title>
-                                    <Dialog.Description>- Press a Day Card to enter FreeTimes.</Dialog.Description>
-                                    <Dialog.Description>- Press the Settings icon to learn about our app FreeTime.</Dialog.Description>
-                                    <Dialog.Description>- Press the Settings icon to delete all your Week's selected FreeTimes.</Dialog.Description>
+                                    <Dialog.Title style={globalStyles.helpHeader}>User Week Help</Dialog.Title>
+                                    <Dialog.Description style={globalStyles.helpDescription}>• Press a Day Card to enter FreeTimes.</Dialog.Description>
+                                    <Dialog.Description style={globalStyles.helpDescription}>• Press the Profile icon to access your profile.</Dialog.Description>
+                                    <Dialog.Description style={globalStyles.helpDescription}>• Press the Settings icon to access User Week's settings.</Dialog.Description>
+                                    <Dialog.Description style={globalStyles.helpDescription}>• In settings you can learn about our app FreeTime.</Dialog.Description>
+                                    <Dialog.Description style={globalStyles.helpDescription}>• In settings you can delete all your Week's FreeTimes.</Dialog.Description>
                                 </Dialog.Container>
                                 <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
                                     <MaterialIcons name='settings' size={32} color="black"/>
