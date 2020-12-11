@@ -163,7 +163,7 @@ export function GroupContextProvider(props) {
             setRenamed(true);
             navigation.goBack();
         } else {
-            Alert.alert(`Please input a name that has greater than 3 and less than 12 characters!`);
+            Alert.alert(`Please input a name that has a length between 3 and 12 characters!`);
         }
     }
 

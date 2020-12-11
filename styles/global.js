@@ -20,8 +20,10 @@ export const globalStyles = StyleSheet.create({
     },
 
     rightIconContainer: {
+        flex: 1,
         flexDirection: 'row',
-        marginTop: 6,
+        justifyContent: "center",
+        alignItems: "center",
         marginLeft: 6,
         marginRight: 6,
     },
@@ -87,5 +89,15 @@ export const globalStyles = StyleSheet.create({
         color: "#70cefa",
         fontSize: 20,
         margin: 5,
+    },
+
+    helpHeader: {
+        fontWeight: "bold",
+        fontSize: 20,
+    },
+
+    helpDescription: {
+        fontSize: 14.5,
+        textAlign: "left",
     }
 });

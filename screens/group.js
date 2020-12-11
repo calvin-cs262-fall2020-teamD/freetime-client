@@ -24,10 +24,11 @@ export default function Group({route, navigation}) {
                         <MaterialIcons name='help' size={32} color="black" />
                     </TouchableOpacity>
                     <Dialog.Container visible={visible} onBackdropPress={() => setVisible(false)}>
-                        <Dialog.Title>Group Help</Dialog.Title>
-                        <Dialog.Description>- Press the Settings icon to add Group Members.</Dialog.Description>
-                        <Dialog.Description>- Press the Settings icon to rename this Group.</Dialog.Description>
-                        <Dialog.Description>- Press the Settings icon to delete this Group.</Dialog.Description>
+                        <Dialog.Title style={globalStyles.helpHeader}>Group Help</Dialog.Title>
+                        <Dialog.Description style={globalStyles.helpDescription}>• Press the Settings icon to access Group settings.</Dialog.Description>
+                        <Dialog.Description style={globalStyles.helpDescription}>• In settings you can add Group Members.</Dialog.Description>
+                        <Dialog.Description style={globalStyles.helpDescription}>• In settings you can rename this Group.</Dialog.Description>
+                        <Dialog.Description style={globalStyles.helpDescription}>• In settings you can delete this Group.</Dialog.Description>
                     </Dialog.Container>
                     <TouchableOpacity onPress={() => navigation.navigate("GroupSettings", {
                         name: route.params.groupname,
@@ -43,7 +44,7 @@ export default function Group({route, navigation}) {
 
     return (
         <View style={globalStyles.container}>
-            <Text style={globalStyles.titleText}>Admin Username: {route.params.adminUser}</Text>
+            <Text style={globalStyles.titleText}>Admin Member: {route.params.adminUser}</Text>
             <Text style={globalStyles.titleText}>Group Members:</Text>
             <FlatList
                 data={route.params.groupMembers}
